@@ -1,0 +1,11 @@
+{
+  "scope": [
+    {
+      "config": "hikari",
+      "dataSourceName": "xkdb2",
+      "basePackages": [
+        "com.li88qq.service.repo"
+      ]
+    }
+  ]
+}
