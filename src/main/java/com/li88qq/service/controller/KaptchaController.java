@@ -3,6 +3,7 @@ package com.li88qq.service.controller;
 import com.google.code.kaptcha.impl.DefaultKaptcha;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.annotation.Resource;
 import javax.imageio.ImageIO;
@@ -16,6 +17,7 @@ import java.io.IOException;
  * 验证码
  */
 @Controller
+@RequestMapping("/p")
 public class KaptchaController {
 
     @Resource
@@ -35,6 +37,7 @@ public class KaptchaController {
 
         try (ServletOutputStream stream = response.getOutputStream()) {
             ImageIO.write(image, "jpg", stream);
+            stream.flush();
         } catch (IOException e) {
         }
     }
