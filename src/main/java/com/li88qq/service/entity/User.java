@@ -19,7 +19,7 @@ public class User {
     private String photo;//头像地址
     private Integer state = 0;//状态,0-未激活,1-正常
     private String password;//密码
-    private String slat;//加密盐
+    private String salt;//加密盐
     private Long createDate = DateUtil.getTimestamp();//注册时间
     private Long updateDate = 0L;//更新时间
     private Long lastLoginDate = 0L;//最后登录时间
@@ -89,12 +89,12 @@ public class User {
         this.password = password;
     }
 
-    public String getSlat() {
-        return slat;
+    public String getSalt() {
+        return salt;
     }
 
-    public void setSlat(String slat) {
-        this.slat = slat;
+    public void setSalt(String salt) {
+        this.salt = salt;
     }
 
     public Long getCreateDate() {
