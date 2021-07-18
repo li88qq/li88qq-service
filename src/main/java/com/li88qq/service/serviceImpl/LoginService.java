@@ -41,7 +41,7 @@ public class LoginService implements ILoginService {
         sessionUser.setVisitor(false);
         SessionUtil.setAttribute("user", sessionUser);
 
-        return ResponseUtil.ok("登录成功");
+        return ResponseUtil.okMsg("登录成功");
     }
 
 }

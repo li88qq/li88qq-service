@@ -4,7 +4,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
 
-@ComponentScan(basePackages = {"org.fastquery.service", "com.li88qq.service"})
+@ComponentScan(basePackages = {"com.li88qq.service", "org.fastquery.service"})
 @SpringBootApplication
 public class Application {
 
