@@ -6,9 +6,7 @@ package com.li88qq.service.dto;
 public class SessionUser {
 
     private Long uid;
-    private String account;
-    private String name;
-    private String role;
+    private boolean visitor;
 
     public Long getUid() {
         return uid;
@@ -18,27 +16,11 @@ public class SessionUser {
         this.uid = uid;
     }
 
-    public String getAccount() {
-        return account;
+    public boolean isVisitor() {
+        return visitor;
     }
 
-    public void setAccount(String account) {
-        this.account = account;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getRole() {
-        return role;
-    }
-
-    public void setRole(String role) {
-        this.role = role;
+    public void setVisitor(boolean visitor) {
+        this.visitor = visitor;
     }
 }
