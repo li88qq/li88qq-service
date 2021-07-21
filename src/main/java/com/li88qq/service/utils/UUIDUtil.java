@@ -78,7 +78,7 @@ public class UUIDUtil {
      *
      * @return
      */
-    public static String uuid() {
+    public static String uuid19() {
         UUID uuid = UUID.randomUUID();
         StringBuilder sb = new StringBuilder();
         sb.append(digits(uuid.getMostSignificantBits() >> 32, 8));
