@@ -9,15 +9,19 @@ import com.li88qq.service.repo.ArticleContentRepo;
 import com.li88qq.service.repo.ArticleLabelRepo;
 import com.li88qq.service.repo.ArticleRepo;
 import com.li88qq.service.repo.Article_LabelRepo;
+import com.li88qq.service.request.article.GetArticlePageBo;
 import com.li88qq.service.request.article.SaveArticleBo;
+import com.li88qq.service.response.GetArticlePageVo;
 import com.li88qq.service.service.IArticleService;
-import com.li88qq.service.utils.ResponseUtil;
-import com.li88qq.service.utils.SessionUtil;
-import com.li88qq.service.utils.StringUtil;
-import com.li88qq.service.utils.UUIDUtil;
+import com.li88qq.service.utils.*;
+import org.fastquery.page.Page;
+import org.fastquery.page.Pageable;
+import org.fastquery.page.PageableImpl;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.*;
 
 /**
@@ -70,6 +74,31 @@ public class ArticleService implements IArticleService {
 
         return ResponseUtil.ok();
     }
+
+    @Override
+    public Page<GetArticlePageVo> getArticlePage(GetArticlePageBo bo) {
+        String title = bo.getTitle();
+        title = StringUtil.like(title);
+
+        Long _beginDate = null;
+        Long _endDate = null;
+        LocalDate beginDate = bo.getBeginDate();
+        if (beginDate != null) {
+            _beginDate = DateUtil.getTimestamp(beginDate.atTime(LocalTime.MIN));
+        }
+        LocalDate endDate = bo.getEndDate();
+        if (endDate != null) {
+            _endDate = DateUtil.getTimestamp(endDate.atTime(LocalTime.MAX));
+        }
+
+        Long uid = SessionUtil.getUid();
+        Pageable pageable = new PageableImpl(bo.getPage(), bo.getSize());
+        Page<List<Map<String, Object>>> pageData = articleRepo.findPage(uid, title, bo.getState(), bo.getOpen(), bo.getOriginal(), _beginDate,
+                _endDate, bo.getBeginCount(), bo.getEndCount(), pageable);
+
+        return pageData.convert(GetArticlePageVo.class);
+    }
+
 
     // 处理标签
     private void handleLabels(Long articleId, Long uid, String labels) {
