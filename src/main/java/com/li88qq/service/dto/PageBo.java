@@ -2,8 +2,8 @@ package com.li88qq.service.dto;
 
 public class PageBo {
 
-    private Integer page;
-    private Integer size;
+    private Integer page = 1;
+    private Integer size = 15;
 
     public Integer getPage() {
         return page;

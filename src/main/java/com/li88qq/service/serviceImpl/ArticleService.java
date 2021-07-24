@@ -93,7 +93,7 @@ public class ArticleService implements IArticleService {
 
         Long uid = SessionUtil.getUid();
         Pageable pageable = new PageableImpl(bo.getPage(), bo.getSize());
-        Page<List<Map<String, Object>>> pageData = articleRepo.findPage(uid, title, bo.getState(), bo.getOpen(), bo.getOriginal(), _beginDate,
+        Page<Map<String, Object>> pageData = articleRepo.findPage(uid, title, bo.getState(), bo.getOpen(), bo.getOriginal(), _beginDate,
                 _endDate, bo.getBeginCount(), bo.getEndCount(), pageable);
 
         return pageData.convert(GetArticlePageVo.class);
