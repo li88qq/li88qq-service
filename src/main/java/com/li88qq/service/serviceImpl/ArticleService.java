@@ -9,8 +9,10 @@ import com.li88qq.service.repo.ArticleContentRepo;
 import com.li88qq.service.repo.ArticleLabelRepo;
 import com.li88qq.service.repo.ArticleRepo;
 import com.li88qq.service.repo.Article_LabelRepo;
+import com.li88qq.service.request.article.GetAllPageBo;
 import com.li88qq.service.request.article.GetArticlePageBo;
 import com.li88qq.service.request.article.SaveArticleBo;
+import com.li88qq.service.response.GetAllPageVo;
 import com.li88qq.service.response.GetArticlePageVo;
 import com.li88qq.service.service.IArticleService;
 import com.li88qq.service.utils.*;
@@ -99,7 +101,6 @@ public class ArticleService implements IArticleService {
         return pageData.convert(GetArticlePageVo.class);
     }
 
-
     // 处理标签
     private void handleLabels(Long articleId, Long uid, String labels) {
         labels = StringUtil.trim(labels);
@@ -143,6 +144,32 @@ public class ArticleService implements IArticleService {
         }
 
         article_labelRepo.save(false, article_labels);
+    }
+
+    @Override
+    public Page<GetAllPageVo> getAllPage(GetAllPageBo bo) {
+        String title = bo.getTitle();
+        title = StringUtil.like(title);
+
+        String username = bo.getUsername();
+        username = StringUtil.like(username);
+
+        Long _beginDate = null;
+        Long _endDate = null;
+        LocalDate beginDate = bo.getBeginDate();
+        if (beginDate != null) {
+            _beginDate = DateUtil.getTimestamp(beginDate.atTime(LocalTime.MIN));
+        }
+        LocalDate endDate = bo.getEndDate();
+        if (endDate != null) {
+            _endDate = DateUtil.getTimestamp(endDate.atTime(LocalTime.MAX));
+        }
+
+        Pageable pageable = new PageableImpl(bo.getPage(), bo.getSize());
+        Page<Map<String, Object>> pageData = articleRepo.findAllPage(title, username, bo.getOriginal(), _beginDate,
+                _endDate, bo.getBeginCount(), bo.getEndCount(), pageable);
+
+        return pageData.convert(GetAllPageVo.class);
     }
 
 }
