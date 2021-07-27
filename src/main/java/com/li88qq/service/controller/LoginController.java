@@ -11,14 +11,29 @@ import javax.annotation.Resource;
 import javax.validation.Valid;
 
 @RestController
-
 public class LoginController {
 
     @Resource
     private ILoginService loginService;
 
+    /**
+     * 登录
+     *
+     * @param bo
+     * @return
+     */
     @PostMapping("/login")
     public BaseResponse login(@RequestBody @Valid LoginBo bo) {
         return loginService.login(bo);
+    }
+
+    /**
+     * 登出
+     *
+     * @return
+     */
+    @PostMapping("/logout")
+    public BaseResponse logout() {
+        return loginService.logout();
     }
 }

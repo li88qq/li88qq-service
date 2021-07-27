@@ -44,4 +44,10 @@ public class LoginService implements ILoginService {
         return ResponseUtil.okMsg("登录成功");
     }
 
+    @Override
+    public BaseResponse logout() {
+        SessionUtil.removeSession();
+        return ResponseUtil.ok();
+    }
+
 }

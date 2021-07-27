@@ -6,4 +6,6 @@ import com.li88qq.service.request.LoginBo;
 public interface ILoginService {
 
     BaseResponse login(LoginBo bo);
+
+    BaseResponse logout();
 }
