@@ -80,6 +80,19 @@ create table ArticleReadLog(
     primary key(id)
 )   comment '文章阅读记录';
 
+-- 操作记录
+create table ActionLog(
+    id bigint not null auto_increment comment '主键',
+    uid bigint not null default 0 comment '用户id',
+    acType int not null default 0 comment '操作类型',
+    title varchar(50) comment '标题',
+    detail varchar(255) comment '详情',
+    createDate bigint not null default 0 comment '操作时间',
+    ip varchar(32) comment 'ip',
+    primary key(id)
+)   comment '用户操作记录';
+)
+
 
 
 
