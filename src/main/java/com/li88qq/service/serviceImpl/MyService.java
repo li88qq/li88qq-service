@@ -6,6 +6,7 @@ import com.li88qq.service.dto.Password;
 import com.li88qq.service.entity.User;
 import com.li88qq.service.repo.UserRepo;
 import com.li88qq.service.request.my.UpdatePasswordBo;
+import com.li88qq.service.request.my.UpdateProfileBo;
 import com.li88qq.service.service.IMyService;
 import com.li88qq.service.utils.DateUtil;
 import com.li88qq.service.utils.PasswordUtil;
@@ -43,6 +44,34 @@ public class MyService implements IMyService {
         updateUser.setLastLoginIp(SessionUtil.getIp());
 
         userRepo.update(updateUser);
+        return ResponseUtil.ok();
+    }
+
+    /**
+     * 修改个人信息
+     *
+     * @param bo
+     * @return
+     */
+    @Override
+    public BaseResponse updateProfile(UpdateProfileBo bo) {
+        Long uid = SessionUtil.getUid();
+        String ip = SessionUtil.getIp();
+
+        String nickname = bo.getNickname();
+        String mobile = bo.getMobile();
+        String email = bo.getEmail();
+
+        //校验格式
+        User user = FQuery.reset(User.class);
+        user.setId(uid);
+        user.setNickname(nickname);
+        user.setMobile(mobile);
+        user.setEmail(email);
+        user.setLastLoginDate(DateUtil.getTimestamp());
+        user.setLastLoginIp(ip);
+
+        userRepo.executeUpdate(user);
         return ResponseUtil.ok();
     }
 }
