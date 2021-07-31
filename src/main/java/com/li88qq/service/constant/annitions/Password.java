@@ -1,6 +1,6 @@
 package com.li88qq.service.constant.annitions;
 
-import com.li88qq.service.constant.annitions.validator.EmailValidator;
+import com.li88qq.service.constant.annitions.validator.PasswordValidator;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;
@@ -11,7 +11,7 @@ import java.lang.annotation.Target;
 
 @Target({ElementType.PARAMETER, ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
-@Constraint(validatedBy = EmailValidator.class)
+@Constraint(validatedBy = PasswordValidator.class)
 public @interface Password {
 
     String message() default "密码格式错误";
