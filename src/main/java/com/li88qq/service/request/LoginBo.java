@@ -1,15 +1,16 @@
 package com.li88qq.service.request;
 
+import com.li88qq.service.constant.annitions.Password;
+
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
 public class LoginBo {
 
     @NotBlank(message = "请输入用户名")
-    @Size(min = 2, max = 20, message = "用户名长度2-20字符")
+    @Size(min = 2, max = 12, message = "用户名长度2-12字符")
     private String username;
-    @NotBlank(message = "请输入密码")
-    @Size(min = 2, max = 20, message = "密码长度2-20字符")
+    @Password
     private String password;
     @NotBlank(message = "请输入验证码")
     @Size(min = 4, max = 4, message = "请输入正确的验证码")
