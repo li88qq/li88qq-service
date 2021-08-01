@@ -7,6 +7,7 @@ import com.li88qq.service.entity.User;
 import com.li88qq.service.repo.UserRepo;
 import com.li88qq.service.request.my.UpdatePasswordBo;
 import com.li88qq.service.request.my.UpdateProfileBo;
+import com.li88qq.service.response.GetProfileVo;
 import com.li88qq.service.service.IMyService;
 import com.li88qq.service.utils.DateUtil;
 import com.li88qq.service.utils.PasswordUtil;
@@ -73,5 +74,22 @@ public class MyService implements IMyService {
 
         userRepo.executeUpdate(user);
         return ResponseUtil.ok();
+    }
+
+    @Override
+    public GetProfileVo getProfile() {
+        Long uid = SessionUtil.getUid();
+        User user = userRepo.find(User.class, uid);
+
+        GetProfileVo vo = new GetProfileVo();
+        vo.setUsername(user.getUsername());
+        vo.setNickname(user.getNickname());
+        vo.setEmail(user.getEmail());
+        vo.setMobile(user.getMobile());
+        vo.setPhoto(user.getPhoto());
+        vo.setCreateDate(user.getCreateDate());
+        vo.setLastLoginDate(user.getLastLoginDate());
+        vo.setLastLoginIp(user.getLastLoginIp());
+        return vo;
     }
 }
