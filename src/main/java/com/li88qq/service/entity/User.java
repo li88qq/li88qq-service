@@ -22,8 +22,11 @@ public class User {
     private String salt;//加密盐
     private Long createDate = DateUtil.getTimestamp();//注册时间
     private Long updateDate = 0L;//更新时间
-    private Long lastLoginDate = 0L;//最后登录时间
-    private String lastLoginIp;//最后登录ip
+
+    private Long lastLoginDate = 0L;//上一次登录时间
+    private String lastLoginIp;//上一次登录ip
+    private Long loginDate = 0L;//本次登录时间
+    private String loginIp;//本次登录ip
 
     public Long getId() {
         return id;
@@ -127,5 +130,21 @@ public class User {
 
     public void setLastLoginIp(String lastLoginIp) {
         this.lastLoginIp = lastLoginIp;
+    }
+
+    public Long getLoginDate() {
+        return loginDate;
+    }
+
+    public void setLoginDate(Long loginDate) {
+        this.loginDate = loginDate;
+    }
+
+    public String getLoginIp() {
+        return loginIp;
+    }
+
+    public void setLoginIp(String loginIp) {
+        this.loginIp = loginIp;
     }
 }

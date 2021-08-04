@@ -11,8 +11,10 @@ create table User(
     salt varchar(32) comment '加密盐',
     createDate bigint not null default 0 comment '注册时间',
     updateDate bigint not null default 0 comment '更新时间',
-    lastLoginDate bigint not null default 0 comment '最后登录时间',
-    lastLoginIp varchar(32) comment '最后登录ip',
+    lastLoginDate bigint not null default 0 comment '上一次登录时间',
+    lastLoginIp varchar(32) comment '上一次登录ip',
+    loginDate bigint not null default 0 comment '本次登录时间',
+    loginIp varchar(32) comment '本次登录ip',
     primary key(id),
     unique key(username)
 )   comment '用户表';
@@ -21,10 +23,12 @@ create table User(
 create table LoginLog(
     id bigint not null auto_increment comment '主键',
     uid bigint not null default 0 comment '用户id',
-    state int not null default 0 comment '登录状态,1-正常,2-失败',
-    errorType int not null default 0 comment '失败类型',
+    state int not null default 0 comment '登录状态,1-正常',
+    remark varchar(255) comment '备注',
+    loginType int not null default 0 comment '登录方式',
     createDate bigint not null default 0 comment '登录时间',
     loginIp varchar(32) comment '登录ip',
+    updateDate bigint not null default 0 comment '登出时间',
     primary key(id)
 )   comment '用户登录记录';
 

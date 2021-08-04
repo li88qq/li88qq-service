@@ -14,9 +14,22 @@ public class LoginLog {
     private Long id;//id
     private Long uid = 0L;//用户id
     private Integer state = 0;//登录状态,1-正常,2-失败
-    private Integer errorType = 0;//失败类型
+    private String remark;//详情
+    private Integer loginType = 0;//登录方式,1-网页,2-手机,3-扫一扫
     private Long createDate = DateUtil.getTimestamp();//登录时间
     private String loginIp;//登录ip
+    private Long updateDate = 0L;//登出时间
+
+    public LoginLog() {
+    }
+
+    public LoginLog(Long uid, Integer state, String remark, Integer loginType, String loginIp) {
+        this.uid = uid;
+        this.state = state;
+        this.remark = remark;
+        this.loginType = loginType;
+        this.loginIp = loginIp;
+    }
 
     public Long getId() {
         return id;
@@ -42,14 +55,6 @@ public class LoginLog {
         this.state = state;
     }
 
-    public Integer getErrorType() {
-        return errorType;
-    }
-
-    public void setErrorType(Integer errorType) {
-        this.errorType = errorType;
-    }
-
     public Long getCreateDate() {
         return createDate;
     }
@@ -64,5 +69,29 @@ public class LoginLog {
 
     public void setLoginIp(String loginIp) {
         this.loginIp = loginIp;
+    }
+
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark;
+    }
+
+    public Long getUpdateDate() {
+        return updateDate;
+    }
+
+    public void setUpdateDate(Long updateDate) {
+        this.updateDate = updateDate;
+    }
+
+    public Integer getLoginType() {
+        return loginType;
+    }
+
+    public void setLoginType(Integer loginType) {
+        this.loginType = loginType;
     }
 }
