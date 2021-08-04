@@ -15,6 +15,7 @@ public class LoginBo {
     @NotBlank(message = "请输入验证码")
     @Size(min = 4, max = 4, message = "请输入正确的验证码")
     private String code;
+    private Integer loginType;
 
     public String getUsername() {
         return username;
