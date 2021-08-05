@@ -56,4 +56,19 @@ public class DateUtil {
         }
     }
 
+    /**
+     * 转换查询时间戳
+     *
+     * @param localDate 日期
+     * @param begin     是否开始
+     * @return
+     */
+    public static Long getQuery(LocalDate localDate, boolean begin) {
+        if (localDate == null) {
+            return null;
+        }
+        LocalTime localTime = begin ? LocalTime.MIN : LocalTime.MAX;
+        return getTimestamp(localDate.atTime(localTime));
+    }
+
 }
