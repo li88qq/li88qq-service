@@ -1,10 +1,25 @@
 package com.li88qq.service.controller;
 
-import org.springframework.stereotype.Controller;
+import com.li88qq.service.dto.BaseResponse;
+import com.li88qq.service.service.IFileService;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
-@Controller
+import javax.annotation.Resource;
+
+@RestController
 @RequestMapping("/file")
 public class FileController {
+
+    @Resource
+    private IFileService fileService;
+
+    @PostMapping("/saveImage")
+    public BaseResponse saveImage(@RequestParam("file") MultipartFile file, @RequestParam("tag") String tag) {
+        return fileService.saveImage(file,tag);
+    }
 
 }
