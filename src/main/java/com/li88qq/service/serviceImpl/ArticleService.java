@@ -182,12 +182,19 @@ public class ArticleService implements IArticleService {
             username = user.getNickname();
         }
 
+        String content = "";
+        ArticleContent articleContent = contentRepo.find(ArticleContent.class, article.getId());
+        if (articleContent != null) {
+            content = articleContent.getContent();
+        }
+
         GetArticleVo vo = new GetArticleVo();
         vo.setUsername(username);
         vo.setTitle(article.getTitle());
         vo.setOriginal(article.getOriginal());
         vo.setQuote(article.getQuote());
         vo.setCreateDate(article.getCreateDate());
+        vo.setContent(content);
         vo.setWords(article.getWords());
         vo.setReadCount(article.getReadCount());
         return vo;

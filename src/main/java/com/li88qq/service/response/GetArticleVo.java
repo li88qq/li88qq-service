@@ -11,6 +11,7 @@ public class GetArticleVo {
     private Integer original;//是否原创,1-原创
     private String quote;//引用地址
     private Long createDate;//创建时间
+    private String content;//内容
     private Integer words;//字数
     private Integer readCount;//阅读数
 
@@ -68,5 +69,13 @@ public class GetArticleVo {
 
     public void setReadCount(Integer readCount) {
         this.readCount = readCount;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
     }
 }
