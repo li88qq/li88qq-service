@@ -1,19 +1,14 @@
 package com.li88qq.service.serviceImpl;
 
 import com.li88qq.service.dto.BaseResponse;
-import com.li88qq.service.entity.Article;
-import com.li88qq.service.entity.ArticleContent;
-import com.li88qq.service.entity.ArticleLabel;
-import com.li88qq.service.entity.Article_Label;
-import com.li88qq.service.repo.ArticleContentRepo;
-import com.li88qq.service.repo.ArticleLabelRepo;
-import com.li88qq.service.repo.ArticleRepo;
-import com.li88qq.service.repo.Article_LabelRepo;
+import com.li88qq.service.entity.*;
+import com.li88qq.service.repo.*;
 import com.li88qq.service.request.article.GetAllPageBo;
 import com.li88qq.service.request.article.GetArticlePageBo;
 import com.li88qq.service.request.article.SaveArticleBo;
 import com.li88qq.service.response.GetAllPageVo;
 import com.li88qq.service.response.GetArticlePageVo;
+import com.li88qq.service.response.GetArticleVo;
 import com.li88qq.service.service.IArticleService;
 import com.li88qq.service.utils.*;
 import org.fastquery.page.Page;
@@ -40,6 +35,8 @@ public class ArticleService implements IArticleService {
     private ArticleLabelRepo labelRepo;
     @Resource
     private Article_LabelRepo article_labelRepo;
+    @Resource
+    private UserRepo userRepo;
 
     /**
      * 保存文章
@@ -170,6 +167,30 @@ public class ArticleService implements IArticleService {
                 _endDate, bo.getBeginCount(), bo.getEndCount(), pageable);
 
         return pageData.convert(GetAllPageVo.class);
+    }
+
+    @Override
+    public GetArticleVo getArticle(String id) {
+        Article article = articleRepo.findBySn(id);
+        if (article == null) {
+            throw new RuntimeException("数据不存在");
+        }
+        Long uid = article.getUid();
+        User user = userRepo.find(User.class, uid);
+        String username = "";
+        if (user != null) {
+            username = user.getNickname();
+        }
+
+        GetArticleVo vo = new GetArticleVo();
+        vo.setUsername(username);
+        vo.setTitle(article.getTitle());
+        vo.setOriginal(article.getOriginal());
+        vo.setQuote(article.getQuote());
+        vo.setCreateDate(article.getCreateDate());
+        vo.setWords(article.getWords());
+        vo.setReadCount(article.getReadCount());
+        return vo;
     }
 
 }

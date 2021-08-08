@@ -6,6 +6,7 @@ import com.li88qq.service.request.article.GetArticlePageBo;
 import com.li88qq.service.request.article.SaveArticleBo;
 import com.li88qq.service.response.GetAllPageVo;
 import com.li88qq.service.response.GetArticlePageVo;
+import com.li88qq.service.response.GetArticleVo;
 import org.fastquery.page.Page;
 
 public interface IArticleService {
@@ -15,4 +16,6 @@ public interface IArticleService {
     Page<GetArticlePageVo> getArticlePage(GetArticlePageBo bo);
 
     Page<GetAllPageVo> getAllPage(GetAllPageBo bo);
+
+    GetArticleVo getArticle(String id);
 }

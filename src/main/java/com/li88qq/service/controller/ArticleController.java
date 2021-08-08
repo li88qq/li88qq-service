@@ -6,11 +6,14 @@ import com.li88qq.service.request.article.GetArticlePageBo;
 import com.li88qq.service.request.article.SaveArticleBo;
 import com.li88qq.service.response.GetAllPageVo;
 import com.li88qq.service.response.GetArticlePageVo;
+import com.li88qq.service.response.GetArticleVo;
 import com.li88qq.service.service.IArticleService;
 import org.fastquery.page.Page;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
 
 /**
  * 文章管理
@@ -53,6 +56,11 @@ public class ArticleController {
     @GetMapping("/getAllPage")
     public Page<GetAllPageVo> getAllPage(GetAllPageBo bo) {
         return articleService.getAllPage(bo);
+    }
+
+    @GetMapping("/get")
+    public GetArticleVo getArticle(@RequestParam @NotBlank(message = "参数错误") String id) {
+        return articleService.getArticle(id);
     }
 
 }

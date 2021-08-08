@@ -1,5 +1,6 @@
 package com.li88qq.service.repo;
 
+import com.li88qq.service.entity.Article;
 import org.fastquery.core.Param;
 import org.fastquery.core.Query;
 import org.fastquery.core.QueryRepository;
@@ -39,4 +40,7 @@ public interface ArticleRepo extends QueryRepository {
                                           @Param("original") Integer original, @Param("beginDate") Long beginDate,
                                           @Param("endDate") Long endDate, @Param("beginCount") Integer beginCount,
                                           @Param("endCount") Integer endCount, Pageable pageable);
+
+    @Query("select * from Article where sn = :sn")
+    Article findBySn(@Param("sn")String sn);
 }
