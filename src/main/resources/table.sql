@@ -53,7 +53,7 @@ create table Article(
 -- 文章内容
 create table ArticleContent(
     id bigint not null comment '主键,文章id',
-    content text comment '内容',
+    content text CHARACTER SET 'utf8mb4' COLLATE 'utf8mb4_unicode_ci' comment '内容',
     primary key(id)
 )   comment '文章内容';
 
