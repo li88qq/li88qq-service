@@ -5,6 +5,7 @@ import com.li88qq.service.entity.*;
 import com.li88qq.service.repo.*;
 import com.li88qq.service.request.article.GetAllPageBo;
 import com.li88qq.service.request.article.GetArticlePageBo;
+import com.li88qq.service.request.article.ReadBo;
 import com.li88qq.service.request.article.SaveArticleBo;
 import com.li88qq.service.response.GetAllPageVo;
 import com.li88qq.service.response.GetArticlePageVo;
@@ -37,6 +38,8 @@ public class ArticleService implements IArticleService {
     private Article_LabelRepo article_labelRepo;
     @Resource
     private UserRepo userRepo;
+    @Resource
+    private ArticleReadLogRepo readLogRepo;
 
     /**
      * 保存文章
@@ -198,6 +201,28 @@ public class ArticleService implements IArticleService {
         vo.setWords(article.getWords());
         vo.setReadCount(article.getReadCount());
         return vo;
+    }
+
+    /**
+     * 阅读文章
+     *
+     * @param bo
+     * @return
+     */
+    @Override
+    public BaseResponse read(ReadBo bo) {
+        String id = bo.getId();
+        Article article = articleRepo.findBySn(id);
+        if (article != null) {
+            Long articleId = article.getId();
+            articleRepo.updateReadCount(articleId);
+
+            Long uid = SessionUtil.getUid();
+            String ip = SessionUtil.getIp();
+            ArticleReadLog readLog = new ArticleReadLog(articleId, uid, ip);
+            readLogRepo.save(readLog);
+        }
+        return ResponseUtil.ok();
     }
 
 }

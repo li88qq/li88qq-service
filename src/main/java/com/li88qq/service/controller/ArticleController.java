@@ -3,6 +3,7 @@ package com.li88qq.service.controller;
 import com.li88qq.service.dto.BaseResponse;
 import com.li88qq.service.request.article.GetAllPageBo;
 import com.li88qq.service.request.article.GetArticlePageBo;
+import com.li88qq.service.request.article.ReadBo;
 import com.li88qq.service.request.article.SaveArticleBo;
 import com.li88qq.service.response.GetAllPageVo;
 import com.li88qq.service.response.GetArticlePageVo;
@@ -58,9 +59,26 @@ public class ArticleController {
         return articleService.getAllPage(bo);
     }
 
+    /**
+     * 查询文章信息
+     *
+     * @param id
+     * @return
+     */
     @GetMapping("/get")
     public GetArticleVo getArticle(@RequestParam @NotBlank(message = "参数错误") String id) {
         return articleService.getArticle(id);
+    }
+
+    /**
+     * 阅读文章
+     *
+     * @param bo
+     * @return
+     */
+    @PostMapping("/read")
+    public BaseResponse read(@RequestBody ReadBo bo) {
+        return articleService.read(bo);
     }
 
 }

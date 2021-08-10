@@ -1,6 +1,7 @@
 package com.li88qq.service.repo;
 
 import com.li88qq.service.entity.Article;
+import org.fastquery.core.Modifying;
 import org.fastquery.core.Param;
 import org.fastquery.core.Query;
 import org.fastquery.core.QueryRepository;
@@ -42,5 +43,14 @@ public interface ArticleRepo extends QueryRepository {
                                           @Param("endCount") Integer endCount, Pageable pageable);
 
     @Query("select * from Article where sn = :sn")
-    Article findBySn(@Param("sn")String sn);
+    Article findBySn(@Param("sn") String sn);
+
+    /**
+     * 更新阅读次数
+     *
+     * @param id
+     */
+    @Modifying
+    @Query("update Article set readCount = readCount+1 where id = :id")
+    void updateReadCount(@Param("id") Long id);
 }
