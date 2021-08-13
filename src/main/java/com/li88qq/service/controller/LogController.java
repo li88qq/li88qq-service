@@ -1,6 +1,8 @@
 package com.li88qq.service.controller;
 
+import com.li88qq.service.request.log.GetActionPageBo;
 import com.li88qq.service.request.log.GetLoginPageBo;
+import com.li88qq.service.response.GetActionPageVo;
 import com.li88qq.service.response.GetLoginPageVo;
 import com.li88qq.service.service.ILogService;
 import org.fastquery.page.Page;
@@ -32,5 +34,16 @@ public class LogController {
     @GetMapping("/loginPage")
     public Page<GetLoginPageVo> getLoginPage(GetLoginPageBo bo) {
         return logService.getLoginPage(bo);
+    }
+
+    /**
+     * 分页查询操作记录列表
+     *
+     * @param bo
+     * @return
+     */
+    @GetMapping("/actionPage")
+    public Page<GetActionPageVo> getActionPage(GetActionPageBo bo) {
+        return logService.getActionPage(bo);
     }
 }

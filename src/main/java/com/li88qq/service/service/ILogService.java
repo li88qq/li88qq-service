@@ -1,6 +1,8 @@
 package com.li88qq.service.service;
 
+import com.li88qq.service.request.log.GetActionPageBo;
 import com.li88qq.service.request.log.GetLoginPageBo;
+import com.li88qq.service.response.GetActionPageVo;
 import com.li88qq.service.response.GetLoginPageVo;
 import org.fastquery.page.Page;
 
@@ -13,4 +15,6 @@ import org.fastquery.page.Page;
 public interface ILogService {
 
     Page<GetLoginPageVo> getLoginPage(GetLoginPageBo bo);
+
+    Page<GetActionPageVo> getActionPage(GetActionPageBo bo);
 }
