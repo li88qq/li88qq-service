@@ -95,7 +95,6 @@ create table ActionLog(
     ip varchar(32) comment 'ip',
     primary key(id)
 )   comment '用户操作记录';
-)
 
 
 
