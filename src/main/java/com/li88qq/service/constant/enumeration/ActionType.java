@@ -12,7 +12,7 @@ public enum ActionType {
     SAVE(2, "新增"),
     UPDATE(3, "修改"),
     DELETE(4, "删除"),
-    IMPORT(5, "文件"),
+    FILE(5, "文件"),
 
     ;
 

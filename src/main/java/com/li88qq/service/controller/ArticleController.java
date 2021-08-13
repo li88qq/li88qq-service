@@ -1,5 +1,7 @@
 package com.li88qq.service.controller;
 
+import com.li88qq.service.constant.annitions.AcLog;
+import com.li88qq.service.constant.enumeration.ActionType;
 import com.li88qq.service.dto.BaseResponse;
 import com.li88qq.service.request.article.GetAllPageBo;
 import com.li88qq.service.request.article.GetArticlePageBo;
@@ -33,6 +35,7 @@ public class ArticleController {
      * @return
      */
     @PostMapping("/save")
+    @AcLog(acType = ActionType.UPDATE, title = "保存文章", detail = "bo|title")
     public BaseResponse save(@RequestBody SaveArticleBo bo) {
         return articleService.saveArticle(bo);
     }
