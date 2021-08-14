@@ -15,6 +15,7 @@ public class Article {
     private Long uid = 0L;//用户id
     private String title;//标题
     private Integer state = 0;//状态
+    private Integer delState = 0;//是否删除,0-否,1-是
     private Integer open = 0;//是否公开,1-公开
     private Integer original = 0;//是否原创,1-原创
     private String quote;//引用地址
@@ -128,5 +129,13 @@ public class Article {
 
     public void setCtUpdateDate(Long ctUpdateDate) {
         this.ctUpdateDate = ctUpdateDate;
+    }
+
+    public Integer getDelState() {
+        return delState;
+    }
+
+    public void setDelState(Integer delState) {
+        this.delState = delState;
     }
 }

@@ -38,6 +38,7 @@ create table Article(
     uid bigint not null default 0 comment '用户id',
     title varchar(100) comment '标题',
     state int not null default 0 comment '状态',
+    delState int not null default 0 comment '删除状态,0-不删除,1-删除',
     open int not null default 0 comment '是否公开,1-公开',
     original int not null default 0 comment '是否原创,1-原创',
     quote varchar(255) comment '引用地址',
