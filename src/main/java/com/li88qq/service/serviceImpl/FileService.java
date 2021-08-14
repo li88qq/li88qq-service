@@ -1,15 +1,10 @@
 package com.li88qq.service.serviceImpl;
 
-import com.li88qq.service.dto.BaseResponse;
 import com.li88qq.service.service.IFileService;
 import com.li88qq.service.utils.FileUtil;
-import com.li88qq.service.utils.ResponseUtil;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * 文件管理
@@ -22,6 +17,8 @@ public class FileService implements IFileService {
 
     @Value("${img.path}")
     private String imgPath;
+    @Value("${img.prefix}")
+    private String imgPrefix;
 
     /**
      * 保存图片
@@ -31,10 +28,8 @@ public class FileService implements IFileService {
      * @return
      */
     @Override
-    public BaseResponse saveImage(MultipartFile file, String tag) {
+    public String saveImage(MultipartFile file, String tag) {
         String fileUrl = FileUtil.saveFile(file, imgPath, tag);
-        Map<String, Object> data = new HashMap<>();
-        data.put("fileUrl", fileUrl);
-        return ResponseUtil.ok(data);
+        return String.join("", imgPrefix, fileUrl);
     }
 }

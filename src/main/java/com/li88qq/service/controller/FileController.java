@@ -21,7 +21,7 @@ public class FileController {
 
     @PostMapping("/saveImage")
     @AcLog(acType = ActionType.FILE, title = "保存图片", detail = "tag")
-    public BaseResponse saveImage(@RequestParam("file") MultipartFile file, @RequestParam("tag") String tag) {
+    public String saveImage(@RequestParam("file") MultipartFile file, @RequestParam("tag") String tag) {
         return fileService.saveImage(file, tag);
     }
 

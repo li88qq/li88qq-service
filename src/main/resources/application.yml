@@ -3,3 +3,4 @@ server:
 
 img:
   path: d:/img
+  prefix: /img
