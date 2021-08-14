@@ -1,4 +1,4 @@
-package com.li88qq.service.controller;
+package com.li88qq.service.controller.p;
 
 import com.google.code.kaptcha.impl.DefaultKaptcha;
 import com.li88qq.service.utils.SessionUtil;
