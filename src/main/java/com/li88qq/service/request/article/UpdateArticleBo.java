@@ -1,11 +1,12 @@
-package com.li88qq.service.response;
+package com.li88qq.service.request.article;
 
 /**
  * @author li88qq
- * @version 1.0 2021/8/8 22:16
+ * @version 1.0 2021/8/14 22:05
  */
-public class GetArticleVo {
+public class UpdateArticleBo {
 
+    private Long id;
     private String title;//标题
     private Integer open;//是否公开,1-公开
     private Integer original;//是否原创,1-原创
@@ -50,5 +51,13 @@ public class GetArticleVo {
 
     public void setLabels(String labels) {
         this.labels = labels;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 }

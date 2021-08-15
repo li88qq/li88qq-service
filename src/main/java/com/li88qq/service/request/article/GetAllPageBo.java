@@ -16,6 +16,7 @@ public class GetAllPageBo extends PageBo {
     private LocalDate endDate;
     private Integer beginCount;
     private Integer endCount;
+    private String labels;
 
     public String getTitle() {
         return title;
@@ -71,5 +72,13 @@ public class GetAllPageBo extends PageBo {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public String getLabels() {
+        return labels;
+    }
+
+    public void setLabels(String labels) {
+        this.labels = labels;
     }
 }

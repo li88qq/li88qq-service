@@ -8,6 +8,7 @@ public class GetArticlePageVo {
     private Integer open;//是否公开,1-公开
     private Integer original;//是否原创,1-原创
     private String quote;//引用地址
+    private String labels;
     private Long createDate;//创建时间
     private Long updateDate;//更新时间
     private Long ctUpdateDate;//内容更新时间
@@ -110,5 +111,13 @@ public class GetArticlePageVo {
 
     public void setReadCount(Integer readCount) {
         this.readCount = readCount;
+    }
+
+    public String getLabels() {
+        return labels;
+    }
+
+    public void setLabels(String labels) {
+        this.labels = labels;
     }
 }

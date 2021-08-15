@@ -3,10 +3,8 @@ package com.li88qq.service.controller;
 import com.li88qq.service.constant.annitions.AcLog;
 import com.li88qq.service.constant.enumeration.ActionType;
 import com.li88qq.service.dto.BaseResponse;
-import com.li88qq.service.request.article.GetAllPageBo;
-import com.li88qq.service.request.article.GetArticlePageBo;
-import com.li88qq.service.request.article.ReadBo;
-import com.li88qq.service.request.article.SaveArticleBo;
+import com.li88qq.service.dto.IdBo;
+import com.li88qq.service.request.article.*;
 import com.li88qq.service.response.GetAllPageVo;
 import com.li88qq.service.response.GetArticlePageVo;
 import com.li88qq.service.response.GetArticleVo;
@@ -15,7 +13,6 @@ import org.fastquery.page.Page;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
-import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 
 /**
@@ -35,7 +32,7 @@ public class ArticleController {
      * @return
      */
     @PostMapping("/save")
-    @AcLog(acType = ActionType.UPDATE, title = "保存文章", detail = "bo|title")
+    @AcLog(acType = ActionType.SAVE, title = "保存文章", detail = "bo|title,labels")
     public BaseResponse save(@RequestBody SaveArticleBo bo) {
         return articleService.saveArticle(bo);
     }
@@ -69,19 +66,44 @@ public class ArticleController {
      * @return
      */
     @GetMapping("/get")
-    public GetArticleVo getArticle(@RequestParam @NotBlank(message = "参数错误") String id) {
+    public GetArticleVo getArticle(@RequestParam Long id) {
         return articleService.getArticle(id);
     }
 
     /**
-     * 阅读文章
+     * 删除文章
      *
      * @param bo
      * @return
      */
-    @PostMapping("/read")
-    public BaseResponse read(@RequestBody ReadBo bo) {
-        return articleService.read(bo);
+    @PostMapping("/delete")
+    @AcLog(acType = ActionType.DELETE, title = "删除文章", detail = "bo|id")
+    public BaseResponse delete(@RequestBody IdBo bo) {
+        return articleService.delete(bo);
+    }
+
+    /**
+     * 修改文章
+     *
+     * @param bo
+     * @return
+     */
+    @PostMapping("/update")
+    @AcLog(acType = ActionType.UPDATE, title = "修改文章", detail = "bo|id,title,labels")
+    public BaseResponse update(@RequestBody UpdateArticleBo bo) {
+        return articleService.update(bo);
+    }
+
+    /**
+     * 修改文章内容
+     *
+     * @param bo
+     * @return
+     */
+    @PostMapping("/updateContent")
+    @AcLog(acType = ActionType.UPDATE, title = "修改文章内容", detail = "bo|id")
+    public BaseResponse updateContent(@RequestBody UpdateContentBo bo) {
+        return articleService.updateContent(bo);
     }
 
 }

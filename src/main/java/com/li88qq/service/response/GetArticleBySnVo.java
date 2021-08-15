@@ -1,28 +1,27 @@
 package com.li88qq.service.response;
 
-public class GetAllPageVo {
+/**
+ * @author li88qq
+ * @version 1.0 2021/8/15 9:28
+ */
+public class GetArticleBySnVo {
 
-    private Long id;
-    private Long uid;
     private String username;
     private String title;//标题
     private Integer original;//是否原创,1-原创
     private String quote;//引用地址
-    private String labels;
     private Long createDate;//创建时间
-    private Long updateDate;//更新时间
-    private Long ctUpdateDate;//内容更新时间
-
-    private String sn;//随机码
+    private String content;//内容
     private Integer words;//字数
     private Integer readCount;//阅读数
+    private String labels;
 
-    public Long getId() {
-        return id;
+    public String getUsername() {
+        return username;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getTitle() {
@@ -57,28 +56,12 @@ public class GetAllPageVo {
         this.createDate = createDate;
     }
 
-    public Long getUpdateDate() {
-        return updateDate;
+    public String getContent() {
+        return content;
     }
 
-    public void setUpdateDate(Long updateDate) {
-        this.updateDate = updateDate;
-    }
-
-    public Long getCtUpdateDate() {
-        return ctUpdateDate;
-    }
-
-    public void setCtUpdateDate(Long ctUpdateDate) {
-        this.ctUpdateDate = ctUpdateDate;
-    }
-
-    public String getSn() {
-        return sn;
-    }
-
-    public void setSn(String sn) {
-        this.sn = sn;
+    public void setContent(String content) {
+        this.content = content;
     }
 
     public Integer getWords() {
@@ -95,22 +78,6 @@ public class GetAllPageVo {
 
     public void setReadCount(Integer readCount) {
         this.readCount = readCount;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public Long getUid() {
-        return uid;
-    }
-
-    public void setUid(Long uid) {
-        this.uid = uid;
     }
 
     public String getLabels() {

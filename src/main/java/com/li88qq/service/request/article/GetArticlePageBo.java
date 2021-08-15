@@ -11,6 +11,7 @@ public class GetArticlePageBo extends PageBo {
     private Integer state;
     private Integer open;
     private Integer original;
+    private String labels;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate beginDate;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
@@ -80,5 +81,13 @@ public class GetArticlePageBo extends PageBo {
 
     public void setEndCount(Integer endCount) {
         this.endCount = endCount;
+    }
+
+    public String getLabels() {
+        return labels;
+    }
+
+    public void setLabels(String labels) {
+        this.labels = labels;
     }
 }
