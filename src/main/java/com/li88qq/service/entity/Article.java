@@ -19,6 +19,7 @@ public class Article {
     private Integer open = 0;//是否公开,1-公开
     private Integer original = 0;//是否原创,1-原创
     private String quote;//引用地址
+    private String labels;//标签
     private Long createDate = DateUtil.getTimestamp();//创建时间
     private Long updateDate = 0L;//更新时间
     private Long ctUpdateDate = 0L;//内容更新时间
@@ -137,5 +138,13 @@ public class Article {
 
     public void setDelState(Integer delState) {
         this.delState = delState;
+    }
+
+    public String getLabels() {
+        return labels;
+    }
+
+    public void setLabels(String labels) {
+        this.labels = labels;
     }
 }

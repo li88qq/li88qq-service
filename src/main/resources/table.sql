@@ -42,6 +42,7 @@ create table Article(
     open int not null default 0 comment '是否公开,1-公开',
     original int not null default 0 comment '是否原创,1-原创',
     quote varchar(255) comment '引用地址',
+    labels varchar(255) comment '标签列表',
     createDate bigint not null default 0 comment '创建时间',
     updateDate bigint not null default 0 comment '更新时间',
     ctUpdateDate bigint not null default 0 comment '内容更新时间',
