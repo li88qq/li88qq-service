@@ -3,6 +3,7 @@ package com.li88qq.service.serviceImpl;
 import com.li88qq.service.constant.enumeration.LoginState;
 import com.li88qq.service.constant.enumeration.LoginType;
 import com.li88qq.service.dto.BaseResponse;
+import com.li88qq.service.dto.SessionCode;
 import com.li88qq.service.dto.SessionUser;
 import com.li88qq.service.entity.LoginLog;
 import com.li88qq.service.entity.User;
@@ -18,6 +19,8 @@ import org.fastquery.service.FQuery;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpSession;
+import java.time.LocalDateTime;
 
 @Service
 public class LoginService implements ILoginService {
@@ -28,6 +31,11 @@ public class LoginService implements ILoginService {
 
     @Override
     public BaseResponse login(LoginBo bo) {
+        BaseResponse checkCode = checkCode(bo);
+        if (!checkCode.success()) {
+            return checkCode;
+        }
+
         //校验用户
         String username = bo.getUsername();
         String password = bo.getPassword();
@@ -88,6 +96,33 @@ public class LoginService implements ILoginService {
         //移除session
         SessionUtil.removeSession();
         return ResponseUtil.okMsg("您已登出平台！稍后将自动跳转到登录页面！");
+    }
+
+    //后台校验验证码
+    private BaseResponse checkCode(LoginBo bo) {
+        String code = bo.getCode().toLowerCase();
+        HttpSession session = SessionUtil.getSession(false);
+        if (session == null) {
+            return ResponseUtil.error("验证码已过期,请重新获取验证码.");
+        }
+        Object captcha = session.getAttribute("captcha");
+        if (captcha == null) {
+            return ResponseUtil.error("验证码已过期,请重新获取验证码.");
+        }
+        SessionCode sessionCode = (SessionCode) captcha;
+        String _code = sessionCode.getCode();
+        if (_code == null) {
+            return ResponseUtil.error("验证码已过期,请重新获取验证码.");
+        }
+        if (!code.equals(_code.toLowerCase())) {
+            return ResponseUtil.error("验证码错误");
+        }
+        if (LocalDateTime.now().isAfter(sessionCode.getDateTime())) {
+            return ResponseUtil.error("验证码已过期,请重新获取验证码.");
+        }
+
+        session.removeAttribute("captcha");
+        return ResponseUtil.ok();
     }
 
 }
