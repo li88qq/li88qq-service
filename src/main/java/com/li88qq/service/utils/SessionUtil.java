@@ -60,7 +60,12 @@ public class SessionUtil {
     }
 
     public static Long getUid() {
-        return getUser().getUid();
+        Long uid = null;
+        SessionUser user = getUser();
+        if (user != null) {
+            uid = user.getUid();
+        }
+        return uid;
     }
 
     public static void removeSession() {
