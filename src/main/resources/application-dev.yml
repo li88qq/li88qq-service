@@ -1,0 +1,5 @@
+server:
+  port: 8080
+img:
+  path: d:/data/img
+  prefix: /img
