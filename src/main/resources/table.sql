@@ -98,6 +98,16 @@ create table ActionLog(
     primary key(id)
 )   comment '用户操作记录';
 
+-- 异常记录
+create table ErrorLog(
+    id bigint not null auto_increment comment '主键',
+    exName varchar(100) comment '异常类型',
+    msg varchar(255) comment '错误信息',
+    uid bigint not null default 0 comment '用户id',
+    ip varchar(32) comment 'ip',
+    primary key(id)
+)   comment '异常记录';
+
 
 
 
