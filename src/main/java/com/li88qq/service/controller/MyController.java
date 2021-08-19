@@ -2,11 +2,11 @@ package com.li88qq.service.controller;
 
 import com.li88qq.service.constant.annitions.AcLog;
 import com.li88qq.service.constant.enumeration.ActionType;
-import com.li88qq.service.constant.enumeration.SaveStrategy;
 import com.li88qq.service.dto.BaseResponse;
 import com.li88qq.service.request.my.UpdatePasswordBo;
 import com.li88qq.service.request.my.UpdateProfileBo;
 import com.li88qq.service.response.GetProfileVo;
+import com.li88qq.service.response.GetUserInfoVo;
 import com.li88qq.service.service.IMyService;
 import org.springframework.web.bind.annotation.*;
 
@@ -41,6 +41,11 @@ public class MyController {
     @GetMapping("/profile")
     public GetProfileVo getProfile() {
         return myService.getProfile();
+    }
+
+    @GetMapping("/info")
+    public GetUserInfoVo getInfo(){
+        return myService.getInfo();
     }
 
 }

@@ -8,6 +8,7 @@ import com.li88qq.service.repo.UserRepo;
 import com.li88qq.service.request.my.UpdatePasswordBo;
 import com.li88qq.service.request.my.UpdateProfileBo;
 import com.li88qq.service.response.GetProfileVo;
+import com.li88qq.service.response.GetUserInfoVo;
 import com.li88qq.service.service.IMyService;
 import com.li88qq.service.utils.DateUtil;
 import com.li88qq.service.utils.PasswordUtil;
@@ -24,6 +25,12 @@ public class MyService implements IMyService {
     @Resource
     private UserRepo userRepo;
 
+    /**
+     * 修改密码
+     *
+     * @param bo
+     * @return
+     */
     @Override
     public BaseResponse updatePassword(UpdatePasswordBo bo) {
         Long uid = SessionUtil.getUid();
@@ -76,6 +83,11 @@ public class MyService implements IMyService {
         return ResponseUtil.ok();
     }
 
+    /**
+     * 获取个人信息
+     *
+     * @return
+     */
     @Override
     public GetProfileVo getProfile() {
         Long uid = SessionUtil.getUid();
@@ -90,6 +102,22 @@ public class MyService implements IMyService {
         vo.setCreateDate(user.getCreateDate());
         vo.setLastLoginDate(user.getLastLoginDate());
         vo.setLastLoginIp(user.getLastLoginIp());
+        return vo;
+    }
+
+    /**
+     * 获取基本信息
+     *
+     * @return
+     */
+    @Override
+    public GetUserInfoVo getInfo() {
+        Long uid = SessionUtil.getUid();
+        User user = userRepo.find(User.class, uid);
+
+        GetUserInfoVo vo = new GetUserInfoVo();
+        vo.setNickname(user.getNickname());
+        vo.setPhoto(user.getPhoto());
         return vo;
     }
 }
