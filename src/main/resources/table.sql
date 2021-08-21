@@ -108,7 +108,28 @@ create table ErrorLog(
     primary key(id)
 )   comment '异常记录';
 
+-- 导航
+create table Navigation(
+    id bigint not null auto_increment comment '主键',
+    uid bigint not null default 0 comment '用户id',
+    typeId bigint not null default 0 comment '分类id',
+    name varchar(20) comment '名称',
+    url varchar(255) comment 'url',
+    remark varchar(255) comment '备注',
+    logo varchar(100) comment '图标',
+    createDate bigint not null default 0 comment '操作时间',
+    clickCount int not null default 0 comment '点击次数',
+    primary key(id)
+)   comment '导航';
 
-
+-- 导航分类
+create table NavigationType(
+    id bigint not null auto_increment comment '主键',
+    uid bigint not null default 0 comment '用户id',
+    name varchar(20) comment '名称',
+    sort int not null default 0 comment '排序',
+    createDate bigint not null default 0 comment '操作时间',
+    primary key(id)
+)   comment '导航分类';
 
 

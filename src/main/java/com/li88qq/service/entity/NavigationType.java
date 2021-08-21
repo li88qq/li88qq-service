@@ -17,6 +17,7 @@ public class NavigationType {
     private Long id;
     private Long uid = 0L;
     private String name;
+    private Integer sort = 0;
 
     private Long createDate = DateUtil.getTimestamp();
 
@@ -50,5 +51,13 @@ public class NavigationType {
 
     public void setCreateDate(Long createDate) {
         this.createDate = createDate;
+    }
+
+    public Integer getSort() {
+        return sort;
+    }
+
+    public void setSort(Integer sort) {
+        this.sort = sort;
     }
 }
