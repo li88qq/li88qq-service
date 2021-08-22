@@ -19,6 +19,8 @@ public class FileService implements IFileService {
     private String imgPath;
     @Value("${img.prefix}")
     private String imgPrefix;
+    @Value("${spring.profiles.active}")
+    private String profile;
 
     /**
      * 保存图片
@@ -30,6 +32,13 @@ public class FileService implements IFileService {
     @Override
     public String saveImage(MultipartFile file, String tag) {
         String fileUrl = FileUtil.saveFile(file, imgPath, tag);
-        return String.join("", imgPrefix, fileUrl);
+        String protocol = "http";
+        String host = "localhost";
+        // 自己配置正式环境
+        if (profile.equals("prod")) {
+            protocol = "https";
+            host = "www.xxxx.com";
+        }
+        return String.join("", protocol, host, imgPrefix, fileUrl);
     }
 }
