@@ -14,7 +14,7 @@ import java.util.List;
  */
 public interface NavTypeRepo extends QueryRepository {
 
-    @Query("select * from NavigationType where uid = :uid order by sort asc")
+    @Query("select * from NavigationType where uid = :uid order by sort asc,id asc")
     List<NavigationType> findList(@Param("uid") Long uid);
 
     @Modifying
