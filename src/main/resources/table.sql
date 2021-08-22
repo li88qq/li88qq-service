@@ -105,6 +105,7 @@ create table ErrorLog(
     msg varchar(255) comment '错误信息',
     uid bigint not null default 0 comment '用户id',
     ip varchar(32) comment 'ip',
+    createDate bigint not null default 0 comment '创建时间',
     primary key(id)
 )   comment '异常记录';
 
