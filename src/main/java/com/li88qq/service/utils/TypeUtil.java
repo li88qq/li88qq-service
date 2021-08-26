@@ -54,4 +54,21 @@ public class TypeUtil {
         }
         return object.toString();
     }
+
+    /**
+     * 转布尔型
+     *
+     * @param object
+     * @return
+     */
+    public static boolean getBoolean(Object object) {
+        if (object == null) {
+            return false;
+        }
+        try {
+            return Boolean.parseBoolean(object.toString());
+        } catch (Exception e) {
+            return false;
+        }
+    }
 }
