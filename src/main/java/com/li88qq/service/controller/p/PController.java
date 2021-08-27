@@ -1,11 +1,12 @@
 package com.li88qq.service.controller.p;
 
 import com.google.code.kaptcha.impl.DefaultKaptcha;
+import com.li88qq.service.constant.RedisConst;
 import com.li88qq.service.dto.BaseResponse;
-import com.li88qq.service.dto.SessionCode;
 import com.li88qq.service.request.article.ReadBo;
 import com.li88qq.service.response.GetArticleBySnVo;
 import com.li88qq.service.service.IArticleService;
+import com.li88qq.service.serviceImpl.RedisService;
 import com.li88qq.service.utils.SessionUtil;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -19,8 +20,6 @@ import javax.servlet.http.HttpSession;
 import javax.validation.constraints.NotBlank;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.time.LocalDateTime;
-import java.time.temporal.ChronoUnit;
 
 /**
  * 验证码
@@ -33,6 +32,8 @@ public class PController {
     private DefaultKaptcha defaultKaptcha;
     @Resource
     private IArticleService articleService;
+    @Resource
+    private RedisService redisService;
 
     /**
      * 获取验证码
@@ -48,10 +49,9 @@ public class PController {
 
         //放入session,3分钟有效
         HttpSession session = SessionUtil.getSession(true);
-        SessionCode sessionCode = new SessionCode();
-        sessionCode.setCode(code);
-        sessionCode.setDateTime(LocalDateTime.now().plus(3, ChronoUnit.MINUTES));
-        session.setAttribute("captcha", sessionCode);
+        String sessionId = session.getId();
+        session.setMaxInactiveInterval(Long.valueOf(RedisConst.EXPIRE_CAPTCHA * 60).intValue());
+        redisService.setCaptcha(sessionId, code);
 
         try (ServletOutputStream stream = response.getOutputStream()) {
             ImageIO.write(image, "jpg", stream);

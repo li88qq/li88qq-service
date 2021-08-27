@@ -1,3 +1,9 @@
 img:
   path: d:/data/img
   prefix: /img
+spring:
+  redis:
+    host: 192.168.56.95
+    port: 6379
+    database: 0
+    timeout: 2000

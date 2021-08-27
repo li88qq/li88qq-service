@@ -1,10 +1,17 @@
 package com.li88qq.service.serviceImpl;
 
-import com.alibaba.fastjson.JSON;
+import com.li88qq.service.constant.RedisConst;
+import com.li88qq.service.dto.SessionUser;
+import com.li88qq.service.utils.SessionUtil;
+import com.li88qq.service.utils.TypeUtil;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpSession;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author li88qq
@@ -17,35 +24,89 @@ public class RedisService {
     private RedisTemplate<String, Object> redisTemplate;
 
     /**
-     * 设置值
+     * 设置sessionUser
      *
-     * @param key
-     * @param value
-     * @param expire
+     * @param sessionUser
      */
-    public void set(String key, Object value, long expire) {
-        redisTemplate.opsForValue().set(key, value, expire);
+    public void setSessionUser(SessionUser sessionUser) {
+        HttpSession session = SessionUtil.getSession(true);
+        String key = RedisConst.initKey(RedisConst.KEY_SESSION, session.getId());
+        Map<String, Object> map = new HashMap<>();
+        map.put("uid", sessionUser.getUid());
+        map.put("loginId", sessionUser.getLoginId());
+        map.put("visitor", sessionUser.isVisitor());
+
+        redisTemplate.opsForHash().putAll(key, map);
+        redisTemplate.expire(key, RedisConst.EXPIRE_SESSION, TimeUnit.HOURS);
     }
 
     /**
-     * 取值
+     * 获取用户信息
      *
-     * @param key
-     * @param clazz
-     * @param <T>
      * @return
      */
-    public <T> T get(String key, Class<T> clazz) {
-        Object value = redisTemplate.opsForValue().get(key);
-        T result = null;
-        if (value == null) {
+    public SessionUser getSessionUser(String sessionId) {
+        if (sessionId == null || sessionId.equals("")) {
+            HttpSession session = SessionUtil.getSession(false);
+            if (session == null) {
+                return null;
+            }
+            sessionId = session.getId();
+        }
+        String key = RedisConst.initKey(RedisConst.KEY_SESSION, sessionId);
+        Map<Object, Object> map = redisTemplate.opsForHash().entries(key);
+        if (map.isEmpty()) {
             return null;
         }
-        try {
-            String jsonString = JSON.toJSONString(value);
-            result = JSON.parseObject(jsonString, clazz);
-        } catch (Exception e) {
+        SessionUser sessionUser = new SessionUser();
+        sessionUser.setUid(TypeUtil.getLong(map.get("uid")));
+        sessionUser.setLoginId(TypeUtil.getLong(map.get("loginId")));
+        sessionUser.setVisitor(TypeUtil.getBoolean(map.get("visitor")));
+        return sessionUser;
+    }
+
+    /**
+     * 清除session
+     */
+    public void removeSession() {
+        HttpSession session = SessionUtil.getSession(true);
+        String key = RedisConst.initKey(RedisConst.KEY_SESSION, session.getId());
+        redisTemplate.delete(key);
+    }
+
+    /**
+     * 获取验证吗
+     *
+     * @return
+     */
+    public String getCaptcha(String cookie) {
+        String key = RedisConst.initKey(RedisConst.KEY_CAPTCHA, cookie);
+        Object codeObj = redisTemplate.opsForValue().get(key);
+        if (codeObj == null) {
+            return null;
         }
-        return result;
+        return codeObj.toString();
+    }
+
+    /**
+     * 放置验证吗
+     *
+     * @param cookie
+     * @param code
+     * @return
+     */
+    public void setCaptcha(String cookie, String code) {
+        String key = RedisConst.initKey(RedisConst.KEY_CAPTCHA, cookie);
+        redisTemplate.opsForValue().set(key, code, RedisConst.EXPIRE_CAPTCHA, TimeUnit.MINUTES);
+    }
+
+    /**
+     * 放置验证吗
+     *
+     * @return
+     */
+    public void removeCaptcha(String cookie) {
+        String key = RedisConst.initKey(RedisConst.KEY_CAPTCHA, cookie);
+        redisTemplate.delete(key);
     }
 }
