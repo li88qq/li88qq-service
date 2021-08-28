@@ -13,6 +13,9 @@ import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
 import javax.validation.Valid;
 
+/**
+ * 个人管理
+ */
 @RestController
 @RequestMapping("/my")
 public class MyController {
@@ -20,6 +23,11 @@ public class MyController {
     @Resource
     private IMyService myService;
 
+    /**
+     * 修改密码
+     * @param bo
+     * @return
+     */
     @PostMapping("/updatePassword")
     @AcLog(acType = ActionType.UPDATE, title = "修改密码")
     public BaseResponse updatePassword(@RequestBody @Valid UpdatePasswordBo bo) {
@@ -38,13 +46,23 @@ public class MyController {
         return myService.updateProfile(bo);
     }
 
+    /**
+     * 查询个人信息
+     *
+     * @return
+     */
     @GetMapping("/profile")
     public GetProfileVo getProfile() {
         return myService.getProfile();
     }
 
+    /**
+     * 查询个人基本信息
+     *
+     * @return
+     */
     @GetMapping("/info")
-    public GetUserInfoVo getInfo(){
+    public GetUserInfoVo getInfo() {
         return myService.getInfo();
     }
 
