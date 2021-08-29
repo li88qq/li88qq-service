@@ -6,6 +6,7 @@ import com.li88qq.service.dto.BaseResponse;
 import com.li88qq.service.request.article.ReadBo;
 import com.li88qq.service.response.GetArticleBySnVo;
 import com.li88qq.service.service.IArticleService;
+import com.li88qq.service.service.IGService;
 import com.li88qq.service.serviceImpl.RedisService;
 import com.li88qq.service.utils.SessionUtil;
 import org.springframework.stereotype.Controller;
@@ -20,6 +21,8 @@ import javax.servlet.http.HttpSession;
 import javax.validation.constraints.NotBlank;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.List;
+import java.util.Map;
 
 /**
  * 验证码
@@ -34,6 +37,8 @@ public class PController {
     private IArticleService articleService;
     @Resource
     private RedisService redisService;
+    @Resource
+    private IGService gService;
 
     /**
      * 获取验证码
@@ -93,5 +98,17 @@ public class PController {
     @PostMapping("/readArticle")
     public BaseResponse read(@RequestBody ReadBo bo) {
         return articleService.read(bo);
+    }
+
+    /**
+     * 查询列表
+     *
+     * @param q
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping("/g")
+    public List<Map<String, Object>> g(@RequestParam("q") String q) {
+        return gService.g(q);
     }
 }
