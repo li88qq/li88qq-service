@@ -6,6 +6,9 @@
 
 配合 [service-web](https://github.com/li88qq/service-web) 使用.
 
+线上demo地址: 
+[https://www.li88qq.com](https://www.li88qq.com).
+
 ### 2. 开发相关
 1. 整体框架:Springboot 2.5.0
 2. 数据库:mysql 8.0
