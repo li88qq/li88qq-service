@@ -15,3 +15,8 @@
 1. 常用开发辅助工具.包括json转换,时间戳转换,二维码显示,自定义导航等.
 2. 笔记.使用markdown记录文章.
 3. 登录记录和操作记录查询管理.
+
+### 4. 开发阶段配置
+1. application.yml 启用配置为:dev.
+2. hikari.xml中配置mysql数据源.
+3. application-dev.yml中配置redis数据源.
