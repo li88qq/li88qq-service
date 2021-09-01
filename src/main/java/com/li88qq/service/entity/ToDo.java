@@ -20,7 +20,7 @@ public class ToDo {
     private String content;//内容
     private Integer state = 0;//状态,0-新建,1-已完成,
     private Long finishDate = 0L;//完成时间
-    private Integer level = 0;//重要级别,倒序,
+    private Integer sort = 0;//排序,重要级别,倒序,
     private Long beginDate = 0L;//计划开始时间
     private Long endDate = 0L;//计划结束时间
 
@@ -84,12 +84,12 @@ public class ToDo {
         this.finishDate = finishDate;
     }
 
-    public Integer getLevel() {
-        return level;
+    public Integer getSort() {
+        return sort;
     }
 
-    public void setLevel(Integer level) {
-        this.level = level;
+    public void setSort(Integer sort) {
+        this.sort = sort;
     }
 
     public Long getBeginDate() {
