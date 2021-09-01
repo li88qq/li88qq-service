@@ -133,4 +133,33 @@ create table NavigationType(
     primary key(id)
 )   comment '导航分类';
 
+-- todo标签
+create table ToDoLabel(
+    id bigint not null auto_increment comment '主键',
+    uid bigint not null default 0 comment '用户id',
+    name varchar(20) comment '名称',
+    sort int not null default 0 comment '排序',
+    deleteState int not null default 0 comment '删除标志,0-正常,1-删除',
+    createDate bigint not null default 0 comment '创建时间',
+    updateDate bigint not null default 0 comment '更新时间',
+    primary key(id)
+)   comment 'todo标签';
+
+-- todo表
+create table ToDo(
+    id bigint not null auto_increment comment '主键',
+    uid bigint not null default 0 comment '用户id',
+    labelId bigint not null default 0 comment '标签id',
+    content varchar(255) comment '内容',
+    state int not null default 0 comment '状态,0-新建,1-已完成',
+    sort int not null default 0 comment '排序,重要级别,倒序,',
+    beginDate bigint not null default 0 comment '创建时间',
+    endDate bigint not null default 0 comment '计划结束时间',
+    finishDate bigint not null default 0 comment '完成时间',
+    createDate bigint not null default 0 comment '创建时间',
+    updateDate bigint not null default 0 comment '更新时间',
+    primary key(id)
+)   comment 'todo表';
+
+
 
