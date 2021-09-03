@@ -11,6 +11,7 @@ import com.li88qq.service.response.GetTodoVo;
 import com.li88qq.service.response.ToDoLabelVo;
 import com.li88qq.service.response.ToDoVo;
 import com.li88qq.service.service.IToDoService;
+import org.fastquery.page.Page;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -35,7 +36,7 @@ public class ToDoController {
      * @param labels
      * @return
      */
-    @PostMapping("/saveLabel")
+    @PostMapping("/saveLabels")
     @AcLog(acType = ActionType.SAVE, title = "新增todo标签", detail = "labels")
     public BaseResponse saveLabels(@RequestBody List<String> labels) {
         return toDoService.saveLabels(labels);
@@ -129,7 +130,7 @@ public class ToDoController {
      * @return
      */
     @GetMapping("/list")
-    public List<ToDoVo> getList(@RequestParam Long labelId) {
+    public List<ToDoVo> getList(@RequestParam(required = false) Long labelId) {
         return toDoService.getList(labelId);
     }
 
@@ -140,7 +141,7 @@ public class ToDoController {
      * @return
      */
     @GetMapping("/page")
-    public List<ToDoVo> getPage(GetToDoPageBo bo) {
+    public Page<ToDoVo> getPage(GetToDoPageBo bo) {
         return toDoService.getPage(bo);
     }
 }

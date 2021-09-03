@@ -8,6 +8,7 @@ import com.li88qq.service.request.todo.UpdateTodoBo;
 import com.li88qq.service.response.GetTodoVo;
 import com.li88qq.service.response.ToDoLabelVo;
 import com.li88qq.service.response.ToDoVo;
+import org.fastquery.page.Page;
 
 import java.util.List;
 
@@ -67,5 +68,5 @@ public interface IToDoService {
     /**
      * 分页查询todo列表
      */
-    List<ToDoVo> getPage(GetToDoPageBo bo);
+    Page<ToDoVo> getPage(GetToDoPageBo bo);
 }
