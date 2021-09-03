@@ -10,7 +10,7 @@ import org.fastquery.core.Table;
  * @author li88qq
  * @version 1.0 2021/8/31 23:33
  */
-@Table(value = "Todo")
+@Table(value = "ToDo")
 public class ToDo {
 
     @Id
