@@ -46,4 +46,22 @@ public class Utf8Util {
     public static String charToHex(char c) {
         return Integer.toHexString(c);
     }
+
+    /**
+     * 获取所有utf8汉字
+     *
+     * @return
+     */
+    public static String getWords() {
+        int begin = 0X4E00;
+        int end = 0x9fa5;
+        String character = null;
+        StringBuilder sb = new StringBuilder();
+        for (int i = begin; i <= end; i++) {
+            character = String.valueOf((char) i);
+
+            sb.append(character);
+        }
+        return sb.toString();
+    }
 }
