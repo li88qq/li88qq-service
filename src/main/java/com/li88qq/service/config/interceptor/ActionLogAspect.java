@@ -41,15 +41,11 @@ public class ActionLogAspect {
     public void after(JoinPoint joinPoint, AcLog acLog) {
         //处理数据内容
         String detail = acLog.detail();
+        String _detail = "";
         if (detail != null && !detail.equals("")) {
-            Object[] args = joinPoint.getArgs();
-            try {
-                detail = handleDetail(joinPoint, detail, args);
-                if (detail.length() > 255) {
-                    detail = detail.substring(0, 255);
-                }
-            } catch (Exception e) {
-                detail = "";
+            Map<String, Object> paramMap = handleParams(joinPoint);
+            if (!paramMap.isEmpty()) {
+                _detail = handleDetail(paramMap, detail);
             }
         }
 
@@ -58,17 +54,32 @@ public class ActionLogAspect {
         actionLog.setIp(SessionUtil.getIp());
         actionLog.setAcType(acLog.acType().getType());
         actionLog.setTitle(acLog.title());
-        actionLog.setDetail(detail);
+        actionLog.setDetail(_detail);
         actionLogRepo.save(actionLog);
+    }
+
+    //参数map
+    private Map<String, Object> handleParams(JoinPoint joinPoint) {
+        Map<String, Object> paramMap = new HashMap<>();
+        Object[] args = joinPoint.getArgs();
+        if (args == null || args.length == 0) {
+            return paramMap;
+        }
+        Signature signature = joinPoint.getSignature();
+        MethodSignature methodSignature = (MethodSignature) signature;
+        Method method = methodSignature.getMethod();
+        Parameter[] parameters = method.getParameters();
+        int index = 0;
+        for (Parameter parameter : parameters) {
+            paramMap.put(parameter.getName(), args[index++]);
+        }
+        return paramMap;
     }
 
     //处理日记内容
     //detail格式:bo|id,name;id;
     //格式:多个方法参数使用分号;隔开,每个参数以参数名开头,如果是对象,取其中参数,使用|标志,每个使用逗号隔开
-    private String handleDetail(JoinPoint joinPoint, String detail, Object[] args) {
-        if (args.length == 0) {
-            return "";
-        }
+    private String handleDetail(Map<String, Object> paramMap, String detail) {
         Map<String, String> detailMap = new HashMap<>();
         String[] arr = detail.split(";");
         for (String key : arr) {
@@ -82,51 +93,34 @@ public class ActionLogAspect {
             return "";
         }
 
-        Signature signature = joinPoint.getSignature();
-        MethodSignature methodSignature = (MethodSignature) signature;
-        Method method = methodSignature.getMethod();
-        Parameter[] parameters = method.getParameters();
-        int index = 0;
-
-        String name = null;
+        Object value = null;
         String keys = null;
-        Map<String, Object> logMap = new HashMap<>();
+        String jsonString = null;
         Map<String, Object> tMap = null;
         JSONObject jsonObject = null;
-        Object value = null;
-        String jsonString = null;
-        for (Parameter parameter : parameters) {
-            value = args[index];
+        Map<String, Object> logMap = new HashMap<>();
+        for (String key : detailMap.keySet()) {
+            value = paramMap.get(key);
             if (value == null) {
-                index++;
                 continue;
             }
-            name = parameter.getName();
-            if (detailMap.containsKey(name)) {
-                keys = detailMap.get(name);
-                if (keys == null) {
-                    logMap.put(name, value);
-                    index++;
-                    continue;
-                }
-
-                jsonString = JSON.toJSONString(value);
-                if (!jsonString.startsWith("{")) {
-                    logMap.put(name, value);
-                    index++;
-                    continue;
-                }
-
-                tMap = new HashMap<>();
-                jsonObject = JSON.parseObject(jsonString);
-                for (String k : keys.split(",")) {
-                    tMap.put(k, jsonObject.get(k));
-                }
-                logMap.put(name, tMap);
+            keys = detailMap.get(key);
+            if (keys == null) {//整个对象
+                logMap.put(key, value);
+                continue;
             }
-            index++;
+            jsonString = JSON.toJSONString(value);
+            if (!jsonString.startsWith("{")) {//非对象
+                logMap.put(key, value);
+                continue;
+            }
+            tMap = new HashMap<>();
+            jsonObject = JSON.parseObject(jsonString);
+            for (String k : keys.split(",")) {
+                tMap.put(k, jsonObject.get(k));
+            }
+            logMap.put(key, tMap);
         }
-
         return JSON.toJSONString(logMap);
     }
 }
