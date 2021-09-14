@@ -1,5 +1,6 @@
 package com.li88qq.service.controller;
 
+import com.li88qq.service.constant.AcLogConst;
 import com.li88qq.service.constant.annitions.AcLog;
 import com.li88qq.service.constant.enumeration.ActionType;
 import com.li88qq.service.dto.BaseResponse;
@@ -37,7 +38,7 @@ public class NavController {
      * @return
      */
     @PostMapping("/save")
-    @AcLog(acType = ActionType.SAVE, title = "新增导航")
+    @AcLog(acType = ActionType.SAVE, title = "新增导航", prefix = AcLogConst.NAV)
     public BaseResponse save(@RequestBody List<SaveNavBo> list) {
         return navService.save(list);
     }
@@ -71,7 +72,7 @@ public class NavController {
      * @return
      */
     @PostMapping("/delete")
-    @AcLog(acType = ActionType.DELETE, title = "删除导航", detail = "bo")
+    @AcLog(acType = ActionType.DELETE, title = "删除导航", detail = "bo", prefix = AcLogConst.NAV)
     public BaseResponse delete(@RequestBody IdsBo bo) {
         return navService.delete(bo);
     }
@@ -94,7 +95,7 @@ public class NavController {
      * @return
      */
     @PostMapping("/saveType")
-    @AcLog(acType = ActionType.SAVE, title = "新增导航分类")
+    @AcLog(acType = ActionType.SAVE, title = "新增导航分类", prefix = AcLogConst.NAV)
     public BaseResponse saveType(@RequestBody List<String> types) {
         return navService.saveType(types);
     }
@@ -106,7 +107,7 @@ public class NavController {
      * @return
      */
     @PostMapping("/updateType")
-    @AcLog(acType = ActionType.UPDATE, title = "修改导航分类", detail = "bo")
+    @AcLog(acType = ActionType.UPDATE, title = "修改导航分类", detail = "bo", prefix = AcLogConst.NAV)
     public BaseResponse updateType(@RequestBody UpdateTypeBo bo) {
         return navService.updateType(bo);
     }
@@ -118,7 +119,7 @@ public class NavController {
      * @return
      */
     @PostMapping("/deleteType")
-    @AcLog(acType = ActionType.DELETE, title = "删除导航分类", detail = "bo")
+    @AcLog(acType = ActionType.DELETE, title = "删除导航分类", detail = "bo", prefix = AcLogConst.NAV)
     public BaseResponse deleteType(@RequestBody IdBo bo) {
         return navService.deleteType(bo);
     }

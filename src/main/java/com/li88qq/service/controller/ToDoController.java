@@ -1,5 +1,6 @@
 package com.li88qq.service.controller;
 
+import com.li88qq.service.constant.AcLogConst;
 import com.li88qq.service.constant.annitions.AcLog;
 import com.li88qq.service.constant.enumeration.ActionType;
 import com.li88qq.service.dto.BaseResponse;
@@ -37,7 +38,7 @@ public class ToDoController {
      * @return
      */
     @PostMapping("/saveLabels")
-    @AcLog(acType = ActionType.SAVE, title = "新增todo标签", detail = "labels")
+    @AcLog(acType = ActionType.SAVE, title = "新增todo标签", detail = "labels", prefix = AcLogConst.TODO)
     public BaseResponse saveLabels(@RequestBody List<String> labels) {
         return toDoService.saveLabels(labels);
     }
@@ -59,7 +60,7 @@ public class ToDoController {
      * @return
      */
     @PostMapping("/save")
-    @AcLog(acType = ActionType.SAVE, title = "新增todo", detail = "bo")
+    @AcLog(acType = ActionType.SAVE, title = "新增todo", detail = "bo", prefix = AcLogConst.TODO)
     public BaseResponse save(@RequestBody SaveToDoBo bo) {
         return toDoService.save(bo);
     }
@@ -71,7 +72,7 @@ public class ToDoController {
      * @return
      */
     @PostMapping("/update")
-    @AcLog(acType = ActionType.UPDATE, title = "修改todo", detail = "bo")
+    @AcLog(acType = ActionType.UPDATE, title = "修改todo", detail = "bo", prefix = AcLogConst.TODO)
     public BaseResponse update(@RequestBody UpdateTodoBo bo) {
         return toDoService.update(bo);
     }
@@ -83,7 +84,7 @@ public class ToDoController {
      * @return
      */
     @PostMapping("/finish")
-    @AcLog(acType = ActionType.UPDATE, title = "完成todo", detail = "bo")
+    @AcLog(acType = ActionType.UPDATE, title = "完成todo", detail = "bo", prefix = AcLogConst.TODO)
     public BaseResponse finish(@RequestBody IdBo bo) {
         return toDoService.finish(bo);
     }
@@ -95,7 +96,7 @@ public class ToDoController {
      * @return
      */
     @PostMapping("/revert")
-    @AcLog(acType = ActionType.UPDATE, title = "重新打开todo", detail = "bo")
+    @AcLog(acType = ActionType.UPDATE, title = "重新打开todo", detail = "bo", prefix = AcLogConst.TODO)
     public BaseResponse revert(@RequestBody IdBo bo) {
         return toDoService.revert(bo);
     }
@@ -107,7 +108,7 @@ public class ToDoController {
      * @return
      */
     @PostMapping("/delete")
-    @AcLog(acType = ActionType.DELETE, title = "删除todo", detail = "bo")
+    @AcLog(acType = ActionType.DELETE, title = "删除todo", detail = "bo", prefix = AcLogConst.TODO)
     public BaseResponse delete(@RequestBody IdBo bo) {
         return toDoService.delete(bo);
     }

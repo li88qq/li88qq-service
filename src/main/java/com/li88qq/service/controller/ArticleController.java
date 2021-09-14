@@ -1,5 +1,6 @@
 package com.li88qq.service.controller;
 
+import com.li88qq.service.constant.AcLogConst;
 import com.li88qq.service.constant.annitions.AcLog;
 import com.li88qq.service.constant.enumeration.ActionType;
 import com.li88qq.service.dto.BaseResponse;
@@ -13,7 +14,6 @@ import org.fastquery.page.Page;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
-import javax.validation.constraints.NotBlank;
 
 /**
  * 文章管理
@@ -32,7 +32,7 @@ public class ArticleController {
      * @return
      */
     @PostMapping("/save")
-    @AcLog(acType = ActionType.SAVE, title = "保存文章", detail = "bo|title,labels")
+    @AcLog(acType = ActionType.SAVE, title = "保存文章", detail = "bo|title,labels", prefix = AcLogConst.ARTICLE)
     public BaseResponse save(@RequestBody SaveArticleBo bo) {
         return articleService.saveArticle(bo);
     }
@@ -77,7 +77,7 @@ public class ArticleController {
      * @return
      */
     @PostMapping("/delete")
-    @AcLog(acType = ActionType.DELETE, title = "删除文章", detail = "bo|id")
+    @AcLog(acType = ActionType.DELETE, title = "删除文章", detail = "bo|id", prefix = AcLogConst.ARTICLE)
     public BaseResponse delete(@RequestBody IdBo bo) {
         return articleService.delete(bo);
     }
@@ -89,7 +89,7 @@ public class ArticleController {
      * @return
      */
     @PostMapping("/update")
-    @AcLog(acType = ActionType.UPDATE, title = "修改文章", detail = "bo|id,title,labels")
+    @AcLog(acType = ActionType.UPDATE, title = "修改文章", detail = "bo|id,title,labels", prefix = AcLogConst.ARTICLE)
     public BaseResponse update(@RequestBody UpdateArticleBo bo) {
         return articleService.update(bo);
     }
@@ -101,7 +101,7 @@ public class ArticleController {
      * @return
      */
     @PostMapping("/updateContent")
-    @AcLog(acType = ActionType.UPDATE, title = "修改文章内容", detail = "bo|id")
+    @AcLog(acType = ActionType.UPDATE, title = "修改文章内容", detail = "bo|id", prefix = AcLogConst.ARTICLE)
     public BaseResponse updateContent(@RequestBody UpdateContentBo bo) {
         return articleService.updateContent(bo);
     }
