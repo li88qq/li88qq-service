@@ -48,12 +48,17 @@ public class ActionLogAspect {
                 _detail = handleDetail(paramMap, detail);
             }
         }
+        String title = acLog.title();
+        String prefix = acLog.prefix();
+        if (!prefix.equals("")) {
+            title = String.join("-", prefix, title);
+        }
 
         ActionLog actionLog = new ActionLog();
         actionLog.setUid(SessionUtil.getUid());
         actionLog.setIp(SessionUtil.getIp());
         actionLog.setAcType(acLog.acType().getType());
-        actionLog.setTitle(acLog.title());
+        actionLog.setTitle(title);
         actionLog.setDetail(_detail);
         actionLogRepo.save(actionLog);
     }

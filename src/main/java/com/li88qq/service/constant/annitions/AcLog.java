@@ -25,4 +25,6 @@ public @interface AcLog {
     String title();//标题
 
     String detail() default "";//详情,格式:参数名|参数,参数;参数名称; 如:bo|id,name;id;
+
+    String prefix() default "";//前缀
 }
