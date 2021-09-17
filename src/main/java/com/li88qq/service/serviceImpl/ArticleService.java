@@ -82,6 +82,12 @@ public class ArticleService implements IArticleService {
         return ResponseUtil.ok();
     }
 
+    /**
+     * 分页查询文章
+     *
+     * @param bo
+     * @return
+     */
     @Override
     public Page<GetArticlePageVo> getArticlePage(GetArticlePageBo bo) {
         String title = bo.getTitle();
@@ -166,6 +172,12 @@ public class ArticleService implements IArticleService {
         article_labelRepo.save(false, article_labels);
     }
 
+    /**
+     * 查询所有公开文章
+     *
+     * @param bo
+     * @return
+     */
     @Override
     public Page<GetAllPageVo> getAllPage(GetAllPageBo bo) {
         String title = bo.getTitle();
@@ -195,6 +207,12 @@ public class ArticleService implements IArticleService {
         return pageData.convert(GetAllPageVo.class);
     }
 
+    /**
+     * 根据id查询文章
+     *
+     * @param id
+     * @return
+     */
     @Override
     public GetArticleVo getArticle(Long id) {
         Long uid = SessionUtil.getUid();

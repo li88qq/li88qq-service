@@ -20,6 +20,9 @@ import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
 
+/**
+ * 登录服务
+ */
 @Service
 public class LoginService implements ILoginService {
     @Resource
@@ -29,6 +32,12 @@ public class LoginService implements ILoginService {
     @Resource
     private RedisService redisService;
 
+    /**
+     * 登录
+     *
+     * @param bo
+     * @return
+     */
     @Override
     public BaseResponse login(LoginBo bo) {
         BaseResponse checkCode = checkCode(bo);
@@ -85,6 +94,11 @@ public class LoginService implements ILoginService {
         return ResponseUtil.okMsg("登录成功");
     }
 
+    /**
+     * 登出
+     *
+     * @return
+     */
     @Override
     public BaseResponse logout() {
         // 更新登录记录的登出时间

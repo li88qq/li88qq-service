@@ -56,6 +56,12 @@ public class LogService implements ILogService {
         return pageData.convert(GetLoginPageVo.class);
     }
 
+    /**
+     * 分页查询操作记录
+     *
+     * @param bo
+     * @return
+     */
     @Override
     public Page<GetActionPageVo> getActionPage(GetActionPageBo bo) {
         String title = bo.getTitle();
@@ -72,7 +78,7 @@ public class LogService implements ILogService {
 
         Long uid = SessionUtil.getUid();
         Pageable pageable = new PageableImpl(bo.getPage(), bo.getSize());
-        Page<Map<String, Object>> pageData = actionLogRepo.getPage(uid, bo.getAcType(), title,detail, beginDateLong, endDateLong, ip, pageable);
+        Page<Map<String, Object>> pageData = actionLogRepo.getPage(uid, bo.getAcType(), title, detail, beginDateLong, endDateLong, ip, pageable);
 
         return pageData.convert(GetActionPageVo.class);
     }

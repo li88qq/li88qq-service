@@ -19,6 +19,9 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 
+/**
+ * 个人信息服务
+ */
 @Service
 public class MyService implements IMyService {
 

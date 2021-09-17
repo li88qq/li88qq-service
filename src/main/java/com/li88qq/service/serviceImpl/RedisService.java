@@ -14,6 +14,8 @@ import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 /**
+ * redis服务
+ *
  * @author li88qq
  * @version 1.0 2021/8/24 23:44
  */
