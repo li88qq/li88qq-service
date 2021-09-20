@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 
 /**
  * 日期工具类
@@ -20,6 +21,12 @@ public class DateUtil {
         return getTimestamp(LocalDateTime.now());
     }
 
+    /**
+     * 获取时间戳
+     *
+     * @param localDate
+     * @return
+     */
     public static long getTimestamp(LocalDate localDate) {
         if (localDate == null) {
             return 0L;
@@ -27,6 +34,12 @@ public class DateUtil {
         return getTimestamp(localDate.atTime(LocalTime.MIN));
     }
 
+    /**
+     * 获取时间戳
+     *
+     * @param dateTime
+     * @return
+     */
     public static long getTimestamp(LocalDateTime dateTime) {
         if (dateTime == null) {
             return 0L;
@@ -71,4 +84,30 @@ public class DateUtil {
         return getTimestamp(localDate.atTime(localTime));
     }
 
+    /**
+     * 时间戳转日期
+     *
+     * @param timestamp
+     * @return
+     */
+    public static LocalDateTime fromTimestamp(Long timestamp) {
+        if (timestamp == null || timestamp <= 0) {
+            return null;
+        }
+        return LocalDateTime.ofEpochSecond(timestamp, 0, ZoneOffset.of("+8"));
+    }
+
+    /**
+     * 获取日期相隔天数
+     *
+     * @param begin
+     * @param end
+     * @return
+     */
+    public static long getBetweenDays(LocalDateTime begin, LocalDateTime end) {
+        if (begin == null || end == null) {
+            return 0L;
+        }
+        return begin.until(end, ChronoUnit.DAYS);
+    }
 }
