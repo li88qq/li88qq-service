@@ -1,6 +1,7 @@
 package com.li88qq.service.utils;
 
-import java.math.BigInteger;
+import org.bouncycastle.util.encoders.Hex;
+
 import java.security.MessageDigest;
 
 /**
@@ -12,9 +13,12 @@ import java.security.MessageDigest;
 public class EncryptUtil {
     //1.MD5(Message Digest Algorithm):信息摘要算法
     //1.1.分类
+    //  MD5:128位
+    //  SHA:安全散列,SHA-1,SHA-256
     //1.2.特点:单向加密
     //1.3.原理:
     //1.4.用途
+
 
     /**
      * md5加密
@@ -39,9 +43,39 @@ public class EncryptUtil {
      * @return
      */
     public static String byteToHex(byte[] digest) {
-        //原理:BigInteger函数则将8位的字符串转换成16位hex值，用字符串来表示；得到字符串形式的hash值
-        BigInteger result = new BigInteger(digest);
-        return result.toString(16);
+        return Hex.toHexString(digest);
+    }
+
+    /**
+     * sha-1加密
+     *
+     * @param data 待加密数据
+     * @return
+     */
+    public static String sha1(String data) {
+        try {
+            MessageDigest md5 = MessageDigest.getInstance("SHA-1");
+            byte[] digest = md5.digest(data.getBytes());
+            return byteToHex(digest);
+        } catch (Exception e) {
+            return "";
+        }
+    }
+
+    /**
+     * sha-256加密
+     *
+     * @param data 待加密数据
+     * @return
+     */
+    public static String sha256(String data) {
+        try {
+            MessageDigest md5 = MessageDigest.getInstance("SHA-256");
+            byte[] digest = md5.digest(data.getBytes());
+            return byteToHex(digest);
+        } catch (Exception e) {
+            return "";
+        }
     }
 
 }
