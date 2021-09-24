@@ -45,12 +45,22 @@ public class ControllerAdvice {
         return ResponseUtil.response(ResponseState.PARAMS.getCode(), msg, null);
     }
 
+    /**
+     * 未识别的异常处理
+     *
+     * @param e
+     * @return
+     */
     @ExceptionHandler(value = Exception.class)
     public BaseResponse handleException(Exception e) {
+        String msg = e.getMessage();
+        if (msg != null && msg.length() > 255) {
+            msg = msg.substring(0, 255);
+        }
 
         ErrorLog errorLog = new ErrorLog();
         errorLog.setExName(e.getClass().getName());
-        errorLog.setMsg(e.getMessage());
+        errorLog.setMsg(msg);
         Long uid = errorLog.getUid();
         if (uid != null) {
             errorLog.setUid(uid);
