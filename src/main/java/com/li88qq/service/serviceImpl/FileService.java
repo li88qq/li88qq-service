@@ -32,11 +32,11 @@ public class FileService implements IFileService {
     @Override
     public String saveImage(MultipartFile file, String tag) {
         String fileUrl = FileUtil.saveFile(file, imgPath, tag);
-        String protocol = "http";
+        String protocol = "http://";
         String host = "localhost";
         // 自己配置正式环境
         if (profile.equals("prod")) {
-            protocol = "https";
+            protocol = "https://";
             host = "www.xxxx.com";
         }
         return String.join("", protocol, host, imgPrefix, fileUrl);
