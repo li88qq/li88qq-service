@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 /**
@@ -24,6 +25,8 @@ public class ControllerAdvice {
 
     @Resource
     private ErrorLogRepo errorLogRepo;
+    @Resource
+    private HttpServletRequest request;
 
     //BindException 使用@Valid校验的参数
     //HttpMessageNotReadableException @RequestBody,如果该对象参数所有字段都不传
@@ -58,9 +61,12 @@ public class ControllerAdvice {
             msg = msg.substring(0, 255);
         }
 
+        String requestURI = request.getRequestURI();
+
         ErrorLog errorLog = new ErrorLog();
         errorLog.setExName(e.getClass().getName());
         errorLog.setMsg(msg);
+        errorLog.setRequestUri(requestURI);
         Long uid = errorLog.getUid();
         if (uid != null) {
             errorLog.setUid(uid);

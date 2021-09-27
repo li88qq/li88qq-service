@@ -101,6 +101,7 @@ create table ActionLog(
 -- 异常记录
 create table ErrorLog(
     id bigint not null auto_increment comment '主键',
+    requestUri varchar(100) comment '请求接口',
     exName varchar(100) comment '异常类型',
     msg varchar(255) comment '错误信息',
     uid bigint not null default 0 comment '用户id',

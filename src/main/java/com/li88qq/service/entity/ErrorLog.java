@@ -13,6 +13,7 @@ public class ErrorLog {
 
     @Id
     private Long id;
+    private String requestUri;
     private String exName;
     private String msg;
     private Long uid = 0L;
@@ -65,5 +66,13 @@ public class ErrorLog {
 
     public void setIp(String ip) {
         this.ip = ip;
+    }
+
+    public String getRequestUri() {
+        return requestUri;
+    }
+
+    public void setRequestUri(String requestUri) {
+        this.requestUri = requestUri;
     }
 }
