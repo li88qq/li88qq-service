@@ -4,9 +4,11 @@ import com.google.code.kaptcha.impl.DefaultKaptcha;
 import com.li88qq.service.constant.RedisConst;
 import com.li88qq.service.dto.BaseResponse;
 import com.li88qq.service.request.article.ReadBo;
+import com.li88qq.service.request.sms.SmsCodeBo;
 import com.li88qq.service.response.GetArticleBySnVo;
 import com.li88qq.service.service.IArticleService;
 import com.li88qq.service.service.IGService;
+import com.li88qq.service.service.ISmsService;
 import com.li88qq.service.serviceImpl.RedisService;
 import com.li88qq.service.utils.SessionUtil;
 import org.springframework.stereotype.Controller;
@@ -39,6 +41,8 @@ public class PController {
     private RedisService redisService;
     @Resource
     private IGService gService;
+    @Resource
+    private ISmsService smsService;
 
     /**
      * 获取验证码
@@ -110,5 +114,17 @@ public class PController {
     @RequestMapping("/g")
     public List<Map<String, Object>> g(@RequestParam("q") String q) {
         return gService.g(q);
+    }
+
+    /**
+     * 发送短信验证码
+     *
+     * @param bo
+     * @return
+     */
+    @ResponseBody
+    @PostMapping("/smsCode")
+    public BaseResponse smsCode(@RequestBody SmsCodeBo bo) {
+        return smsService.sendSmsCode(bo);
     }
 }
