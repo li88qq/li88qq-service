@@ -77,7 +77,7 @@ public class RedisService {
     }
 
     /**
-     * 获取验证吗
+     * 获取验证码
      *
      * @return
      */
@@ -91,7 +91,7 @@ public class RedisService {
     }
 
     /**
-     * 放置验证吗
+     * 设置验证码
      *
      * @param cookie
      * @param code
@@ -103,12 +103,49 @@ public class RedisService {
     }
 
     /**
-     * 放置验证吗
+     * 移除验证码
      *
      * @return
      */
     public void removeCaptcha(String cookie) {
         String key = RedisConst.initKey(RedisConst.KEY_CAPTCHA, cookie);
+        redisTemplate.delete(key);
+    }
+
+    /**
+     * 获取短信验证码
+     *
+     * @return
+     */
+    public String getSmsCode(String mobile) {
+        String key = RedisConst.initKey(RedisConst.KEY_SMS, mobile);
+        Object codeObj = redisTemplate.opsForValue().get(key);
+        if (codeObj == null) {
+            return null;
+        }
+        return codeObj.toString();
+    }
+
+    /**
+     * 设置短信验证吗
+     *
+     * @param mobile
+     * @param code
+     * @return
+     */
+    public void setSmsCode(String mobile, String code) {
+        String key = RedisConst.initKey(RedisConst.KEY_SMS, mobile);
+        redisTemplate.opsForValue().set(key, code, RedisConst.EXPIRE_SMS, TimeUnit.MINUTES);
+    }
+
+    /**
+     * 移除短信验证吗
+     *
+     * @param mobile
+     * @return
+     */
+    public void removeSmsCode(String mobile) {
+        String key = RedisConst.initKey(RedisConst.KEY_SMS, mobile);
         redisTemplate.delete(key);
     }
 }

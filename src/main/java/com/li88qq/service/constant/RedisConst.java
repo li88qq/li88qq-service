@@ -14,6 +14,9 @@ public class RedisConst {
     public static final String KEY_CAPTCHA = "CAPTCHA";//验证码key
     public static final long EXPIRE_CAPTCHA = 3;//验证码有效期,单位:分钟
 
+    public static final String KEY_SMS = "SMS";//短信验证码
+    public static final long EXPIRE_SMS = 5;//有效期,单位:分钟
+
     public static final String SEP = "-";
 
     /**
