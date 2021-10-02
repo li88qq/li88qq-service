@@ -7,6 +7,7 @@ import com.li88qq.service.request.sms.SmsCodeBo;
 import com.li88qq.service.service.ISmsService;
 import com.li88qq.service.utils.ResponseUtil;
 import com.li88qq.service.utils.SmsUtil;
+import com.li88qq.service.utils.StringUtil;
 
 import javax.annotation.Resource;
 import java.util.HashMap;
@@ -45,7 +46,7 @@ public class SmsService implements ISmsService {
             return ResponseUtil.error("验证码已发送,请不要多次请求!");
         }
         //生成6位数验证码,发送验证码,保存到redis
-        code = "";
+        code = StringUtil.randomNumberCode(6);
         Map<String, Object> map = new HashMap<>();
         map.put("code", code);
         try {
