@@ -17,6 +17,9 @@ public class LoginBo {
     private String code;
     private Integer loginType;
 
+    private String mobile;//手机号码
+    private String smsCode;//短语验证码
+
     public String getUsername() {
         return username;
     }
@@ -39,5 +42,29 @@ public class LoginBo {
 
     public void setCode(String code) {
         this.code = code;
+    }
+
+    public Integer getLoginType() {
+        return loginType;
+    }
+
+    public void setLoginType(Integer loginType) {
+        this.loginType = loginType;
+    }
+
+    public String getMobile() {
+        return mobile;
+    }
+
+    public void setMobile(String mobile) {
+        this.mobile = mobile;
+    }
+
+    public String getSmsCode() {
+        return smsCode;
+    }
+
+    public void setSmsCode(String smsCode) {
+        this.smsCode = smsCode;
     }
 }
