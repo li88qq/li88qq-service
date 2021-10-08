@@ -8,6 +8,7 @@ import com.li88qq.service.service.ISmsService;
 import com.li88qq.service.utils.ResponseUtil;
 import com.li88qq.service.utils.SmsUtil;
 import com.li88qq.service.utils.StringUtil;
+import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.HashMap;
@@ -19,6 +20,7 @@ import java.util.Map;
  * @author li88qq
  * @version 1.0 2021/10/1 23:26
  */
+@Service
 public class SmsService implements ISmsService {
 
     @Resource

@@ -23,5 +23,5 @@ public interface UserRepo extends QueryRepository {
      * @return
      */
     @Query("select * from User where mobile = :mobile")
-    User findByMobile(@Param("mobild") String mobile);
+    User findByMobile(@Param("mobile") String mobile);
 }
