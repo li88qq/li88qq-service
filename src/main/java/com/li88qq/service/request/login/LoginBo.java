@@ -1,4 +1,4 @@
-package com.li88qq.service.request;
+package com.li88qq.service.request.login;
 
 import com.li88qq.service.constant.annitions.Password;
 
@@ -15,10 +15,6 @@ public class LoginBo {
     @NotBlank(message = "请输入验证码")
     @Size(min = 4, max = 4, message = "请输入正确的验证码")
     private String code;
-    private Integer loginType;
-
-    private String mobile;//手机号码
-    private String smsCode;//短语验证码
 
     public String getUsername() {
         return username;
@@ -42,29 +38,5 @@ public class LoginBo {
 
     public void setCode(String code) {
         this.code = code;
-    }
-
-    public Integer getLoginType() {
-        return loginType;
-    }
-
-    public void setLoginType(Integer loginType) {
-        this.loginType = loginType;
-    }
-
-    public String getMobile() {
-        return mobile;
-    }
-
-    public void setMobile(String mobile) {
-        this.mobile = mobile;
-    }
-
-    public String getSmsCode() {
-        return smsCode;
-    }
-
-    public void setSmsCode(String smsCode) {
-        this.smsCode = smsCode;
     }
 }

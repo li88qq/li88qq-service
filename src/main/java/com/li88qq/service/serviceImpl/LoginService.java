@@ -8,7 +8,8 @@ import com.li88qq.service.entity.LoginLog;
 import com.li88qq.service.entity.User;
 import com.li88qq.service.repo.LoginLogRepo;
 import com.li88qq.service.repo.UserRepo;
-import com.li88qq.service.request.LoginBo;
+import com.li88qq.service.request.login.LoginBo;
+import com.li88qq.service.request.login.LoginMobileBo;
 import com.li88qq.service.service.ILoginService;
 import com.li88qq.service.utils.DateUtil;
 import com.li88qq.service.utils.PasswordUtil;
@@ -69,27 +70,8 @@ public class LoginService implements ILoginService {
             return ResponseUtil.error("用户名或密码错误");
         }
 
-        //保存登录记录
-        loginLog = new LoginLog(userId, LoginState.SUCCESS.getState(), "", loginType, ip);
-        Long loginId = loginLogRepo.saveToId(loginLog).longValue();
-
-        //修改用户登录信息
-        User updateUser = FQuery.reset(User.class);
-        updateUser.setId(userId);
-        updateUser.setLastLoginDate(user.getLoginDate());//上次登录时间
-        updateUser.setLastLoginIp(user.getLoginIp());//上次登录ip
-        updateUser.setLoginDate(DateUtil.getTimestamp());
-        updateUser.setLoginIp(ip);
-        userRepo.executeUpdate(updateUser);
-
-        //设置session
-        SessionUser sessionUser = new SessionUser();
-        sessionUser.setUid(userId);
-        sessionUser.setVisitor(username.equals("test"));
-        sessionUser.setLoginId(loginId);
-        redisService.setSessionUser(sessionUser);
-
-        SessionUtil.setAttribute("user", sessionUser);
+        //登录成功处理
+        handleLogin(user, loginType, ip);
 
         return ResponseUtil.okMsg("登录成功");
     }
@@ -130,6 +112,59 @@ public class LoginService implements ILoginService {
         }
 
         redisService.removeCaptcha(sessionId);
+        return ResponseUtil.ok();
+    }
+
+    //登录成功后统一处理
+    private void handleLogin(User user, Integer loginType, String ip) {
+        //保存登录记录
+        Long userId = user.getId();
+        String username = user.getUsername();
+
+        LoginLog loginLog = new LoginLog(userId, LoginState.SUCCESS.getState(), "", loginType, ip);
+        Long loginId = loginLogRepo.saveToId(loginLog).longValue();
+
+        //修改用户登录信息
+        User updateUser = FQuery.reset(User.class);
+        updateUser.setId(userId);
+        updateUser.setLastLoginDate(user.getLoginDate());//上次登录时间
+        updateUser.setLastLoginIp(user.getLoginIp());//上次登录ip
+        updateUser.setLoginDate(DateUtil.getTimestamp());
+        updateUser.setLoginIp(ip);
+        userRepo.executeUpdate(updateUser);
+
+        //设置session
+        SessionUser sessionUser = new SessionUser();
+        sessionUser.setUid(userId);
+        sessionUser.setVisitor(username.equals("test"));
+        sessionUser.setLoginId(loginId);
+        redisService.setSessionUser(sessionUser);
+
+        SessionUtil.setAttribute("user", sessionUser);
+    }
+
+    /**
+     * 手机号码登录
+     *
+     * @param bo
+     * @return
+     */
+    @Override
+    public BaseResponse loginMobile(LoginMobileBo bo) {
+        String mobile = bo.getMobile();
+        String smsCode = bo.getSmsCode();
+        if (!mobile.equals("12345678901")) {
+            return ResponseUtil.error("该手机号码未注册");
+        }
+        if (!smsCode.equals("123456")) {
+            return ResponseUtil.error("短信验证码错误");
+        }
+        User user = userRepo.findByMobile(mobile);
+        if (user == null) {
+            return ResponseUtil.error("该手机号码未注册");
+        }
+        String ip = SessionUtil.getIp();
+        handleLogin(user, LoginType.MOBILE.getType(), ip);
         return ResponseUtil.ok();
     }
 
