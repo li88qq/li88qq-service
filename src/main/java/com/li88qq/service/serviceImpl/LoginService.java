@@ -153,16 +153,20 @@ public class LoginService implements ILoginService {
     public BaseResponse loginMobile(LoginMobileBo bo) {
         String mobile = bo.getMobile();
         String smsCode = bo.getSmsCode();
-        if (!mobile.equals("12345678901")) {
-            return ResponseUtil.error("该手机号码未注册");
-        }
-        if (!smsCode.equals("123456")) {
-            return ResponseUtil.error("短信验证码错误");
-        }
         User user = userRepo.findByMobile(mobile);
         if (user == null) {
             return ResponseUtil.error("该手机号码未注册");
         }
+        String _smsCode = redisService.getSmsCode(mobile);
+        if (_smsCode == null) {
+            return ResponseUtil.error("短信验证码已过期,请重新获取");
+        }
+        if (!smsCode.equals(_smsCode)) {
+            return ResponseUtil.error("短信验证码错误");
+        }
+
+        redisService.removeSmsCode(mobile);
+
         String ip = SessionUtil.getIp();
         handleLogin(user, LoginType.MOBILE.getType(), ip);
         return ResponseUtil.ok();
