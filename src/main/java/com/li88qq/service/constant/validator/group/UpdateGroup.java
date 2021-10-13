@@ -1,4 +1,4 @@
-package com.li88qq.service.constant.annitions.validatorgroup;
+package com.li88qq.service.constant.validator.group;
 
 /**
  * 校验分组-修改

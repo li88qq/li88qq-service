@@ -1,6 +1,6 @@
-package com.li88qq.service.constant.annitions;
+package com.li88qq.service.constant.validator.annitions;
 
-import com.li88qq.service.constant.annitions.validator.EmailValidator;
+import com.li88qq.service.constant.validator.constraint.EmailValidator;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;

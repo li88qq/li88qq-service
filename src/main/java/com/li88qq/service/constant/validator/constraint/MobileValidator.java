@@ -1,6 +1,6 @@
-package com.li88qq.service.constant.annitions.validator;
+package com.li88qq.service.constant.validator.constraint;
 
-import com.li88qq.service.constant.annitions.Mobile;
+import com.li88qq.service.constant.validator.annitions.Mobile;
 import com.li88qq.service.utils.RegexUtil;
 
 import javax.validation.ConstraintValidator;

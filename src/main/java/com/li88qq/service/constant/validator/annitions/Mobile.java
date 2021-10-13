@@ -1,6 +1,6 @@
-package com.li88qq.service.constant.annitions;
+package com.li88qq.service.constant.validator.annitions;
 
-import com.li88qq.service.constant.annitions.validator.PasswordValidator;
+import com.li88qq.service.constant.validator.constraint.MobileValidator;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;
@@ -11,10 +11,10 @@ import java.lang.annotation.Target;
 
 @Target({ElementType.PARAMETER, ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
-@Constraint(validatedBy = PasswordValidator.class)
-public @interface Password {
+@Constraint(validatedBy = MobileValidator.class)
+public @interface Mobile {
 
-    String message() default "密码格式错误";
+    String message() default "手机号码格式错误";
 
     boolean require() default false;
 

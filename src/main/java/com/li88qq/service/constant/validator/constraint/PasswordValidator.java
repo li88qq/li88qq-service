@@ -1,6 +1,6 @@
-package com.li88qq.service.constant.annitions.validator;
+package com.li88qq.service.constant.validator.constraint;
 
-import com.li88qq.service.constant.annitions.Password;
+import com.li88qq.service.constant.validator.annitions.Password;
 import com.li88qq.service.utils.ValidatorUtil;
 
 import javax.validation.ConstraintValidator;
