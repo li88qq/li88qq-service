@@ -1,6 +1,6 @@
 package com.li88qq.service.request.my;
 
-import com.li88qq.service.constant.annitions.Password;
+import com.li88qq.service.constant.validator.annitions.Password;
 
 import javax.validation.constraints.NotBlank;
 

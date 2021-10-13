@@ -1,7 +1,7 @@
 package com.li88qq.service.request.my;
 
-import com.li88qq.service.constant.annitions.Email;
-import com.li88qq.service.constant.annitions.Mobile;
+import com.li88qq.service.constant.validator.annitions.Email;
+import com.li88qq.service.constant.validator.annitions.Mobile;
 
 /**
  * 修改个人信息

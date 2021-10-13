@@ -1,6 +1,6 @@
 package com.li88qq.service.request.sms;
 
-import com.li88qq.service.constant.annitions.Mobile;
+import com.li88qq.service.constant.validator.annitions.Mobile;
 
 /**
  * 发送短信验证码

@@ -1,6 +1,6 @@
 package com.li88qq.service.request.login;
 
-import com.li88qq.service.constant.annitions.Mobile;
+import com.li88qq.service.constant.validator.annitions.Mobile;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
