@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+/**
+ * 字符串工具类
+ */
 public class StringUtil {
 
     /**
@@ -22,8 +25,8 @@ public class StringUtil {
     /**
      * like处理
      *
-     * @param value
-     * @return
+     * @param value 查询语句
+     * @return %value%
      */
     public static String like(String value) {
         value = trim(value);

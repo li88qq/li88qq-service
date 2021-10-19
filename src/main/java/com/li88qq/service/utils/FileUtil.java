@@ -6,19 +6,29 @@ import java.io.*;
 import java.time.LocalDateTime;
 
 /**
+ * 文件工具类
+ *
  * @author li88qq
  * @version 1.0 2021/8/6 23:26
  */
 public class FileUtil {
 
-    private static final String PATH_SEP = "/";
+    private static final String PATH_SEP = "/";//路径分隔符
 
+    /**
+     * 保存文件
+     *
+     * @param file     上传的文件
+     * @param rootPath 保存目录
+     * @param tag      文件标签
+     * @return
+     */
     public static String saveFile(MultipartFile file, String rootPath, String tag) {
         String originalFilename = file.getOriginalFilename();
         int index = originalFilename.lastIndexOf(".");
         String fileType = originalFilename.substring(index);
         String filePath = buildPath(tag, fileType);
-        File saveFile = new File(String.join("/", rootPath, filePath));
+        File saveFile = new File(String.join(PATH_SEP, rootPath, filePath));
         File parentFile = saveFile.getParentFile();
         if (!parentFile.exists()) {
             parentFile.mkdirs();
@@ -48,6 +58,11 @@ public class FileUtil {
         return sb.toString();
     }
 
+    /**
+     * 关闭流
+     *
+     * @param closeable
+     */
     private static void close(Closeable closeable) {
         if (closeable != null) {
             try {

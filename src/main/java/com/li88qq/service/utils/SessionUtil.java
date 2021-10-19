@@ -8,10 +8,16 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+/**
+ * session工具类
+ */
 public class SessionUtil {
 
-    private long creationTime;
-
+    /**
+     * 获取request
+     *
+     * @return
+     */
     public static HttpServletRequest getRequest() {
         ServletRequestAttributes requestAttributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         return requestAttributes == null ? null : requestAttributes.getRequest();
@@ -68,6 +74,9 @@ public class SessionUtil {
         return uid;
     }
 
+    /**
+     * 移除session
+     */
     public static void removeSession() {
         getSession(false).invalidate();
     }

@@ -4,6 +4,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
+/**
+ * uuid工具类
+ */
 public class UUIDUtil {
 
     private final static char[] digits = {'0', '1', '2', '3', '4', '5', '6', '7', '8',
