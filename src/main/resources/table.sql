@@ -162,5 +162,20 @@ create table ToDo(
     primary key(id)
 )   comment 'todo表';
 
+-- menu表
+create table Menu(
+    id bigint not null auto_increment comment '主键',
+    name varchar(20) comment '名称',
+    parentId bigint not null default 0 comment '上级id',
+    href varchar(100) comment '路径',
+    icon varchar(32) comment '图标',
+    grade int not null default 0 comment '级别',
+    sort int not null default 0 comment '排序,升序',
+    state int not null default 0 comment '状态,0-新建,1-启用,2-关闭',
+    createDate bigint not null default 0 comment '创建时间',
+    updateDate bigint not null default 0 comment '更新时间',
+    primary key(id)
+)   comment '菜单表';
+
 
 
