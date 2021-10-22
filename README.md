@@ -11,7 +11,7 @@
 
 ### 2. 开发相关
 1. 整体框架:Springboot 2.5.0
-2. 数据库:mysql 8.0
+2. 数据库:mysql 8.0,redis
 3. 持久层框架: [fastquery](https://github.com/xixifeng/fastquery)
 
 ### 3. 功能
@@ -23,3 +23,5 @@
 1. application.yml 启用配置为:dev.
 2. hikari.xml中配置mysql数据源.
 3. application-dev.yml中配置redis数据源.
+4. 数据库配置.数据库使用mysql,默认为8.0,如果是其他版本,需要调整pom.xml中配置.
+5. 初始化数据库.建表sql:table.sql
