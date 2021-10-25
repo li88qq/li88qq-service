@@ -11,6 +11,7 @@ public enum LoginType {
     WEB(1, "浏览器"),
     MOBILE(2, "移动端"),
     WX(3, "微信扫一扫"),
+    SMS(4,"手机短信"),
 
     ;
 

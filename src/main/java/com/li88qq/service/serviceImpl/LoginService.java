@@ -168,7 +168,7 @@ public class LoginService implements ILoginService {
         redisService.removeSmsCode(mobile);
 
         String ip = SessionUtil.getIp();
-        handleLogin(user, LoginType.MOBILE.getType(), ip);
+        handleLogin(user, LoginType.SMS.getType(), ip);
         return ResponseUtil.ok();
     }
 
