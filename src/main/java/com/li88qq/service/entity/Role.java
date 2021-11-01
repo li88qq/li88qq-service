@@ -15,6 +15,7 @@ public class Role {
     @Id
     private Long id;
     private String name;//名称
+    private Integer allFlag = 0;//是否全部权限,0-否,1-是
 
     public Long getId() {
         return id;
@@ -30,5 +31,13 @@ public class Role {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Integer getAllFlag() {
+        return allFlag;
+    }
+
+    public void setAllFlag(Integer allFlag) {
+        this.allFlag = allFlag;
     }
 }
