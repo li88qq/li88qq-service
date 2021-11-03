@@ -2,12 +2,10 @@
 前台服务
 
 ### 1. 简介
-个人项目,主要用于个人笔记使用.
-
-配合 [service-web](https://github.com/li88qq/service-web) 使用.
+个人项目,主要用于个人笔记使用. 配合 [service-web](https://github.com/li88qq/service-web) 使用.
 
 线上demo地址: 
-[https://www.li88qq.com](https://www.li88qq.com).
+- [https://www.li88qq.com](https://www.li88qq.com).
 
 ### 2. 开发相关
 1. 整体框架:Springboot 2.5.0
@@ -25,3 +23,9 @@
 3. application-dev.yml中配置redis数据源.
 4. 数据库配置.数据库使用mysql,默认为8.0,如果是其他版本,需要调整pom.xml中配置.
 5. 初始化数据库.建表sql:table.sql
+
+### 5. LICENSE
+[MIT](https://en.wikipedia.org/wiki/MIT_License)
+
+![idea](https://www.jetbrains.com/favicon-16x16.png) 
+[idea](https://jb.gg/OpenSource)
