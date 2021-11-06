@@ -4,7 +4,9 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -77,6 +79,70 @@ public class BeanUtil {
             paramMap.put(field.getName(), field.get(t));
         }
         return paramMap;
+    }
+
+    /**
+     * 获取对象字段名称列表
+     *
+     * @param aClass 对象
+     * @return 字段名称列表
+     */
+    public static List<String> getClassFields(Class<?> aClass) {
+        List<String> fields = new ArrayList<>();
+        //不考虑继承父类
+        Field[] declaredFields = aClass.getDeclaredFields();
+        //是否忽略字段
+        for (Field field : declaredFields) {
+            if (field.getAnnotation(Transient.class) != null) {
+                continue;
+            }
+            fields.add(field.getName());
+        }
+        return fields;
+    }
+
+    /**
+     * 构建insert语句
+     *
+     * @param tableName 表名
+     * @param fields    字段名称列表
+     * @param count     实体数量
+     * @return insert语句
+     */
+    public static String buildInsertSql(String tableName, List<String> fields, int count) {
+        StringBuilder sql = new StringBuilder();
+
+        //字段sql
+        String fieldSql = String.join(",", fields);
+        //问号sql
+        String markSql = buildInsertMarkSql(count, fields.size());
+
+        sql.append("insert into ").append(tableName);
+        sql.append(" (").append(fieldSql).append(") ");
+        sql.append("values ").append(markSql).append(";");
+
+        return sql.toString();
+    }
+
+    /**
+     * 构建insert问号sql
+     *
+     * @param count     实体数量
+     * @param fieldSize 字段数量
+     * @return
+     */
+    private static String buildInsertMarkSql(int count, int fieldSize) {
+        StringBuilder sql = new StringBuilder();
+        for (int i = 0; i < count; i++) {
+            sql.append("(");
+            for (int j = 0; j < fieldSize; j++) {
+                sql.append("?").append(",");
+            }
+            sql.deleteCharAt(sql.lastIndexOf(","));
+            sql.append(")").append(",");
+        }
+        sql.deleteCharAt(sql.lastIndexOf(","));
+        return sql.toString();
     }
 
 }
