@@ -104,12 +104,13 @@ public class BeanUtil {
     /**
      * 构建insert语句
      *
-     * @param tableName 表名
-     * @param fields    字段名称列表
-     * @param count     实体数量
+     * @param ignoreRepeat 是否忽略重复
+     * @param tableName    表名
+     * @param fields       字段名称列表
+     * @param count        实体数量
      * @return insert语句
      */
-    public static String buildInsertSql(String tableName, List<String> fields, int count) {
+    public static String buildInsertSql(boolean ignoreRepeat, String tableName, List<String> fields, int count) {
         StringBuilder sql = new StringBuilder();
 
         //字段sql
@@ -117,7 +118,12 @@ public class BeanUtil {
         //问号sql
         String markSql = buildInsertMarkSql(count, fields.size());
 
-        sql.append("insert into ").append(tableName);
+        //insert ignore into tableName (id,name) values (?,?),(?,?);
+        sql.append("insert ");
+        if (ignoreRepeat) {
+            sql.append("ignore ");
+        }
+        sql.append("into ").append(tableName);
         sql.append(" (").append(fieldSql).append(") ");
         sql.append("values ").append(markSql).append(";");
 

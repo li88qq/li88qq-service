@@ -1,5 +1,6 @@
 package com.li88qq.service.db;
 
+import java.lang.reflect.Field;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -24,8 +25,35 @@ public class DbUtil {
      * @param <K>
      * @return
      */
-    public <T, K> K saveId(T t, Class<K> kClass, Connection connection) {
-        return null;
+    public <T, K> K saveId(T t, Class<K> kClass, Connection connection) throws Exception {
+        Class<?> aClass = t.getClass();
+        String tableName = BeanUtil.getTableName(aClass);
+        List<String> fields = BeanUtil.getClassFields(aClass);
+
+        String sql = BeanUtil.buildInsertSql(false, tableName, fields, 1);
+
+        //不自动提交
+        connection.setAutoCommit(false);
+        //声明返回id
+        PreparedStatement statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+        int index = 1;
+        Field declaredField = null;
+        for (String field : fields) {
+            declaredField = aClass.getDeclaredField(field);
+            declaredField.setAccessible(true);
+            statement.setObject(index++, declaredField.get(t));
+        }
+        long update = statement.executeLargeUpdate();
+        if (update == 0) {
+            return null;
+        }
+        ResultSet rs = statement.getGeneratedKeys();
+        K id = null;
+        while (rs.next()) {
+            id = rs.getObject(1, kClass);
+        }
+
+        return id;
     }
 
     /**
@@ -37,57 +65,28 @@ public class DbUtil {
      * @param <T>
      * @return
      */
-    public <T> long saveBatch(boolean ignoreRepeat, List<T> tList, Connection connection) {
-        return 0L;
-    }
+    public <T> long saveBatch(boolean ignoreRepeat, List<T> tList, Connection connection) throws Exception {
+        Class<?> aClass = tList.get(0).getClass();
+        String tableName = BeanUtil.getTableName(aClass);
+        List<String> fields = BeanUtil.getClassFields(aClass);
 
+        int count = tList.size();
+        String sql = BeanUtil.buildInsertSql(ignoreRepeat, tableName, fields, count);
 
-    /**
-     * 返回id
-     *
-     * @param connection
-     * @param sql
-     * @param params
-     * @param tClass
-     * @param <T>
-     * @return
-     * @throws Exception
-     */
-    private <T> T executeId(Connection connection, String sql, Object[] params, Class<T> tClass) throws Exception {
-        //不自动提交
-        connection.setAutoCommit(false);
-        //声明返回id
-        PreparedStatement statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-        int index = 1;
-        for (Object param : params) {
-            statement.setObject(index++, param);
-        }
-        long update = statement.executeLargeUpdate();
-        if (update == 0) {
-            return null;
-        }
-        ResultSet rs = statement.getResultSet();
-        return rs.getObject(1, tClass);
-    }
-
-    /**
-     * 返回影响行数
-     *
-     * @param connection
-     * @param sql
-     * @param params
-     * @return
-     * @throws Exception
-     */
-    private long executeBatch(Connection connection, String sql, Object[] params) throws Exception {
         //不自动提交
         connection.setAutoCommit(false);
         //声明返回id
         PreparedStatement statement = connection.prepareStatement(sql);
         int index = 1;
-        for (Object param : params) {
-            statement.setObject(index++, param);
+        Field declaredField = null;
+        for (T t : tList) {
+            for (String field : fields) {
+                declaredField = aClass.getDeclaredField(field);
+                declaredField.setAccessible(true);
+                statement.setObject(index++, declaredField.get(t));
+            }
         }
-        return statement.executeLargeUpdate();
+        long update = statement.executeLargeUpdate();
+        return update;
     }
 }
