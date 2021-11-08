@@ -151,4 +151,26 @@ public class BeanUtil {
         return sql.toString();
     }
 
+    /**
+     * 构建更新sql
+     *
+     * @param tableName 表名
+     * @param fields    字段列表
+     * @return 更新sql
+     */
+    public String buildUpdateSql(String tableName, List<String> fields, String idName) {
+        StringBuilder sql = new StringBuilder();
+
+        //update tableName set k=?,v=? where id = ?
+        sql.append("update ").append(tableName);
+        sql.append(" set ");
+        for (String field : fields) {
+            sql.append(field).append(" = ").append("?").append(",");
+        }
+        sql.deleteCharAt(sql.lastIndexOf(","));
+        sql.append(" where ").append(idName).append(" = ").append("?").append(";");
+
+        return sql.toString();
+    }
+
 }
