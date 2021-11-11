@@ -158,13 +158,16 @@ public class BeanUtil {
      * @param fields    字段列表
      * @return 更新sql
      */
-    public String buildUpdateSql(String tableName, List<String> fields, String idName) {
+    public static String buildUpdateSql(String tableName, List<String> fields, String idName) {
         StringBuilder sql = new StringBuilder();
 
         //update tableName set k=?,v=? where id = ?
         sql.append("update ").append(tableName);
         sql.append(" set ");
         for (String field : fields) {
+            if (field.equals(idName)) {
+                continue;
+            }
             sql.append(field).append(" = ").append("?").append(",");
         }
         sql.deleteCharAt(sql.lastIndexOf(","));
