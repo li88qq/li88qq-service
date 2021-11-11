@@ -33,7 +33,7 @@ public class DbUtil {
         String sql = BeanUtil.buildInsertSql(false, tableName, fields, 1);
 
         //不自动提交
-        connection.setAutoCommit(false);
+//        connection.setAutoCommit(false);
         //声明返回id
         PreparedStatement statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
         int index = 1;
@@ -74,7 +74,7 @@ public class DbUtil {
         String sql = BeanUtil.buildInsertSql(ignoreRepeat, tableName, fields, count);
 
         //不自动提交
-        connection.setAutoCommit(false);
+//        connection.setAutoCommit(false);
         //声明返回id
         PreparedStatement statement = connection.prepareStatement(sql);
         int index = 1;
@@ -84,6 +84,42 @@ public class DbUtil {
                 declaredField = aClass.getDeclaredField(field);
                 declaredField.setAccessible(true);
                 statement.setObject(index++, declaredField.get(t));
+            }
+        }
+        long update = statement.executeLargeUpdate();
+        return update;
+    }
+
+    /**
+     * 更新实体
+     *
+     * @param t          实体对象
+     * @param connection 连接
+     * @param <T>        泛型
+     * @return 影响行数
+     * @throws Exception
+     */
+    public static <T> long update(T t, Connection connection) throws Exception {
+        Class<?> aClass = t.getClass();
+        String tableName = BeanUtil.getTableName(aClass);
+        List<String> fields = BeanUtil.getClassFields(aClass);
+        String idName = BeanUtil.getIdName(aClass);
+
+        String sql = BeanUtil.buildUpdateSql(tableName, fields, idName);
+
+        //不自动提交
+//        connection.setAutoCommit(false);
+        //声明返回id
+        PreparedStatement statement = connection.prepareStatement(sql);
+        int index = 1;
+        Field declaredField = null;
+        for (String field : fields) {
+            declaredField = aClass.getDeclaredField(field);
+            declaredField.setAccessible(true);
+            if (!field.equals(idName)) {
+                statement.setObject(index++, declaredField.get(t));
+            } else { //id,为最后
+                statement.setObject(fields.size(), declaredField.get(t));
             }
         }
         long update = statement.executeLargeUpdate();
