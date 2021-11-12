@@ -87,4 +87,16 @@ public class BaseMapperImpl implements BaseMapper {
     public <T> T saveOrUpdate(T t) {
         return null;
     }
+
+    /**
+     * 更新一个实体,id字段必须有值,只更新值不为空的字段
+     *
+     * @param t   实体对象
+     * @param <T> 泛型
+     * @return 影响行数
+     */
+    @Override
+    public <T> int executeUpdate(T t) {
+        return 0;
+    }
 }
