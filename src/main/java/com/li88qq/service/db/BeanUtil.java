@@ -3,6 +3,7 @@ package com.li88qq.service.db;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -174,6 +175,30 @@ public class BeanUtil {
         sql.append(" where ").append(idName).append(" = ").append("?").append(";");
 
         return sql.toString();
+    }
+
+    /**
+     * 把一个对象里面所有字段重置为null
+     *
+     * @param tClass 类
+     * @param <T>    泛型
+     * @return 一个属性全是空的对象
+     */
+    public static <T> T reset(Class<T> tClass) {
+        T t = null;
+        try {
+            Constructor<T> constructor = tClass.getConstructor();
+            t = constructor.newInstance();
+            Field[] fields = tClass.getDeclaredFields();
+            for (Field field : fields) {
+                field.setAccessible(true);
+                field.set(t, null);
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+        return t;
     }
 
 }
