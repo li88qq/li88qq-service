@@ -18,50 +18,53 @@ public class LogUtil {
      * @return logger
      */
     public static Logger getLogger() {
-        return getLogger(false);
+        return initLogger();
     }
 
     /**
      * 公共方法
      *
-     * @param inner 栈索引,区别:false-为直接返回logger,此时取栈底索引,true-需要调用一次当前类(LogUtil)的当前方法(getLogger)
      * @return logger
      */
-    private static Logger getLogger(boolean inner) {
-        StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
-        int index = inner ? 3 : stackTrace.length - 1;
-        return LoggerFactory.getLogger(stackTrace[index].getClassName());
+    private static Logger initLogger() {
+        //栈
+        //0-Thread.currentThread().getStackTrace()
+        //1-LogUtil.initLogger()
+        //2-LogUtil.debug()...info()...warn()...error...getLogger()
+        //3-调用类
+        return LoggerFactory.getLogger(Thread.currentThread().getStackTrace()[3].getClassName());
     }
 
     public static void debug(String msg) {
-        getLogger(true).debug(msg);
+        initLogger().debug(msg);
     }
 
     public static void debug(String msg, Throwable throwable) {
-        getLogger(true).debug(msg, throwable);
+        initLogger().debug(msg, throwable);
     }
 
     public static void info(String msg) {
-        getLogger(true).info(msg);
+        initLogger().info(msg);
     }
 
     public static void info(String msg, Throwable throwable) {
-        getLogger(true).info(msg, throwable);
+        initLogger().info(msg, throwable);
     }
 
     public static void warn(String msg) {
-        getLogger(true).warn(msg);
+        initLogger().warn(msg);
     }
 
     public static void warn(String msg, Throwable throwable) {
-        getLogger(true).warn(msg, throwable);
+        initLogger().warn(msg, throwable);
     }
 
     public static void error(String msg) {
-        getLogger(true).error(msg);
+        initLogger().error(msg);
     }
 
     public static void error(String msg, Throwable throwable) {
-        getLogger(true).error(msg, throwable);
+        initLogger().error(msg, throwable);
     }
+
 }
