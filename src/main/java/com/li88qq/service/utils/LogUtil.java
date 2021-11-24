@@ -1,8 +1,7 @@
 package com.li88qq.service.utils;
 
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * log工具类
@@ -32,7 +31,7 @@ public class LogUtil {
         //1-LogUtil.initLogger()
         //2-LogUtil.debug()...info()...warn()...error...getLogger()
         //3-调用类
-        return LoggerFactory.getLogger(Thread.currentThread().getStackTrace()[3].getClassName());
+        return LogManager.getLogger(Thread.currentThread().getStackTrace()[3].getClassName());
     }
 
     public static void debug(String msg) {
