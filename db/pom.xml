@@ -5,18 +5,8 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.li88qq</groupId>
-    <artifactId>service</artifactId>
-    <packaging>pom</packaging>
+    <artifactId>db</artifactId>
     <version>1.0-SNAPSHOT</version>
-    <modules>
-        <module>main</module>
-        <module>admin</module>
-        <module>login</module>
-        <module>gateway</module>
-        <module>bus</module>
-        <module>config</module>
-        <module>job</module>
-    </modules>
 
 
 </project>
