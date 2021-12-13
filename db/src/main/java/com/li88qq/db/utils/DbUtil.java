@@ -188,10 +188,18 @@ public class DbUtil {
                 throw new RuntimeException("该方法不支持字段全为@Id注解");
             }
 
-            String idName = idNames[0];
             String sql = SqlFactory.buildUpdateBatchSql(beanDto, list.size());
-            //update table set name = case id when 1 then 1 when 2 then 2 end where id in (ids);
+            PreparedStatement statement = connection.prepareStatement(sql);
 
+            Field declaredField = null;
+            int index = 1;
+            String idName = idNames[0];
+            //update table set name = case id when ? then ? when ? then ? end where id in (?);
+            for (T t : list) {
+                for (String field : fields) {
+
+                }
+            }
 
             return 0L;
         } catch (Exception e) {
@@ -204,13 +212,46 @@ public class DbUtil {
     /**
      * saveOrUpdate
      *
-     * @param t          实体对象
+     * @param list       实体列表
      * @param connection 连接
      * @param <T>        实体泛型
      * @return 影响行数
      */
-    public static <T> long saveOrUpdate(T t, Connection connection) {
-        return 0L;
+    public static <T> long saveOrUpdate(List<T> list, Connection connection) {
+        if (list == null || list.isEmpty()) {
+            return 0L;
+        }
+        try {
+            Class<?> aClass = list.get(0).getClass();
+            BeanDto beanDto = BeanUtil.buildBeanDto(aClass);
+            String[] idNames = beanDto.getIdNames();
+            String[] fields = beanDto.getFields();
+
+            int idLength = idNames.length;
+            if (idLength == 0) {
+                throw new RuntimeException("需要定义至少一个@Id注解的字段");
+            }
+            String sql = SqlFactory.buildSaveOrUpdateSql(beanDto, list.size());
+            PreparedStatement statement = connection.prepareStatement(sql);
+
+            Field declaredField = null;
+            int index = 1;
+            //insert into tableName (id,name) values (?,?),(?,?) as alias on duplicate key update id = alias.id,name = alias.name;
+            for (T t : list) {
+                for (String field : fields) {
+                    declaredField = aClass.getDeclaredField(field);
+                    if (!declaredField.canAccess(t)) {
+                        declaredField.setAccessible(true);
+                    }
+                    statement.setObject(index++, declaredField.get(t));
+                }
+            }
+            return statement.executeUpdate();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        } finally {
+            close(connection);
+        }
     }
 
     /**
@@ -222,7 +263,37 @@ public class DbUtil {
      * @return 影响行数
      */
     public static <T> long delete(T t, Connection connection) {
-        return 0L;
+        try {
+            Class<?> aClass = t.getClass();
+            BeanDto beanDto = BeanUtil.buildBeanDto(aClass);
+            String[] idNames = beanDto.getIdNames();
+
+            int idLength = idNames.length;
+            if (idLength == 0) {
+                throw new RuntimeException("需要定义至少一个@Id注解的字段");
+            }
+            String sql = SqlFactory.buildDeleteSql(beanDto);
+            PreparedStatement statement = connection.prepareStatement(sql);
+
+            Field declaredField = null;
+            int index = 1;
+            //id注解字段 delete * from table where id1 = ? and id2 = ?;
+            for (String field : idNames) {
+                declaredField = aClass.getDeclaredField(field);
+                if (!declaredField.canAccess(t)) {
+                    declaredField.setAccessible(true);
+                }
+                if (declaredField.get(t) == null) {
+                    throw new RuntimeException("@Id注解的字段值不能为空");
+                }
+                statement.setObject(index++, declaredField.get(t));
+            }
+            return statement.executeUpdate();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        } finally {
+            close(connection);
+        }
     }
 
     /**

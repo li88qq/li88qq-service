@@ -87,7 +87,18 @@ public class BaseMapper {
      * @return 影响行数
      */
     public <T> long saveOrUpdate(T t) {
-        return DbUtil.saveOrUpdate(t, getConnection());
+        return DbUtil.saveOrUpdate(List.of(t), getConnection());
+    }
+
+    /**
+     * saveOrUpdate批量
+     *
+     * @param list 实体列表
+     * @param <T>  对象泛型
+     * @return 影响行数
+     */
+    public <T> long saveOrUpdate(List<T> list) {
+        return DbUtil.saveOrUpdate(list, getConnection());
     }
 
     /**
