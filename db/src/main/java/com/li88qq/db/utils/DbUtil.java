@@ -5,6 +5,7 @@ import com.li88qq.db.dto.BeanDto;
 
 import java.lang.reflect.Field;
 import java.sql.*;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -192,16 +193,45 @@ public class DbUtil {
             PreparedStatement statement = connection.prepareStatement(sql);
 
             Field declaredField = null;
+            Field idField = null;
             int index = 1;
             String idName = idNames[0];
             //update table set name = case id when ? then ? when ? then ? end where id in (?);
-            for (T t : list) {
-                for (String field : fields) {
+            List<String> idFields = Arrays.stream(idNames).toList();
+            Object idValue = null;
 
+            for (String field : fields) {
+                if (idFields.contains(field)) {
+                    continue;
+                }
+                declaredField = aClass.getDeclaredField(field);
+                idField = aClass.getDeclaredField(idName);
+                for (T t : list) {
+                    if (!declaredField.canAccess(t)) {
+                        declaredField.setAccessible(true);
+                    }
+                    if (!idField.canAccess(t)) {
+                        idField.setAccessible(true);
+                    }
+                    idValue = idField.get(t);
+                    if (idValue == null) {
+                        throw new RuntimeException("@Id注解字段不能为空");
+                    }
+                    statement.setObject(index++, idValue);
+                    statement.setObject(index++, declaredField.get(t));
                 }
             }
 
-            return 0L;
+            //where id in (?);
+            for (T t : list) {
+                idField = aClass.getDeclaredField(idName);
+                if (!idField.canAccess(t)) {
+                    idField.setAccessible(true);
+                }
+                statement.setObject(index++, idField.get(t));
+            }
+            long update = statement.executeLargeUpdate();
+            return update;
         } catch (Exception e) {
             throw new RuntimeException(e);
         } finally {

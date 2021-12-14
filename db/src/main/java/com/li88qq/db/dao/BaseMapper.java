@@ -53,7 +53,7 @@ public class BaseMapper {
      * @param <T>          泛型
      * @return 插入记录数
      */
-    public <T> long insert(boolean ignoreRepeat, List<T> list) {
+    public <T> long insertList(boolean ignoreRepeat, List<T> list) {
         return DbUtil.insert(ignoreRepeat, list, getConnection());
     }
 
@@ -75,8 +75,8 @@ public class BaseMapper {
      * @param <T>  实体泛型
      * @return 影响行数
      */
-    public <T> long update(List<T> list) {
-        return DbUtil.update(list, getConnection());
+    public <T> long updateList(List<T> list) {
+        return DbUtil.updateBatch(list, getConnection());
     }
 
     /**
@@ -97,7 +97,7 @@ public class BaseMapper {
      * @param <T>  对象泛型
      * @return 影响行数
      */
-    public <T> long saveOrUpdate(List<T> list) {
+    public <T> long saveOrUpdateList(List<T> list) {
         return DbUtil.saveOrUpdate(list, getConnection());
     }
 
