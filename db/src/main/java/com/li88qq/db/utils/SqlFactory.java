@@ -152,6 +152,7 @@ public class SqlFactory {
         String markSql = buildInsertMarkSql(count, fields.length);
 
         //insert into tableName (id,name) values (?,?),(?,?) as alias on duplicate key update id = alias.id,name = alias.name;
+        //需要mysql版本:8.0.20及以上
         sql.append("insert ").append("into ").append(tableName);
         sql.append(" (").append(fieldSql).append(") ");
         sql.append("values ").append(markSql);
