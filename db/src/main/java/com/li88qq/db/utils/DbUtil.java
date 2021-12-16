@@ -197,11 +197,10 @@ public class DbUtil {
             int index = 1;
             String idName = idNames[0];
             //update table set name = case id when ? then ? when ? then ? end where id in (?);
-            List<String> idFields = Arrays.stream(idNames).toList();
             Object idValue = null;
 
             for (String field : fields) {
-                if (idFields.contains(field)) {
+                if (idName.equals(field)) {
                     continue;
                 }
                 declaredField = aClass.getDeclaredField(field);
