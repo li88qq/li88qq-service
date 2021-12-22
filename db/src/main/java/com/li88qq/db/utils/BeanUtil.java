@@ -8,6 +8,7 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 对象工具类
@@ -82,5 +83,45 @@ public class BeanUtil {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+    }
+
+    /**
+     * map转换对象
+     *
+     * @param map    map
+     * @param tClass 转换类型
+     * @param <T>    泛型
+     * @return map转对象
+     */
+    public static <T> T toBean(Map<String, Object> map, Class<T> tClass) {
+        try {
+            Field[] declaredFields = tClass.getDeclaredFields();
+            T t = tClass.getConstructor().newInstance();
+            for (Field field : declaredFields) {
+                if (!field.canAccess(t)) {
+                    field.setAccessible(true);
+                }
+                field.set(t, map.get(field.getName()));
+            }
+            return t;
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    /**
+     * 对象转换(列表)
+     *
+     * @param list   list
+     * @param tClass 转换类型
+     * @param <T>    泛型
+     * @return 列表
+     */
+    public static <T> List<T> toBean(List<Map<String, Object>> list, Class<T> tClass) {
+        List<T> result = new ArrayList<>();
+        list.forEach(map -> {
+            result.add(toBean(map, tClass));
+        });
+        return result;
     }
 }
