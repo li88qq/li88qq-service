@@ -120,7 +120,10 @@ public class BeanUtil {
     public static <T> List<T> toBean(List<Map<String, Object>> list, Class<T> tClass) {
         List<T> result = new ArrayList<>();
         list.forEach(map -> {
-            result.add(toBean(map, tClass));
+            T t = toBean(map, tClass);
+            if (t != null) {
+                result.add(t);
+            }
         });
         return result;
     }
