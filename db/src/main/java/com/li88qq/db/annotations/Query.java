@@ -1,4 +1,4 @@
-package com.li88qq.db2.annotations;
+package com.li88qq.db.annotations;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
