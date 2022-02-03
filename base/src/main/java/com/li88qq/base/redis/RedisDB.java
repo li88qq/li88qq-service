@@ -1,4 +1,4 @@
-package com.li88qq.utils.redis;
+package com.li88qq.base.redis;
 
 /**
  * redis库枚举

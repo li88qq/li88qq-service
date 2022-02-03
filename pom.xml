@@ -17,6 +17,7 @@
         <module>bus</module>
         <module>config</module>
         <module>job</module>
+        <module>base</module>
     </modules>
 
     <properties>
