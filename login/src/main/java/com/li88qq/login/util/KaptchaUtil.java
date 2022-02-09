@@ -16,8 +16,27 @@ import java.util.Base64;
  */
 public class KaptchaUtil {
 
+    /**
+     * 获取验证码base64
+     *
+     * @param defaultKaptcha
+     * @return
+     */
     public static String getBase64(DefaultKaptcha defaultKaptcha) {
-        String code = defaultKaptcha.createText();
+        return getBase64(defaultKaptcha, null);
+    }
+
+    /**
+     * 获取验证码base64
+     *
+     * @param defaultKaptcha
+     * @param code
+     * @return
+     */
+    public static String getBase64(DefaultKaptcha defaultKaptcha, String code) {
+        if (code == null || code.equals("")) {
+            code = defaultKaptcha.createText();
+        }
         BufferedImage image = defaultKaptcha.createImage(code);
         try (ByteArrayOutputStream outputStream = new ByteArrayOutputStream()) {
             ImageIO.write(image, "jpg", outputStream);
