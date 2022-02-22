@@ -35,6 +35,7 @@ public class Executor {
         int columnCount = metaData.getColumnCount();
         String[] labels = new String[columnCount];
         for (int i = 0; i < columnCount; i++) {
+            //获取实际的列名
             labels[i] = metaData.getColumnLabel(i + 1);
         }
 
@@ -69,14 +70,30 @@ public class Executor {
     /**
      * 保存id
      *
-     * @param sql    数据库连接
-     * @param params sql
-     * @param params 参数
-     * @param <T>    id类型
+     * @param connection 数据库连接
+     * @param sql        sql
+     * @param params     参数
+     * @param <T>        id类型
      * @return 插入id
      */
-    public <T> T executeId(Connection connection, String sql, Object[] params) {
-        return null;
+    public <T extends Number> T executeId(Connection connection, String sql, Object[] params, Class<T> tClass) throws Exception {
+        PreparedStatement prepareStatement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+        //参数设置
+        setParams(prepareStatement, params);
+
+        int update = prepareStatement.executeUpdate();
+        if (update == 0) {
+            return null;
+        }
+        ResultSet generatedKeys = prepareStatement.getGeneratedKeys();
+        if (generatedKeys == null) {
+            return null;
+        }
+        T id = null;
+        while (generatedKeys.next()) {
+            id = generatedKeys.getObject(1, tClass);
+        }
+        return id;
     }
 
     //设置参数
