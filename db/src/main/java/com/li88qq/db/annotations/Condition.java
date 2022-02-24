@@ -17,4 +17,14 @@ public @interface Condition {
      * 条件sql
      */
     String value();
+
+    /**
+     * 对应where位置索引,应用于可能存在的多个where条件位置
+     */
+    int index() default 0;
+
+    /**
+     * 条件保存策略
+     */
+    String[] retain() default {};
 }
