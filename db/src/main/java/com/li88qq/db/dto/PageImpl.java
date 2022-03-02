@@ -1,5 +1,6 @@
 package com.li88qq.db.dto;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -10,20 +11,27 @@ import java.util.List;
  */
 public class PageImpl<T> implements Page<T> {
 
-    private int page;//当前页
-    private int pageSize;//每页数量
+    private int page = 1;//当前页
+    private int pageSize = 10;//每页数量
+    private long totalNum;//总数量
     private List<T> content;//内容
 
-    public PageImpl(int page, int pageSize, List<T> content) {
-        this.page = page;
-        this.pageSize = pageSize;
-        this.content = content;
-    }
+    public PageImpl(Pageable pageable, long total, List<T> content) {
+        if (total > 0) {
+            this.totalNum = total;
+        }
+        if (content == null) {
+            this.content = new ArrayList<>();
+        }
 
-    public PageImpl(Pageable pageable, List<T> content) {
-        this.page = pageable.getPageIndex();
-        this.pageSize = pageable.getPageSize();
-        this.content = content;
+        int pageIndex = pageable.getPageIndex();
+        int pageSize = pageable.getPageSize();
+        if (pageIndex > 0) {
+            this.page = pageIndex;
+        }
+        if (pageSize > 0) {
+            this.pageSize = pageSize;
+        }
     }
 
     public int page() {
@@ -35,7 +43,7 @@ public class PageImpl<T> implements Page<T> {
     }
 
     public long total() {
-        return this.content.size();
+        return this.totalNum;
     }
 
     public List<T> content() {
