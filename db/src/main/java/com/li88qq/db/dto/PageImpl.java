@@ -73,4 +73,12 @@ public class PageImpl<T> implements Page<T> {
     public void setContent(List<T> content) {
         this.content = content;
     }
+
+    public long getTotalNum() {
+        return totalNum;
+    }
+
+    public void setTotalNum(long totalNum) {
+        this.totalNum = totalNum;
+    }
 }
