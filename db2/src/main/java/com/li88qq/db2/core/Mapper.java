@@ -13,16 +13,16 @@ public interface Mapper {
      *
      * @param t 实体
      */
-    <T> void save(T t);
+    <T> int save(T t);
 
     /**
      * 保存实体,返回id
      *
-     * @param t       实体
-     * @param idClass id类型
+     * @param t      实体
+     * @param kClass id类型
      * @return id
      */
-    <T, K extends Number> K saveId(T t, Class<K> idClass);
+    <T, K extends Number> K saveId(T t, Class<K> kClass);
 
     /**
      * 修改实体,返回影响行数
