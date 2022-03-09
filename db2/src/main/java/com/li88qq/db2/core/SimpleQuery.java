@@ -4,7 +4,10 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.List;
 
 /**
@@ -14,7 +17,7 @@ import java.util.List;
  * @version 1.0 2022/3/6 23:46
  */
 @Component
-public class SimpleQuery {
+class SimpleQuery {
 
     @Resource
     private SqlSession session;
@@ -23,6 +26,9 @@ public class SimpleQuery {
      * 执行更新操作
      */
     public <T> int query(QueryType queryType, T t) {
+        if (t == null) {
+            return 0;
+        }
         SqlMeta sqlMeta = SqlFactory.buildSql(queryType, t);
         return execute(sqlMeta);
     }
@@ -31,18 +37,12 @@ public class SimpleQuery {
      * 执行更新操作,返回自增长id
      */
     public <T, K extends Number> K queryId(QueryType queryType, T t, Class<K> kClass) {
+        if (t == null || kClass == null) {
+            return null;
+        }
         SqlMeta sqlMeta = SqlFactory.buildSql(queryType, t);
         return executeId(sqlMeta, kClass);
     }
-
-    /**
-     * 执行批量更新操作
-     */
-    public <T> int queryBatch(QueryType queryType, List<T> list) {
-        SqlMeta sqlMeta = SqlFactory.buildBatchSql(queryType, list);
-        return execute(sqlMeta);
-    }
-
 
     //执行sql
     private int execute(SqlMeta sqlMeta) {
@@ -95,4 +95,18 @@ public class SimpleQuery {
         }
     }
 
+    /**
+     * 批量保存
+     *
+     * @param list         实体列表
+     * @param ignoreRepeat 是否忽略重复主键
+     * @return 影响行数
+     */
+    public <T> int saveList(List<T> list, boolean ignoreRepeat) {
+        if (list == null || list.isEmpty()) {
+            return 0;
+        }
+        SqlMeta sqlMeta = SqlFactory.buildSaveListSql(list, ignoreRepeat);
+        return execute(sqlMeta);
+    }
 }

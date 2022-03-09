@@ -1,12 +1,14 @@
 package com.li88qq.db2.core;
 
+import java.util.List;
+
 /**
  * mapper
  *
  * @author li88qq
  * @version 1.0 2022/3/6 23:29
  */
-public interface Mapper {
+interface Mapper {
 
     /**
      * 保存实体
@@ -47,5 +49,13 @@ public interface Mapper {
      * @return 影响行数
      */
     <T> int delete(T t);
+
+    /**
+     * 保存实体列表
+     *
+     * @param list         实体列表
+     * @param ignoreRepeat 是否忽略重复值
+     */
+    <T> int saveList(List<T> list, boolean ignoreRepeat);
 
 }
