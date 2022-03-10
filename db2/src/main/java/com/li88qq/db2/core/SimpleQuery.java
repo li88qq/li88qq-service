@@ -1,13 +1,10 @@
 package com.li88qq.db2.core;
 
-import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.sql.Statement;
+import javax.sql.DataSource;
+import java.sql.*;
 import java.util.List;
 
 /**
@@ -20,7 +17,7 @@ import java.util.List;
 class SimpleQuery {
 
     @Resource
-    private SqlSession session;
+    private DataSource dataSource;
 
     /**
      * 执行更新操作
@@ -48,8 +45,9 @@ class SimpleQuery {
     private int execute(SqlMeta sqlMeta) {
         Connection connection = null;
         try {
-            connection = session.getConnection();
+            connection = dataSource.getConnection();
             PreparedStatement statement = connection.prepareStatement(sqlMeta.getSql());
+            setParams(statement, sqlMeta.getParams());
             return statement.executeUpdate();
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -63,11 +61,16 @@ class SimpleQuery {
     private <K extends Number> K executeId(SqlMeta sqlMeta, Class<K> kClass) {
         Connection connection = null;
         try {
-            connection = session.getConnection();
+            connection = dataSource.getConnection();
             PreparedStatement statement = connection.prepareStatement(sqlMeta.getSql(), Statement.RETURN_GENERATED_KEYS);
             setParams(statement, sqlMeta.getParams());
             statement.executeUpdate();
-            return (K) statement.getGeneratedKeys().getObject(1);
+            ResultSet generatedKeys = statement.getGeneratedKeys();
+            K id = null;
+            while (generatedKeys.next()) {
+                id = generatedKeys.getObject(1, kClass);
+            }
+            return id;
         } catch (Exception e) {
             throw new RuntimeException(e);
         } finally {
@@ -81,7 +84,7 @@ class SimpleQuery {
             return;
         }
         for (int i = 0; i < params.length; i++) {
-            statement.setObject(i, params[i]);
+            statement.setObject(i + 1, params[i]);
         }
     }
 

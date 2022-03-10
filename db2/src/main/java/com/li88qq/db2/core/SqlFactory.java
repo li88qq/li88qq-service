@@ -169,7 +169,7 @@ class SqlFactory {
 
         String sql = sb.toString();
         // 合并字段处理参数
-        Object[] params = paramList.toArray(new Object[0]);
+        Object[] params = StringUtil.join(paramList.toArray(new Object[0]), idValue, Object.class);
 
         SqlMeta sqlMeta = new SqlMeta(sql, params);
         return sqlMeta;

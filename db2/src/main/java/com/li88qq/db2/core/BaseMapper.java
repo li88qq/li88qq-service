@@ -13,7 +13,7 @@ import java.util.List;
  * @version 1.0 2022/3/6 23:28
  */
 @Component
-public class SimpleMapper implements Mapper {
+public class BaseMapper implements Mapper {
 
     @Resource
     private SimpleQuery simpleQuery;
