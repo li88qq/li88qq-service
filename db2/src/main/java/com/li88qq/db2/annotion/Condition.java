@@ -13,6 +13,9 @@ import java.lang.annotation.*;
 @Repeatable(Conditions.class)
 public @interface Condition {
 
+    //条件语句
     String value();
 
+    //连接符,见JoinMark,默认and
+    String joinMark() default "";
 }

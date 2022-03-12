@@ -1,6 +1,7 @@
 package com.li88qq.db2.dto;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 分页处理对象,用于查询返回
@@ -24,6 +25,20 @@ public class Page<T> extends ArrayList<T> {
         tPage.setTotal(total);
         tPage.setContent(this);
         return tPage;
+    }
+
+    /**
+     * 列表转换分页
+     *
+     * @param list 列表
+     * @return 分页对象
+     */
+    public static <T> Page<T> convert(List<T> list) {
+        Page<T> page = new Page<>();
+        if (list != null) {
+            page.addAll(list);
+        }
+        return page;
     }
 
     public int getPage() {
