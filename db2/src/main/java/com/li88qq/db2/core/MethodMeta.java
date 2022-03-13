@@ -1,7 +1,14 @@
 package com.li88qq.db2.core;
 
+import com.li88qq.db2.annotion.Condition;
 import com.li88qq.db2.annotion.Conditions;
 import com.li88qq.db2.annotion.PageId;
+import com.li88qq.db2.dto.Page;
+import com.li88qq.db2.dto.Pageable;
+import org.apache.ibatis.annotations.Param;
+
+import java.lang.reflect.Method;
+import java.lang.reflect.Parameter;
 
 /**
  * method元数据
@@ -11,12 +18,111 @@ import com.li88qq.db2.annotion.PageId;
  */
 public class MethodMeta {
 
-    private String className;
-    private String methodName;
-    private Conditions conditions;//条件语句
+    private String className;//类名称
+    private String methodName;//方法名称
+    private Condition[] conditions;//条件语句
     private String pageable;//分页参数
     private PageId pageId;//分页注解
     private boolean queryPage;//是否分页查询
+
+    public static class Builder {
+        private MethodMeta methodMeta;
+        private String id;
+
+        public Builder(String id) {
+            this.id = id;
+        }
+
+        /**
+         * 根据id获取method
+         *
+         * @param id id
+         * @return 方法
+         */
+        private Method getMethod(String id) {
+            try {
+                int index = id.lastIndexOf(".");
+                String className = id.substring(0, index);
+                String methodName = id.substring(index + 1);
+                Class<?> aClass = Class.forName(className);
+                Method[] declaredMethods = aClass.getDeclaredMethods();
+                for (Method method : declaredMethods) {
+                    if (method.getName().equals(methodName)) {
+                        return method;
+                    }
+                }
+                throw new RuntimeException("方法不存在");
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+        /**
+         * 构建methodMeta
+         *
+         * @param method 方法
+         */
+        private void buildMeta(Method method) {
+            methodMeta = new MethodMeta();
+            Condition[] conditionList = null;
+            Conditions conditions = method.getAnnotation(Conditions.class);
+            if (conditions == null) {
+                Condition condition = method.getAnnotation(Condition.class);
+                if (condition != null) {
+                    conditionList = new Condition[]{condition};
+                }
+            } else {
+                conditionList = conditions.value();
+            }
+
+            PageId pageId = method.getAnnotation(PageId.class);
+            String pageable = null;
+            boolean queryPage = false;
+
+            //判断pageable参数名称
+            Parameter[] parameters = method.getParameters();
+            for (Parameter parameter : parameters) {
+                if (parameter.getType().isAssignableFrom(Pageable.class)) {
+                    pageable = parameter.getName();
+                    Param param = parameter.getAnnotation(Param.class);
+                    if (param != null && param.value() != null) {
+                        pageable = param.value();
+                    }
+                    break;
+                }
+            }
+
+            //是否分页查询
+            Class<?> returnType = method.getReturnType();
+            if (returnType.isAssignableFrom(Page.class)) {
+                queryPage = true;
+            }
+
+            methodMeta.setClassName(method.getName());
+            methodMeta.setMethodName(method.getName());
+            methodMeta.setConditions(conditionList);
+            methodMeta.setPageId(pageId);
+            methodMeta.setPageable(pageable);
+            methodMeta.setQueryPage(queryPage);
+        }
+
+        /**
+         * 构建methodMeta
+         */
+        public MethodMeta build() {
+            Method method = getMethod(id);
+            buildMeta(method);
+            return methodMeta;
+        }
+
+        public String getId() {
+            return id;
+        }
+
+        public void setId(String id) {
+            this.id = id;
+        }
+    }
 
     public String getClassName() {
         return className;
@@ -34,11 +140,11 @@ public class MethodMeta {
         this.methodName = methodName;
     }
 
-    public Conditions getConditions() {
+    public Condition[] getConditions() {
         return conditions;
     }
 
-    public void setConditions(Conditions conditions) {
+    public void setConditions(Condition[] conditions) {
         this.conditions = conditions;
     }
 
