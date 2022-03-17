@@ -76,63 +76,63 @@ class ConditionInterceptor {
     }
 
     private static void handleCondition(Condition[] conditions, MetaObject metaObject) {
-        BoundSql boundSql = (BoundSql) metaObject.getValue("boundSql");
-        MapperMethod.ParamMap<?> paramMap = (MapperMethod.ParamMap<?>) boundSql.getParameterObject();
-
-        StringBuilder whereSql = new StringBuilder();
-        String value;
-        Pattern pattern = Pattern.compile(PLACE_);
-        Matcher matcher = null;
-        String paramKey = null;
-        Object paramValue = null;
-        boolean addFlag = false; //是否加入sql,如果一个condition里面有多个, 只要有一个成立, 就全部成立
-        List<String> whereList = new ArrayList<>();
-        for (Condition condition : conditions) {
-            value = condition.value();
-            if (value == null || value.equals("")) {
-                continue;
-            }
-            //搜索 :xxx 占位符,有替换,无则直接加
-            matcher = pattern.matcher(value);
-            addFlag = false;
-            while (matcher.find()) {
-                paramKey = matcher.group();
-                paramKey = paramKey.replace(":", "");
-                paramValue = paramMap.get(paramKey);
-                if (paramValue == null) {
-                    continue;
-                }
-                addFlag = true;
-            }
-            if (!addFlag) {
-                continue;
-            }
-            whereList.add(value);
-        }
-        if (whereList.isEmpty()) {
-            return;
-        }
-
-        String sql = boundSql.getSql();
-        Configuration configuration = (Configuration) metaObject.getValue("delegate.configuration");
-
-        whereSql.append(" where ");
-        whereSql.append(whereList.get(0));
-        for (int i = 1; i < whereList.size(); i++) {
-            whereSql.append(JOIN_MARK).append(whereList.get(i));
-        }
-
-        List<ParameterMapping> parameterMappings = new ArrayList<>();
-        Matcher queryMatcher = pattern.matcher(whereSql);
-        while (queryMatcher.find()) {
-            String key = queryMatcher.group().replace(":", "");
-            ParameterMapping mapping = new ParameterMapping.Builder(configuration, key, Object.class).build();
-            parameterMappings.add(mapping);
-        }
-        String whereSql2 = whereSql.toString().replaceAll(PLACE_, PLACE_MARK);
-        String newSql = sql.replace(PLACE_WHERE, whereSql2);
-
-        metaObject.setValue("boundSql.sql", newSql);
-        metaObject.setValue("boundSql.parameterMappings", parameterMappings);
+//        BoundSql boundSql = (BoundSql) metaObject.getValue("boundSql");
+//        MapperMethod.ParamMap<?> paramMap = (MapperMethod.ParamMap<?>) boundSql.getParameterObject();
+//
+//        StringBuilder whereSql = new StringBuilder();
+//        String value;
+//        Pattern pattern = Pattern.compile(PLACE_);
+//        Matcher matcher = null;
+//        String paramKey = null;
+//        Object paramValue = null;
+//        boolean addFlag = false; //是否加入sql,如果一个condition里面有多个, 只要有一个成立, 就全部成立
+//        List<String> whereList = new ArrayList<>();
+//        for (Condition condition : conditions) {
+//            value = condition.value();
+//            if (value == null || value.equals("")) {
+//                continue;
+//            }
+//            //搜索 :xxx 占位符,有替换,无则直接加
+//            matcher = pattern.matcher(value);
+//            addFlag = false;
+//            while (matcher.find()) {
+//                paramKey = matcher.group();
+//                paramKey = paramKey.replace(":", "");
+//                paramValue = paramMap.get(paramKey);
+//                if (paramValue == null) {
+//                    continue;
+//                }
+//                addFlag = true;
+//            }
+//            if (!addFlag) {
+//                continue;
+//            }
+//            whereList.add(value);
+//        }
+//        if (whereList.isEmpty()) {
+//            return;
+//        }
+//
+//        String sql = boundSql.getSql();
+//        Configuration configuration = (Configuration) metaObject.getValue("delegate.configuration");
+//
+//        whereSql.append(" where ");
+//        whereSql.append(whereList.get(0));
+//        for (int i = 1; i < whereList.size(); i++) {
+//            whereSql.append(JOIN_MARK).append(whereList.get(i));
+//        }
+//
+//        List<ParameterMapping> parameterMappings = new ArrayList<>();
+//        Matcher queryMatcher = pattern.matcher(whereSql);
+//        while (queryMatcher.find()) {
+//            String key = queryMatcher.group().replace(":", "");
+//            ParameterMapping mapping = new ParameterMapping.Builder(configuration, key, Object.class).build();
+//            parameterMappings.add(mapping);
+//        }
+//        String whereSql2 = whereSql.toString().replaceAll(PLACE_, PLACE_MARK);
+//        String newSql = sql.replace(PLACE_WHERE, whereSql2);
+//
+//        metaObject.setValue("boundSql.sql", newSql);
+//        metaObject.setValue("boundSql.parameterMappings", parameterMappings);
     }
 }
