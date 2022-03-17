@@ -75,6 +75,21 @@ class ConditionInterceptor {
         metaObject.setValue("boundSql.parameterMappings", parameterMappings);
     }
 
+    /**
+     * 动态拼接条件sql
+     *
+     * <p>
+     * 关键点:
+     * 1.mybatis已自动封装好了动态sql节点.关键类:SqlNode,SqlSource,DynamicSqlSource,
+     * 2.动态封装好SqlSource后,需要重新获取sql,以及对应的参数,并调整metaObject
+     * 3. metaObject.setValue("boundSql.sql", sql);
+     * 4.metaObject.setValue("boundSql.parameterMappings", parameterMappings);
+     * 5.metaObject.setValue("delegate.mappedStatement.sqlSource", sqlSource);
+     * </p>
+     *
+     * @param conditions 条件注解列表
+     * @param metaObject 原对象
+     */
     private static void handleCondition(Condition[] conditions, MetaObject metaObject) {
 //        BoundSql boundSql = (BoundSql) metaObject.getValue("boundSql");
 //        MapperMethod.ParamMap<?> paramMap = (MapperMethod.ParamMap<?>) boundSql.getParameterObject();
