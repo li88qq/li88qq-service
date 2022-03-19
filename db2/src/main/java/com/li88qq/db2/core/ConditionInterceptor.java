@@ -1,17 +1,22 @@
 package com.li88qq.db2.core;
 
 import com.li88qq.db2.annotion.Condition;
-import org.apache.ibatis.binding.MapperMethod;
 import org.apache.ibatis.executor.statement.StatementHandler;
 import org.apache.ibatis.mapping.BoundSql;
 import org.apache.ibatis.mapping.MappedStatement;
 import org.apache.ibatis.mapping.ParameterMapping;
+import org.apache.ibatis.mapping.SqlSource;
 import org.apache.ibatis.plugin.Invocation;
 import org.apache.ibatis.reflection.MetaObject;
 import org.apache.ibatis.reflection.SystemMetaObject;
+import org.apache.ibatis.scripting.xmltags.*;
 import org.apache.ibatis.session.Configuration;
 
+import java.lang.reflect.Array;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -24,7 +29,8 @@ import java.util.regex.Pattern;
  */
 class ConditionInterceptor {
 
-    private static final String PLACE_ = ":[a-z]+(\\.[a-z]+)?";
+    //private static final String PLACE_ = "#\\{[a-zA-Z]+(\\.[a-zA-Z]+)?\\}";//mybatis自带格式:#{param}
+    private static final String PLACE_ = ":[a-zA-Z]+(\\.[a-zA-Z]+)?";//自定义格式: :param
     private static final String PLACE_WHERE = ":where";
     private static final String PLACE_MARK = "?";
     private static final String JOIN_MARK = " and ";
@@ -34,18 +40,9 @@ class ConditionInterceptor {
         MetaObject metaObject = SystemMetaObject.forObject(handler);
         MappedStatement mappedStatement = (MappedStatement) metaObject.getValue("delegate.mappedStatement");
         MethodMeta methodMeta = new MethodMeta.Builder(mappedStatement.getId()).build();
-        //判断是否需要处理,需要@Condition及原语句包含:where
-        BoundSql boundSql = handler.getBoundSql();
-        String sql = boundSql.getSql();
-        if (methodMeta.getConditions() == null || !sql.contains(PLACE_WHERE)) {
-            return invocation.proceed();
-        }
 
-        //处理动态条件
-        Condition[] conditions = methodMeta.getConditions();
-        if (conditions != null) {
-            handleCondition(conditions, metaObject);
-        }
+        //处理动态条件语句
+        handleCondition(metaObject, handler.getBoundSql(), methodMeta);
 
         //处理分页条件
         String pageable = methodMeta.getPageable();
@@ -76,21 +73,157 @@ class ConditionInterceptor {
     }
 
     /**
+     * 处理动态条件
+     *
+     * @param metaObject StatementHandler MetaObject
+     * @param boundSql   BoundSql
+     * @param methodMeta MethodMeta
+     */
+    private static void handleCondition(MetaObject metaObject, BoundSql boundSql, MethodMeta methodMeta) {
+        //判断是否需要处理
+        //1.没有注解
+        Condition[] conditions = methodMeta.getConditions();
+        if (conditions == null || conditions.length == 0) {
+            return;
+        }
+        //2.没有参数
+        if (boundSql.getParameterObject() == null) {
+            return;
+        }
+        //3.没包含where占位符
+        String sql = boundSql.getSql();
+        if (!sql.contains(PLACE_WHERE)) {
+            return;
+        }
+
+        //处理动态条件
+        handleCondition(metaObject, boundSql, conditions);
+    }
+
+    /**
      * 动态拼接条件sql
      *
      * <p>
      * 关键点:
      * 1.mybatis已自动封装好了动态sql节点.关键类:SqlNode,SqlSource,DynamicSqlSource,
      * 2.动态封装好SqlSource后,需要重新获取sql,以及对应的参数,并调整metaObject
-     * 3. metaObject.setValue("boundSql.sql", sql);
+     * 3.metaObject.setValue("boundSql.sql", sql);
      * 4.metaObject.setValue("boundSql.parameterMappings", parameterMappings);
      * 5.metaObject.setValue("delegate.mappedStatement.sqlSource", sqlSource);
      * </p>
      *
-     * @param conditions 条件注解列表
-     * @param metaObject 原对象
+     * @param metaObject StatementHandler MetaObject
+     * @param boundSql   BoundSql
+     * @param conditions Condition[]
      */
-    private static void handleCondition(Condition[] conditions, MetaObject metaObject) {
+    private static void handleCondition(MetaObject metaObject, BoundSql boundSql, Condition[] conditions) {
+        //sql分3部分
+        String sql = boundSql.getSql();
+        Object parameterObject = boundSql.getParameterObject();
+        Configuration configuration = (Configuration) metaObject.getValue("delegate.configuration");
+
+        //拼接sqlSource
+        List<SqlNode> sqlNodes = new ArrayList<>();
+
+        //where之前
+        String[] strings = sql.split(PLACE_WHERE);
+        String whereBefore = strings[0];
+        SqlNode whereBeforeNode = new StaticTextSqlNode(whereBefore);
+        sqlNodes.add(whereBeforeNode);
+
+        //where语句
+        List<SqlNode> whereSqlNode = buildWhere(conditions, parameterObject, configuration);
+        if (!whereSqlNode.isEmpty()) {
+            SqlNode whereNodes = new MixedSqlNode(whereSqlNode);
+            SqlNode whereRoot = new WhereSqlNode(configuration, whereNodes);
+            sqlNodes.add(whereRoot);
+        }
+
+        //where之后
+        if (strings.length == 2) {
+            String where_after = strings[1];
+            SqlNode sqlNode_after = new StaticTextSqlNode(where_after);
+            sqlNodes.add(sqlNode_after);
+        }
+
+        //更新原对象
+        SqlNode root = new MixedSqlNode(sqlNodes);
+        SqlSource sqlSource = new DynamicSqlSource(configuration, root);
+        BoundSql boundSqlUpdate = sqlSource.getBoundSql(parameterObject);
+        List<ParameterMapping> parameterMappings = boundSqlUpdate.getParameterMappings();
+
+        MetaObject boundSqlMeta = SystemMetaObject.forObject(boundSqlUpdate);
+        Object parameters = boundSqlMeta.getValue("additionalParameters");
+        Object metaParameters = boundSqlMeta.getValue("metaParameters");
+
+        metaObject.setValue("boundSql.sql", boundSqlUpdate.getSql());
+        metaObject.setValue("boundSql.metaParameters", metaParameters);
+        metaObject.setValue("boundSql.parameterMappings", parameterMappings);
+        metaObject.setValue("boundSql.additionalParameters", parameters);
+
+        metaObject.setValue("delegate.mappedStatement.sqlSource", sqlSource);
+    }
+
+    /**
+     * 动态构建where节点
+     *
+     * @param conditions      条件注解列表
+     * @param parameterObject 参数对象
+     * @param configuration   配置
+     * @return where节点
+     */
+    private static List<SqlNode> buildWhere(Condition[] conditions, Object parameterObject, Configuration configuration) {
+        List<SqlNode> sqlNodes = new ArrayList<>();
+        String value; //条件sql语句
+        Pattern pattern = Pattern.compile(PLACE_);
+        Matcher matcher;
+        boolean addFlag;//当前条件是否成立,如果有多个,一个成立, 整条语句都成立
+        boolean staticFlag;//当前是否存在条件
+        String param;//:param
+        String param_1;//param去掉:后
+
+        //参数map
+        MetaObject paramMap = SystemMetaObject.forObject(parameterObject);
+        SqlNode sqlNode = null;
+
+        //语句判断
+        List<String> staticList = new ArrayList<>();//静态sql
+        List<String> conditionList = new ArrayList<>();//动态sql
+        for (Condition condition : conditions) {
+            addFlag = false;
+            staticFlag = true;
+
+            value = condition.value();
+            //找到对应的key
+            matcher = pattern.matcher(value);
+            //判断当前sql是否添加
+            while (matcher.find()) {
+                staticFlag = false;
+
+                param = matcher.group();
+                param_1 = param.substring(1);
+                Object o = paramMap.getValue(param_1);
+                if (o == null) {
+                    continue;
+                }
+                addFlag = true;
+            }
+
+            if (staticFlag) {
+                staticList.add(value);
+            }
+            if (addFlag) {
+                conditionList.add(value);
+            }
+        }
+
+        return sqlNodes;
+    }
+
+
+    //旧逻辑
+    @Deprecated
+    private static void handleCondition2(Condition[] conditions, MetaObject metaObject) {
 //        BoundSql boundSql = (BoundSql) metaObject.getValue("boundSql");
 //        MapperMethod.ParamMap<?> paramMap = (MapperMethod.ParamMap<?>) boundSql.getParameterObject();
 //
