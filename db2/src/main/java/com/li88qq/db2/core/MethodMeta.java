@@ -27,7 +27,7 @@ public class MethodMeta {
 
     public static class Builder {
         private MethodMeta methodMeta;
-        private String id;
+        private final String id;
 
         public Builder(String id) {
             this.id = id;
@@ -93,9 +93,10 @@ public class MethodMeta {
             }
 
             //是否分页查询
-            Class<?> returnType = method.getReturnType();
-            if (returnType.isAssignableFrom(Page.class)) {
-                queryPage = true;
+            if (pageable != null) {
+                if (method.getReturnType().equals(Page.class)) {
+                    queryPage = true;
+                }
             }
 
             methodMeta.setClassName(method.getName());
@@ -113,14 +114,6 @@ public class MethodMeta {
             Method method = getMethod(id);
             buildMeta(method);
             return methodMeta;
-        }
-
-        public String getId() {
-            return id;
-        }
-
-        public void setId(String id) {
-            this.id = id;
         }
     }
 

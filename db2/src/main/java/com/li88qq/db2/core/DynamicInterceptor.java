@@ -30,10 +30,11 @@ public class DynamicInterceptor implements Interceptor {
     //拦截处理
     @Override
     public Object intercept(Invocation invocation) throws Throwable {
-        if (invocation instanceof StatementHandler) {
+        Object target = invocation.getTarget();
+        if (target instanceof StatementHandler) {
             //动态拼接条件
             return ConditionInterceptor.invoke(invocation);
-        } else if (invocation instanceof ResultSetHandler) {
+        } else if (target instanceof ResultSetHandler) {
             //处理分页对象返回
             return PageInterceptor.invoke(invocation);
         }

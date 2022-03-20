@@ -12,9 +12,6 @@ import org.apache.ibatis.reflection.SystemMetaObject;
 import org.apache.ibatis.scripting.xmltags.*;
 import org.apache.ibatis.session.Configuration;
 
-import java.lang.reflect.Array;
-import java.time.LocalDateTime;
-import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -58,7 +55,7 @@ class ConditionInterceptor {
         String sql = boundSql.getSql();
         List<ParameterMapping> parameterMappings = boundSql.getParameterMappings();
 
-        String pageKey = pageable + ".page";
+        String pageKey = pageable + ".pageNo";
         String pageSizeKey = pageable + ".pageSize";
 
         Configuration configuration = (Configuration) metaObject.getValue("delegate.configuration");
@@ -174,7 +171,8 @@ class ConditionInterceptor {
      */
     private static List<SqlNode> buildWhere(Condition[] conditions, Object parameterObject, Configuration configuration) {
         List<SqlNode> sqlNodes = new ArrayList<>();
-        String value; //条件sql语句
+        String sql; //条件sql语句
+        Object paramValue;//参数值
         Pattern pattern = Pattern.compile(PLACE_);
         Matcher matcher;
         boolean addFlag;//当前条件是否成立,如果有多个,一个成立, 整条语句都成立
@@ -187,39 +185,60 @@ class ConditionInterceptor {
         SqlNode sqlNode = null;
 
         //语句判断
-        List<String> staticList = new ArrayList<>();//静态sql
-        List<String> conditionList = new ArrayList<>();//动态sql
         for (Condition condition : conditions) {
             addFlag = false;
             staticFlag = true;
+            param_1 = "";
+            paramValue = null;
 
-            value = condition.value();
+            sql = condition.value();
             //找到对应的key
-            matcher = pattern.matcher(value);
+            matcher = pattern.matcher(sql);
+
             //判断当前sql是否添加
             while (matcher.find()) {
                 staticFlag = false;
 
                 param = matcher.group();
                 param_1 = param.substring(1);
-                Object o = paramMap.getValue(param_1);
-                if (o == null) {
+                paramValue = paramMap.getValue(param_1);
+                if (paramValue == null) {
                     continue;
                 }
                 addFlag = true;
             }
 
             if (staticFlag) {
-                staticList.add(value);
+                sqlNode = new StaticTextSqlNode(sql);
+                sqlNodes.add(sqlNode);
             }
             if (addFlag) {
-                conditionList.add(value);
+                buildNode(sqlNodes, sql, param_1, paramValue, configuration);
             }
         }
 
         return sqlNodes;
     }
 
+    //动态构建条件sqlNode
+    private static void buildNode(List<SqlNode> sqlNodes, String sql, String param, Object value, Configuration configuration) {
+        SqlNode sqlNode = null;
+        if (value instanceof Collection<?> || value.getClass().isArray()) {
+            String sqlBefore = sql.split(":" + param)[0];
+            String node_before = String.join("", JOIN_MARK, sqlBefore);
+            sqlNodes.add(new StaticTextSqlNode(node_before));
+
+            List<SqlNode> nodes = new ArrayList<>();
+            nodes.add(new StaticTextSqlNode("#{item}"));
+            SqlNode content = new MixedSqlNode(nodes);
+            sqlNode = new ForEachSqlNode(configuration, content,
+                    param, "index", "item", "(", ")", ",");
+        } else {
+            sql = sql.replace(":" + param, String.format("#{%s}", param));
+            sqlNode = new TextSqlNode(String.join("", JOIN_MARK, sql));
+        }
+        sqlNodes.add(sqlNode);
+    }
 
     //旧逻辑
     @Deprecated

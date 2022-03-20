@@ -11,6 +11,7 @@ import org.apache.ibatis.mapping.ParameterMapping;
 import org.apache.ibatis.plugin.Invocation;
 import org.apache.ibatis.reflection.MetaObject;
 import org.apache.ibatis.reflection.SystemMetaObject;
+import org.apache.ibatis.scripting.xmltags.ForEachSqlNode;
 import org.apache.ibatis.session.Configuration;
 
 import java.sql.Connection;
@@ -40,7 +41,7 @@ class PageInterceptor {
         MethodMeta methodMeta = new MethodMeta.Builder(mappedStatement.getId()).build();
         Object proceed = invocation.proceed();
         //不是分页查询,不处理
-        if (!(methodMeta.isQueryPage() && proceed instanceof List<?>)) {
+        if (!(methodMeta.isQueryPage())) {
             return proceed;
         }
 
@@ -80,9 +81,9 @@ class PageInterceptor {
         //处理统计字段
         String countField = "id";
         if (pageId != null) {
-            String idValue = pageId.value();
-            if (idValue != null && !idValue.equals("")) {
-                countField = pageId.value();
+            String countField1 = pageId.countField();
+            if (countField1 != null && !countField1.equals("")) {
+                countField = countField1;
             }
         }
 
@@ -107,6 +108,11 @@ class PageInterceptor {
         int fromIndex = sql.indexOf("from");
         sqlBuilder.append("select").append(" count(").append(countField).append(") ").append(sql.substring(fromIndex));
         BoundSql newBoundSql = new BoundSql(configuration, sqlBuilder.toString(), parameterMappings, parameterObject);
+        MetaObject metaObject = SystemMetaObject.forObject(newBoundSql);
+        MetaObject metaObjectOld = SystemMetaObject.forObject(boundSql);
+
+        metaObject.setValue("metaParameters", metaObjectOld.getValue("metaParameters"));
+        metaObject.setValue("additionalParameters", metaObjectOld.getValue("additionalParameters"));
         return newBoundSql;
     }
 
@@ -124,12 +130,19 @@ class PageInterceptor {
             connection = configuration.getEnvironment().getDataSource().getConnection();
             String sql = boundSql.getSql();
             List<ParameterMapping> parameterMappings = boundSql.getParameterMappings();
-            MapperMethod.ParamMap<?> parameterObject = (MapperMethod.ParamMap<?>) boundSql.getParameterObject();
             PreparedStatement statement = connection.prepareStatement(sql);
+            Object parameterObject = boundSql.getParameterObject();
+            MetaObject paramMetaObject = SystemMetaObject.forObject(parameterObject);
 
+            String key;
+            Object value;
             for (int i = 0; i < parameterMappings.size(); i++) {
-                String key = parameterMappings.get(i).getProperty();
-                Object value = parameterObject.get(key);
+                key = parameterMappings.get(i).getProperty();
+                if (!key.startsWith(ForEachSqlNode.ITEM_PREFIX)) {
+                    value = paramMetaObject.getValue(key);
+                } else {
+                    value = boundSql.getAdditionalParameter(key);
+                }
                 statement.setObject(i + 1, value);
             }
             ResultSet resultSet = statement.executeQuery();
