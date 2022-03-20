@@ -14,11 +14,8 @@
         <module>admin</module>
         <module>login</module>
         <module>gateway</module>
-        <module>bus</module>
-        <module>config</module>
-        <module>job</module>
-        <module>base</module>
-        <module>db2</module>
+        <module>db</module>
+        <module>bean</module>
     </modules>
 
     <properties>
@@ -55,14 +52,6 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
-
-    <dependencies>
-        <dependency>
-            <groupId>com.li88qq</groupId>
-            <artifactId>utils</artifactId>
-            <version>1.0-SNAPSHOT</version>
-        </dependency>
-    </dependencies>
 
     <build>
         <plugins>
