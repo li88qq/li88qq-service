@@ -1,4 +1,4 @@
-package com.li88qq.utils.encryption;
+package com.li88qq.login.util;
 
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;

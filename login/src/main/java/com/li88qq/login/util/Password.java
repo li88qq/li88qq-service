@@ -1,4 +1,4 @@
-package com.li88qq.utils.encryption;
+package com.li88qq.login.util;
 
 /**
  * 密码对象
