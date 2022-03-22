@@ -1,7 +1,7 @@
 package com.li88qq.login.module.main.controller;
 
-import com.li88qq.login.module.main.response.GetCaptchaVo;
-import com.li88qq.login.module.main.service.ICaptchaService;
+import com.li88qq.login.module.main.dto.captcha.GetCaptchaVo;
+import com.li88qq.login.module.main.service.CaptchaService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -19,7 +19,7 @@ import javax.annotation.Resource;
 public class CaptchaController {
 
     @Resource
-    private ICaptchaService captchaService;
+    private CaptchaService captchaService;
 
     /**
      * 获取验证码

@@ -1,10 +1,8 @@
-package com.li88qq.login.module.main.response;
+package com.li88qq.login.module.main.dto.captcha;
 
 /**
- * 获取验证码
- *
  * @author li88qq
- * @version 1.0 2022/1/19 22:56
+ * @version 1.0 2022/3/20 22:54
  */
 public class GetCaptchaVo {
 
