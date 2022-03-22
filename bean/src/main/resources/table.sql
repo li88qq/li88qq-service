@@ -1,7 +1,7 @@
 -- User:用户表
 create table `User`(
     id bigint not null auto_increment comment '自增长主键',
-    `account` varchar(30) comment '账号',
+    username varchar(30) comment '用户名',
     `password` varchar(50) comment '密码',
     `name` varchar(20) comment '昵称',
     mobile varchar(20) comment '手机号码',
@@ -10,11 +10,11 @@ create table `User`(
     `state` int not null default 0 comment '账号状态',
     loginDate bigint not null default 0 comment '本次登录时间,时间戳',
     lastLoginDate bigint not null default 0 comment '上次登录时间,时间戳',
-    lostLoginIp varchar(50) comment '上次登录ip',
+    lastLoginIp varchar(50) comment '上次登录ip',
     createDate bigint not null default 0 comment '注册时间',
     salt varchar(50) comment '盐',
     primary key(id),
-    unique key(account)
+    unique key(username)
 )   comment '注册用户';
 
 -- LoginLog:登录记录
@@ -27,7 +27,7 @@ create table LoginLog(
     loginIp varchar(50) comment '登录ip',
     logoutDate bigint not null default 0 comment '登出时间',
     primary key(id),
-    key UID_KEY(uid)
+    index UID_INDEX(uid)
 )   comment '登录记录';
 
 

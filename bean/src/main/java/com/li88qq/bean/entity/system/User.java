@@ -15,7 +15,7 @@ public class User {
 
     @Id
     private Long id;
-    private String account;//账号
+    private String username;//用户名
     private String name;//昵称
     private String password;//密码
     private String mobile;//手机号码
@@ -36,12 +36,12 @@ public class User {
         this.id = id;
     }
 
-    public String getAccount() {
-        return account;
+    public String getUsername() {
+        return username;
     }
 
-    public void setAccount(String account) {
-        this.account = account;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getName() {
