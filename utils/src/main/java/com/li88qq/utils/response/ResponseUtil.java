@@ -109,4 +109,14 @@ public class ResponseUtil {
         return response;
     }
 
+    /**
+     * 响应异常
+     *
+     * @param msg 异常信息
+     * @return 抛出异常
+     */
+    public static ResponseException exception(String msg) {
+        return new ResponseException(msg);
+    }
+
 }
