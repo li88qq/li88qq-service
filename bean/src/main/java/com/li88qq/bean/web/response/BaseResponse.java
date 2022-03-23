@@ -1,4 +1,4 @@
-package com.li88qq.utils.response;
+package com.li88qq.bean.web.response;
 
 /**
  * 基本响应类
