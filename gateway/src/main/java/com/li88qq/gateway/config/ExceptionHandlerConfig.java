@@ -1,9 +1,9 @@
 package com.li88qq.gateway.config;
 
 import com.alibaba.fastjson.JSON;
-import com.li88qq.utils.response.BaseResponse;
-import com.li88qq.utils.response.ResponseState;
-import com.li88qq.utils.response.ResponseUtil;
+import com.li88qq.bean.web.response.BaseResponse;
+import com.li88qq.bean.web.response.ResponseState;
+import com.li88qq.bean.web.response.ResponseUtil;
 import org.springframework.boot.web.reactive.error.ErrorWebExceptionHandler;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
