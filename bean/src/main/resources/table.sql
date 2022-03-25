@@ -9,6 +9,7 @@ create table `User`(
     head varchar(30) comment '头像地址',
     `state` int not null default 0 comment '账号状态',
     loginDate bigint not null default 0 comment '本次登录时间,时间戳',
+    loginIp varchar(50) comment '本地登录ip',
     lastLoginDate bigint not null default 0 comment '上次登录时间,时间戳',
     lastLoginIp varchar(50) comment '上次登录ip',
     createDate bigint not null default 0 comment '注册时间',

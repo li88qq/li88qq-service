@@ -23,6 +23,7 @@ public class User {
     private String head;//头像
     private Integer state = 0;//状态
     private Long loginDate = 0L;//本次登录时间
+    private String loginIp;//本次登录ip
     private Long lastLoginDate = 0L;//上次登录时间
     private String lastLoginIp;//上次登录ip
     private Long createDate = DateUtil.getTimestamp();//注册时间
@@ -130,5 +131,13 @@ public class User {
 
     public void setSalt(String salt) {
         this.salt = salt;
+    }
+
+    public String getLoginIp() {
+        return loginIp;
+    }
+
+    public void setLoginIp(String loginIp) {
+        this.loginIp = loginIp;
     }
 }
