@@ -11,7 +11,7 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
  * @author li88qq
  * @version 1.0 2022/1/3 23:06
  */
-@SpringBootApplication(scanBasePackages = {"com.li88qq.login","com.li88qq.db.core"})
+@SpringBootApplication(scanBasePackages = {"com.li88qq.login","com.li88qq.db.core","com.li88qq.bean.web"})
 @EnableDiscoveryClient
 @MapperScan(basePackages = "com.li88qq.login.dao")
 public class LoginApplication {
