@@ -19,6 +19,7 @@ import org.springframework.web.servlet.NoHandlerFoundException;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 
 /**
  * 统一异常处理
@@ -79,6 +80,7 @@ public class ControllerAdvice {
     public void handleNoHandlerFoundException(Exception ex) {
         response.setStatus(HttpStatus.NOT_FOUND.value());
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+        response.setCharacterEncoding(StandardCharsets.UTF_8.name());
         BaseResponse baseResponse = ResponseUtil.response(404, "not found", null);
         try {
             response.getWriter().write(JSON.toJSONString(baseResponse));
