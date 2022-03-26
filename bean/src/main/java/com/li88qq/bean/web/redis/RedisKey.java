@@ -14,12 +14,15 @@ public enum RedisKey {
     P_CAPTCHA("p:captcha:", 3, TimeUnit.MINUTES),//验证码
     P_SMS_CODE("p:sms_code:", 15, TimeUnit.MINUTES),//短信验证码
     P_TOKEN("p:token", 60, TimeUnit.MINUTES),//token
+    P_USER_TOKEN("p:user_token", 60, TimeUnit.MINUTES),//用户信息
 
 
     /***************************后台:AM************************/
     AM_CAPTCHA("am:captcha:", 3, TimeUnit.MINUTES),//验证码
     AM_SMS_CODE("am:sms_code:", 15, TimeUnit.MINUTES),//短信验证码
     AM_TOKEN("am:token", 60, TimeUnit.MINUTES),//token
+    AM_USER_TOKEN("am:user_token", 60, TimeUnit.MINUTES),//用户信息
+
 
     ;
 

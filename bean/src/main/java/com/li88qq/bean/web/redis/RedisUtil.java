@@ -21,7 +21,7 @@ public class RedisUtil {
     /**
      * 取值
      */
-    public <T> T get(RedisKey redisKey, String key, Class<T> tClass) {
+    public <T> T get(RedisKey redisKey, Object key, Class<T> tClass) {
         String value = stringRedisTemplate.opsForValue().get(redisKey.getKey() + key);
         if (value == null) {
             return null;
@@ -32,7 +32,7 @@ public class RedisUtil {
     /**
      * 设置值
      */
-    public <T> void set(RedisKey redisKey, String key, T value) {
+    public <T> void set(RedisKey redisKey, Object key, T value) {
         stringRedisTemplate.opsForValue()
                 .set(redisKey.getKey() + key, JSON.toJSONString(value), redisKey.getTime(), redisKey.getTimeUnit());
     }
@@ -40,7 +40,7 @@ public class RedisUtil {
     /**
      * 删除
      */
-    public void delete(RedisKey redisKey, String key) {
+    public void delete(RedisKey redisKey, Object key) {
         stringRedisTemplate.delete(redisKey.getKey() + key);
     }
 }
