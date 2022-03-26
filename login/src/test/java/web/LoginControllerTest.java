@@ -44,8 +44,18 @@ public class LoginControllerTest {
         LoginForm form = new LoginForm();
         form.setUsername("li88qq");
         form.setPassword("123456");
-        form.setCode("xmUJ");
-        form.setCheckCode("76eG1HlT");
+        form.setCode("A2Gb22");
+        form.setCheckCode("6EI3RKF4");
         MvcTest.doPost(mvc, path, form);
     }
+
+    /**
+     * 登出
+     */
+    @Test
+    public void logout() {
+        String path = "/p/logout";
+        MvcTest.doPost(mvc, path, null);
+    }
+
 }

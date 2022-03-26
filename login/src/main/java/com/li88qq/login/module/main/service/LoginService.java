@@ -1,9 +1,9 @@
 package com.li88qq.login.module.main.service;
 
+import com.li88qq.bean.web.response.BaseResponse;
 import com.li88qq.login.module.main.dto.login.LoginForm;
 import com.li88qq.login.module.main.dto.login.LoginVo;
 import com.li88qq.login.module.main.dto.register.RegisterForm;
-import com.li88qq.utils.response.BaseResponse;
 
 /**
  * 登录
@@ -13,7 +13,18 @@ import com.li88qq.utils.response.BaseResponse;
  */
 public interface LoginService {
 
+    /**
+     * 登录
+     */
     LoginVo login(LoginForm form);
 
+    /**
+     * 注册
+     */
     BaseResponse register(RegisterForm form);
+
+    /**
+     * 登出
+     */
+    BaseResponse logout();
 }

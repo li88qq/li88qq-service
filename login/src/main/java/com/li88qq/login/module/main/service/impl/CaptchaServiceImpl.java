@@ -1,12 +1,12 @@
 package com.li88qq.login.module.main.service.impl;
 
 import com.google.code.kaptcha.impl.DefaultKaptcha;
-import com.li88qq.login.config.RedisKey;
+import com.li88qq.bean.web.redis.RedisKey;
+import com.li88qq.bean.web.redis.RedisUtil;
 import com.li88qq.login.module.main.dto.captcha.GetCaptchaVo;
 import com.li88qq.login.module.main.service.CaptchaService;
 import com.li88qq.login.util.KaptchaUtil;
 import com.li88qq.utils.UUIDUtil;
-import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -23,7 +23,7 @@ public class CaptchaServiceImpl implements CaptchaService {
     @Resource
     private DefaultKaptcha defaultKaptcha;
     @Resource
-    private StringRedisTemplate stringRedisTemplate;
+    private RedisUtil redisUtil;
 
     /**
      * 获取验证码
@@ -36,8 +36,7 @@ public class CaptchaServiceImpl implements CaptchaService {
         String prefix = "data:image/jpeg;base64,";
         captcha = String.join("", prefix, captcha);
 
-        RedisKey rk = RedisKey.P_CAPTCHA;
-        stringRedisTemplate.opsForValue().set(rk.getKey() + code, text, rk.getTime(), rk.getTimeUnit());
+        redisUtil.set(RedisKey.P_CAPTCHA, code, text);
 
         GetCaptchaVo vo = new GetCaptchaVo();
         vo.setCode(code);
