@@ -11,15 +11,17 @@ import java.util.concurrent.TimeUnit;
 public enum RedisKey {
 
     /***************************前台:P ************************/
-    P_CAPTCHA("p:captcha:", 3, TimeUnit.MINUTES),//验证码
-    P_SMS_CODE("p:sms_code:", 15, TimeUnit.MINUTES),//短信验证码
-    P_TOKEN("p:token", 60, TimeUnit.MINUTES),//token
+    P_CAPTCHA("p:captcha:", 3, TimeUnit.MINUTES),//验证码(8位随机码,4位验证码)
+    P_SMS_CODE("p:sms_code:", 5, TimeUnit.MINUTES),//短信验证码(手机号码,6位短信验证码)
+    P_TOKEN("p:token:", 60, TimeUnit.MINUTES),//token(19位token,UserToken)
+
+
 
 
     /***************************后台:AM************************/
-    AM_CAPTCHA("am:captcha:", 3, TimeUnit.MINUTES),//验证码
-    AM_SMS_CODE("am:sms_code:", 15, TimeUnit.MINUTES),//短信验证码
-    AM_TOKEN("am:token", 60, TimeUnit.MINUTES),//token
+    AM_CAPTCHA("am:captcha:", 3, TimeUnit.MINUTES),//验证码(8位随机码,4位验证码)
+    AM_SMS_CODE("am:sms_code:", 5, TimeUnit.MINUTES),//短信验证码(手机号码,6位短信验证码)
+    AM_TOKEN("am:token:", 60, TimeUnit.MINUTES),//token(19位token,UserToken)
 
     ;
 
