@@ -57,11 +57,11 @@ public class SessionUtil implements ApplicationContextAware {
      * @return 获取用户信息
      */
     public static UserToken getSession() {
-        String ptoken = getRequest().getHeader(P_TOKEN);
-        if (ptoken == null || ptoken.equals("")) {
+        String token = getRequest().getHeader(P_TOKEN);
+        if (token == null || token.equals("")) {
             return null;
         }
-        return getRedis().get(RedisKey.P_USER_TOKEN, ptoken, UserToken.class);
+        return getRedis().get(RedisKey.P_USER_TOKEN, token, UserToken.class);
     }
 
     /**
@@ -88,6 +88,46 @@ public class SessionUtil implements ApplicationContextAware {
         UserToken userToken = getSession();
         if (userToken != null) {
             getRedis().expire(RedisKey.P_USER_TOKEN, userToken.getToken(), 5, 30);
+        }
+    }
+
+    /**
+     * 获取用户信息
+     *
+     * @return 获取用户信息
+     */
+    public static UserToken getAmSession() {
+        String token = getRequest().getHeader(AM_TOKEN);
+        if (token == null || token.equals("")) {
+            return null;
+        }
+        return getRedis().get(RedisKey.AM_USER_TOKEN, token, UserToken.class);
+    }
+
+    /**
+     * 加入session
+     */
+    public static void setAmSession(String token, UserToken userToken) {
+        getRedis().set(RedisKey.AM_USER_TOKEN, token, userToken);
+    }
+
+    /**
+     * 删除session
+     */
+    public static void deleteAmSession() {
+        UserToken userToken = getSession();
+        if (userToken != null) {
+            getRedis().delete(RedisKey.AM_USER_TOKEN, userToken.getToken());
+        }
+    }
+
+    /**
+     * 更新session过期时间
+     */
+    public static void updateAmSession() {
+        UserToken userToken = getSession();
+        if (userToken != null) {
+            getRedis().expire(RedisKey.AM_USER_TOKEN, userToken.getToken(), 5, 30);
         }
     }
 
