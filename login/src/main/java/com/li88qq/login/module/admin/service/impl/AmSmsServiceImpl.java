@@ -3,10 +3,10 @@ package com.li88qq.login.module.admin.service.impl;
 import com.li88qq.bean.entity.system.AmUser;
 import com.li88qq.bean.web.redis.RedisKey;
 import com.li88qq.bean.web.redis.RedisUtil;
+import com.li88qq.bean.web.response.BaseResponse;
 import com.li88qq.bean.web.response.ResponseUtil;
 import com.li88qq.login.dao.AmUserMapper;
 import com.li88qq.login.module.admin.dto.sms.GetAmSmsForm;
-import com.li88qq.login.module.admin.dto.sms.GetAmSmsVo;
 import com.li88qq.login.module.admin.service.AmSmsService;
 import com.li88qq.login.util.SmsUtil;
 import org.springframework.stereotype.Service;
@@ -33,24 +33,21 @@ public class AmSmsServiceImpl implements AmSmsService {
      * 获取短信验证码
      */
     @Override
-    public GetAmSmsVo getSms(GetAmSmsForm form) {
+    public BaseResponse getSms(GetAmSmsForm form) {
         //手机号码是否已注册
         String mobile = form.getMobile();
         AmUser user = amUserMapper.findByMobile(mobile);
         if (user == null) {
-            throw ResponseUtil.exception("该号码未注册!");
+            return ResponseUtil.error("该号码未注册!");
         }
 
         String code = smsUtil.smsCode();
         boolean send = smsUtil.send(mobile, code);
         if (!send) {
-            throw ResponseUtil.exception("请重新获取验证码!");
+            return ResponseUtil.error("请重新获取验证码!");
         }
 
         redisUtil.set(RedisKey.AM_SMS_CODE, mobile, code);
-
-        GetAmSmsVo vo = new GetAmSmsVo();
-        vo.setCode(code);
-        return vo;
+        return ResponseUtil.okMsg("验证码已发送, 请注意查收.");
     }
 }

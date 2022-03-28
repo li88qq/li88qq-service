@@ -1,7 +1,7 @@
 package com.li88qq.login.module.admin.controller;
 
+import com.li88qq.bean.web.response.BaseResponse;
 import com.li88qq.login.module.admin.dto.sms.GetAmSmsForm;
-import com.li88qq.login.module.admin.dto.sms.GetAmSmsVo;
 import com.li88qq.login.module.admin.service.AmSmsService;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -28,7 +28,8 @@ public class AmSmsController {
      * 获取短信验证码
      */
     @PostMapping("/getSms")
-    public GetAmSmsVo getSms(@RequestBody @Validated GetAmSmsForm form) {
+    public BaseResponse getSms(@RequestBody @Validated GetAmSmsForm form) {
         return amSmsService.getSms(form);
     }
+
 }

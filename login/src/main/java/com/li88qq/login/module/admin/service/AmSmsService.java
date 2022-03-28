@@ -1,7 +1,7 @@
 package com.li88qq.login.module.admin.service;
 
+import com.li88qq.bean.web.response.BaseResponse;
 import com.li88qq.login.module.admin.dto.sms.GetAmSmsForm;
-import com.li88qq.login.module.admin.dto.sms.GetAmSmsVo;
 
 /**
  * 短信验证码
@@ -14,5 +14,5 @@ public interface AmSmsService {
     /**
      * 获取短信验证码
      */
-    GetAmSmsVo getSms(GetAmSmsForm form);
+    BaseResponse getSms(GetAmSmsForm form);
 }
