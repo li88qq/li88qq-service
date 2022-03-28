@@ -10,7 +10,8 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
  * @author li88qq
  * @version 1.0 2022/1/12 22:46
  */
-@SpringBootApplication
+@SpringBootApplication(scanBasePackages = {"com.li88qq.gateway", "com.li88qq.db.core",
+        "com.li88qq.bean.web.session","com.li88qq.bean.web.redis"})
 @EnableDiscoveryClient
 public class GatewayApplication {
 

@@ -11,6 +11,12 @@ spring:
         password: nacos
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/db
+    url: jdbc:mysql://localhost:3306/li88qq
     username: root
     password: 1234
+  redis:
+    lettuce:
+      pool:
+        enabled: true
+    host: 192.168.56.95
+    port: 6379
