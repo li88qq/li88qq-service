@@ -46,7 +46,7 @@ public class SessionUtil implements ApplicationContextAware {
     public static HttpServletRequest getRequest() {
         ServletRequestAttributes requestAttributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         if (requestAttributes == null) {
-            throw new RuntimeException("ServletRequestAttributes为null!");
+            throw new RuntimeException("系统异常!");
         }
         return requestAttributes.getRequest();
     }
