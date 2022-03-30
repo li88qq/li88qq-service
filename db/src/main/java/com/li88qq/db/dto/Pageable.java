@@ -12,11 +12,11 @@ public class Pageable {
     private int pageSize = 15;//每页显示数
     private final int pageNo;//开始记录
 
-    public Pageable(int page, int pageSize) {
-        if (page > 0) {
+    public Pageable(Integer page, Integer pageSize) {
+        if (page != null && page > 0) {
             this.page = page;
         }
-        if (pageSize > 0) {
+        if (pageSize != null && pageSize > 0) {
             this.pageSize = pageSize;
         }
         this.pageNo = (this.page - 1) * this.pageSize;
