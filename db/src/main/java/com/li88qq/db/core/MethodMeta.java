@@ -2,6 +2,7 @@ package com.li88qq.db.core;
 
 import com.li88qq.db.annotion.Condition;
 import com.li88qq.db.annotion.Conditions;
+import com.li88qq.db.annotion.Format;
 import com.li88qq.db.annotion.PageId;
 import com.li88qq.db.dto.Page;
 import com.li88qq.db.dto.Pageable;
@@ -9,6 +10,8 @@ import org.apache.ibatis.annotations.Param;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * method元数据
@@ -24,6 +27,7 @@ public class MethodMeta {
     private String pageable;//分页参数
     private PageId pageId;//分页注解
     private boolean queryPage;//是否分页查询
+    private String[] formatObject;//需要格式化的对象,在查询时,对象使用@Format注解
 
     public static class Builder {
         private MethodMeta methodMeta;
@@ -99,12 +103,30 @@ public class MethodMeta {
                 }
             }
 
+            //判断是否需要格式化
+            List<String> formatKeys = new ArrayList<>();
+            for (Parameter parameter : parameters) {
+                if (parameter.isAnnotationPresent(Format.class)) {
+                    Param param = parameter.getAnnotation(Param.class);
+                    if (param != null) {
+                        formatKeys.add(param.value());
+                    } else {
+                        formatKeys.add(parameter.getName());
+                    }
+                }
+            }
+            String[] formatObject = null;
+            if (!formatKeys.isEmpty()) {
+                formatObject = formatKeys.toArray(new String[0]);
+            }
+
             methodMeta.setClassName(method.getName());
             methodMeta.setMethodName(method.getName());
             methodMeta.setConditions(conditionList);
             methodMeta.setPageId(pageId);
             methodMeta.setPageable(pageable);
             methodMeta.setQueryPage(queryPage);
+            methodMeta.setFormatObject(formatObject);
         }
 
         /**
@@ -163,5 +185,13 @@ public class MethodMeta {
 
     public void setQueryPage(boolean queryPage) {
         this.queryPage = queryPage;
+    }
+
+    public String[] getFormatObject() {
+        return formatObject;
+    }
+
+    public void setFormatObject(String[] formatObject) {
+        this.formatObject = formatObject;
     }
 }

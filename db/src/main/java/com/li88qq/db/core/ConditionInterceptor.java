@@ -1,6 +1,6 @@
 package com.li88qq.db.core;
 
-import com.li88qq.db.annotion.Condition;
+import com.li88qq.db.annotion.*;
 import org.apache.ibatis.executor.statement.StatementHandler;
 import org.apache.ibatis.mapping.BoundSql;
 import org.apache.ibatis.mapping.MappedStatement;
@@ -12,9 +12,12 @@ import org.apache.ibatis.reflection.SystemMetaObject;
 import org.apache.ibatis.scripting.xmltags.*;
 import org.apache.ibatis.session.Configuration;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import java.lang.reflect.Field;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.ZoneOffset;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -91,6 +94,10 @@ class ConditionInterceptor {
         String sql = boundSql.getSql();
         if (!sql.contains(PLACE_WHERE)) {
             return;
+        }
+        String[] formatObject = methodMeta.getFormatObject();
+        if (formatObject != null) {
+            handleFormat(formatObject, boundSql.getParameterObject());
         }
 
         //处理动态条件
@@ -239,6 +246,75 @@ class ConditionInterceptor {
         }
         sqlNodes.add(sqlNode);
     }
+
+    //声明了@Format的对象转成map
+    private static void handleFormat(String[] formatObject, Object parameterObject) {
+        MetaObject metaObject = SystemMetaObject.forObject(parameterObject);
+        for (String key : formatObject) {
+            Object value = metaObject.getValue(key);
+            Class<?> aClass = value.getClass();
+            Field[] declaredFields = aClass.getDeclaredFields();
+            Map<String, Object> paramMap = new HashMap<>();
+            Object paramValue = null;
+            for (Field field : declaredFields) {
+                field.trySetAccessible();
+                if (!field.canAccess(value)) {
+                    field.setAccessible(true);
+                }
+                try {
+                    paramValue = field.get(value);
+                } catch (IllegalAccessException e) {
+                    throw new RuntimeException(e);
+                }
+                if (paramValue != null) {
+                    if (field.isAnnotationPresent(Like.class)) {
+                        paramValue = handleLike(paramValue);
+                    } else if (field.isAnnotationPresent(TimeMin.class)) {
+                        paramValue = handleTimeMin(paramValue);
+                    } else if (field.isAnnotationPresent(TimeMax.class)) {
+                        paramValue = handleTimeMax(paramValue);
+                    } else if (field.isAnnotationPresent(Timestamp.class)) {
+                        paramValue = handleTimestamp(paramValue);
+                    }
+                }
+                paramMap.put(field.getName(), paramValue);
+            }
+            metaObject.setValue(key, paramMap);
+        }
+    }
+
+    //处理@Like注解
+    private static Object handleLike(Object value) {
+        if (value instanceof String v) {
+            return StringUtil.like(v);
+        }
+        throw new RuntimeException("@Like注解只能用于String字段");
+    }
+
+    //处理@TimeMin注解
+    private static Object handleTimeMin(Object value) {
+        if (value instanceof LocalDate localDate) {
+            return DateUtil.getTimeStamp(localDate, LocalTime.MIN);
+        }
+        throw new RuntimeException("@TimeMin注解只能用于LocalDate字段");
+    }
+
+    //处理@TimeMax注解
+    private static Object handleTimeMax(Object value) {
+        if (value instanceof LocalDate localDate) {
+            return DateUtil.getTimeStamp(localDate, LocalTime.MAX);
+        }
+        throw new RuntimeException("@TimeMax注解只能用于LocalDate字段");
+    }
+
+    //处理@Timestamp注解
+    private static Object handleTimestamp(Object value) {
+        if (value instanceof LocalDateTime dateTime) {
+            return dateTime.toEpochSecond(ZoneOffset.of("+8"));
+        }
+        throw new RuntimeException("@Timestamp注解只能用于LocalDateTime字段");
+    }
+
 
     //旧逻辑
     @Deprecated

@@ -129,4 +129,18 @@ class StringUtil {
         return sb.toString();
     }
 
+    /**
+     * 用于mysql like语句构建
+     *
+     * @param value 值
+     * @return 如果值为null或空字符串, 返回null, 否则返回: %value%
+     */
+    public static String like(String value) {
+        value = trim(value);
+        if (value.equals("")) {
+            return null;
+        }
+        return String.join("", "%", value, "%");
+    }
+
 }
