@@ -1,11 +1,14 @@
 package com.li88qq.admin.controller;
 
+import com.li88qq.admin.dto.amuser.AddAmUserForm;
 import com.li88qq.admin.dto.amuser.AmUserInfo;
 import com.li88qq.admin.dto.amuser.AmUserPageForm;
 import com.li88qq.admin.dto.amuser.AmUserPageVo;
 import com.li88qq.admin.service.AmUserService;
+import com.li88qq.bean.web.response.BaseResponse;
 import com.li88qq.db.dto.TPage;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -38,5 +41,13 @@ public class AmUserController {
     @GetMapping("/page")
     public TPage<AmUserPageVo> getPage(AmUserPageForm form) {
         return amUserService.getPage(form);
+    }
+
+    /**
+     * 添加用户(后台)
+     */
+    @PostMapping("/add")
+    public BaseResponse addAmUser(AddAmUserForm form) {
+        return amUserService.add(form);
     }
 }

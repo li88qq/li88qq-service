@@ -1,8 +1,10 @@
 package com.li88qq.admin.service;
 
+import com.li88qq.admin.dto.amuser.AddAmUserForm;
 import com.li88qq.admin.dto.amuser.AmUserInfo;
 import com.li88qq.admin.dto.amuser.AmUserPageForm;
 import com.li88qq.admin.dto.amuser.AmUserPageVo;
+import com.li88qq.bean.web.response.BaseResponse;
 import com.li88qq.db.dto.TPage;
 
 /**
@@ -22,4 +24,9 @@ public interface AmUserService {
      * 分页查询用户(后台)信息
      */
     TPage<AmUserPageVo> getPage(AmUserPageForm form);
+
+    /**
+     * 添加用户(后台)
+     */
+    BaseResponse add(AddAmUserForm form);
 }
