@@ -15,6 +15,7 @@ import com.li88qq.db.core.BaseMapper;
 import com.li88qq.db.dto.Page;
 import com.li88qq.db.dto.Pageable;
 import com.li88qq.db.dto.TPage;
+import com.li88qq.utils.RegexUtil;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -50,6 +51,10 @@ public class AmUserServiceImpl implements AmUserService {
     public TPage<AmUserPageVo> getPage(AmUserPageForm form) {
         Pageable pageable = new Pageable(form.getPage(), form.getPageSize());
         Page<AmUserPageVo> page = amUserMapper.findPage(form, pageable);
+        page.forEach(vo -> {
+            String mobile = vo.getMobile();
+            vo.setMobile(RegexUtil.markMobile(mobile));
+        });
         return page.build();
     }
 
