@@ -31,4 +31,30 @@ create table AmLoginLog(
   index UID_INDEX(uid)
 ) comment '登录记录';
 
+-- AmActionLog:操作记录
+create table AmActionLog(
+  id bigint not null auto_increment comment '自增长主键',
+  uid bigint not null default 0 comment '用户id',
+  actionType int not null default 0 comment '操作类型',
+  title varchar(50) comment '标题',
+  remark varchar(255) comment '描述',
+  createDate bigint not null default 0 comment '操作时间',
+  ip varchar(50) comment 'ip',
+  primary key(id),
+  index UID_INDEX(uid)
+) comment '操作记录';
+
+-- AmErrorLog:异常记录
+create table AmErrorLog(
+  id bigint not null auto_increment comment '自增长主键',
+  uid bigint not null default 0 comment '用户id',
+  errorType varchar(50) comment '异常类名称',
+  message varchar(255) comment '异常信息',
+  api varchar(255) comment '请求接口',
+  createDate bigint not null default 0 comment '发生时间',
+  ip varchar(50) comment 'ip',
+  primary key(id),
+  index UID_INDEX(uid)
+) comment '异常记录';
+
 
