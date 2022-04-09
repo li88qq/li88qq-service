@@ -1,4 +1,4 @@
-package com.li88qq.bean.entity.dictionary;
+package com.li88qq.bean.entity.am.dictionary;
 
 import com.li88qq.db.annotion.Id;
 import com.li88qq.db.annotion.Table;
