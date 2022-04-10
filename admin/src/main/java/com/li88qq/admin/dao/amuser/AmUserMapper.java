@@ -3,7 +3,7 @@ package com.li88qq.admin.dao.amuser;
 import com.li88qq.admin.dto.amuser.AmUserInfo;
 import com.li88qq.admin.dto.amuser.AmUserPageForm;
 import com.li88qq.admin.dto.amuser.AmUserPageVo;
-import com.li88qq.bean.entity.system.AmUser;
+import com.li88qq.bean.entity.am.system.AmUser;
 import com.li88qq.db.annotion.Condition;
 import com.li88qq.db.annotion.Format;
 import com.li88qq.db.dto.Page;

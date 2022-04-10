@@ -6,7 +6,7 @@ import com.li88qq.admin.dto.amuser.AmUserInfo;
 import com.li88qq.admin.dto.amuser.AmUserPageForm;
 import com.li88qq.admin.dto.amuser.AmUserPageVo;
 import com.li88qq.admin.service.AmUserService;
-import com.li88qq.bean.entity.system.AmUser;
+import com.li88qq.bean.entity.am.system.AmUser;
 import com.li88qq.bean.web.response.BaseResponse;
 import com.li88qq.bean.web.response.ResponseUtil;
 import com.li88qq.bean.web.session.SessionUtil;
