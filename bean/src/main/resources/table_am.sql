@@ -57,4 +57,20 @@ create table AmErrorLog(
   index UID_INDEX(uid)
 ) comment '异常记录';
 
+-- AmMenu:菜单
+create table AmMenu(
+  id int not null auto_increment comment '自增长主键',
+  `name` varchar(10) comment '名称',
+  parentId int not null default 0 comment '父节点id',
+  parentIds varchar(50) comment '父节点id列表,多个使用,隔开',
+  icon varchar(25) comment '图标',
+  url varchar(30) comment '路径',
+  router varchar(30) comment '路由',
+  sort int not null default 0 comment '排序',
+  `state` int not null default 0 comment '状态',
+  createDate bigint not null default 0 comment '创建时间',
+  updateDate bigint not null default 0 comment '更新时间',
+  primary key(id)
+) comment '菜单';
+
 

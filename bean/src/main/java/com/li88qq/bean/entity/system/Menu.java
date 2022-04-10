@@ -20,6 +20,7 @@ public class Menu {
     private String parentIds;//父节点id列表,多个使用,隔开
     private String icon;//图标
     private String url;//路径
+    private String router;//路由
     private Integer sort = 0;//排序
     private Integer state = 0;//状态
     private Long createDate = DateUtil.getTimestamp();//创建时间
@@ -103,5 +104,13 @@ public class Menu {
 
     public void setParentIds(String parentIds) {
         this.parentIds = parentIds;
+    }
+
+    public String getRouter() {
+        return router;
+    }
+
+    public void setRouter(String router) {
+        this.router = router;
     }
 }
