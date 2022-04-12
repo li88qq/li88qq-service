@@ -1,6 +1,6 @@
 package com.li88qq.login.dao;
 
-import com.li88qq.bean.entity.system.AmUser;
+import com.li88qq.bean.entity.am.system.AmUser;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 

@@ -1,7 +1,7 @@
 package com.li88qq.login.module.admin.service.impl;
 
-import com.li88qq.bean.entity.system.AmLoginLog;
-import com.li88qq.bean.entity.system.AmUser;
+import com.li88qq.bean.entity.am.system.AmLoginLog;
+import com.li88qq.bean.entity.am.system.AmUser;
 import com.li88qq.bean.web.redis.RedisKey;
 import com.li88qq.bean.web.redis.RedisUtil;
 import com.li88qq.bean.web.response.BaseResponse;
