@@ -28,7 +28,7 @@ public class LogController {
      */
     @GetMapping("/loginLog")
     public TPage<LoginLogVo> loginLog(LoginLogForm form) {
-        return logService.logLog(form);
+        return logService.loginLog(form);
     }
 
 }

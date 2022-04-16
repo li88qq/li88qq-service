@@ -27,7 +27,7 @@ public class LogServiceImpl implements LogService {
      * 分页查询登录记录
      */
     @Override
-    public TPage<LoginLogVo> logLog(LoginLogForm form) {
+    public TPage<LoginLogVo> loginLog(LoginLogForm form) {
         Page<LoginLogVo> pageData = loginLogMapper.findPage(form, new Pageable(form.getPage(), form.getPageSize()));
         return pageData.build();
     }

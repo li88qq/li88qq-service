@@ -15,5 +15,5 @@ public interface LogService {
     /**
      * 登录记录
      */
-    TPage<LoginLogVo> logLog(LoginLogForm form);
+    TPage<LoginLogVo> loginLog(LoginLogForm form);
 }

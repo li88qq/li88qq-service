@@ -9,7 +9,7 @@ package com.li88qq.admin.dto.ammenu;
 public class AmMenuTreeVo {
 
     private Integer id;
-    private Integer parent;
+    private Integer parentId;
     private String name;
     private Integer sort;
 
@@ -21,12 +21,12 @@ public class AmMenuTreeVo {
         this.id = id;
     }
 
-    public Integer getParent() {
-        return parent;
+    public Integer getParentId() {
+        return parentId;
     }
 
-    public void setParent(Integer parent) {
-        this.parent = parent;
+    public void setParentId(Integer parentId) {
+        this.parentId = parentId;
     }
 
     public String getName() {
