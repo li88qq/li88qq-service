@@ -52,8 +52,14 @@ class PageInterceptor {
         long count = queryCount(configuration, newBoundSql);
 
         //获取pageable
-        MapperMethod.ParamMap<?> parameterObject = (MapperMethod.ParamMap<?>) boundSql.getParameterObject();
-        Pageable pageable = (Pageable) parameterObject.get(methodMeta.getPageable());
+        Object parameterObject = boundSql.getParameterObject();
+        Pageable pageable = null;
+        if (parameterObject instanceof Pageable pageable1) {
+            pageable = pageable1;
+        } else {
+            MapperMethod.ParamMap<?> _parameterObject = (MapperMethod.ParamMap<?>) parameterObject;
+            pageable = (Pageable) _parameterObject.get(methodMeta.getPageable());
+        }
 
         //封装page对象
         ArrayList<?> list = (ArrayList<?>) proceed;

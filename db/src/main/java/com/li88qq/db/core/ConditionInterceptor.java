@@ -1,6 +1,7 @@
 package com.li88qq.db.core;
 
 import com.li88qq.db.annotion.*;
+import com.li88qq.db.dto.Pageable;
 import org.apache.ibatis.executor.statement.StatementHandler;
 import org.apache.ibatis.mapping.BoundSql;
 import org.apache.ibatis.mapping.MappedStatement;
@@ -58,12 +59,25 @@ class ConditionInterceptor {
         String sql = boundSql.getSql();
         List<ParameterMapping> parameterMappings = boundSql.getParameterMappings();
 
-        String pageKey = pageable + ".pageNo";
-        String pageSizeKey = pageable + ".pageSize";
+        //这里,如果不new,是不允许add操作的
+        if (parameterMappings.isEmpty()) {
+            parameterMappings = new ArrayList<>();
+        }
+        String pageKey = "";
+        String pageSizeKey = "";
+        //pageable不使用@Param注解
+        Object parameterObject = boundSql.getParameterObject();
+        if (parameterObject instanceof Pageable) {
+            pageKey = "pageNo";
+            pageSizeKey = "pageSize";
+        } else {
+            pageKey = pageable + ".pageNo";
+            pageSizeKey = pageable + ".pageSize";
+        }
 
         Configuration configuration = (Configuration) metaObject.getValue("delegate.configuration");
-        ParameterMapping pageMapping = new ParameterMapping.Builder(configuration, pageKey, Object.class).build();
-        ParameterMapping pageSizeMapping = new ParameterMapping.Builder(configuration, pageSizeKey, Object.class).build();
+        ParameterMapping pageMapping = new ParameterMapping.Builder(configuration, pageKey, Integer.class).build();
+        ParameterMapping pageSizeMapping = new ParameterMapping.Builder(configuration, pageSizeKey, Integer.class).build();
         parameterMappings.add(pageMapping);
         parameterMappings.add(pageSizeMapping);
 
