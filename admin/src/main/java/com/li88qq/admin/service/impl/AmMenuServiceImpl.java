@@ -3,11 +3,13 @@ package com.li88qq.admin.service.impl;
 import com.li88qq.admin.dao.am.AmMenuMapper;
 import com.li88qq.admin.dto.ammenu.*;
 import com.li88qq.admin.service.AmMenuService;
+import com.li88qq.bean.dto.IdsForm;
 import com.li88qq.bean.entity.am.system.AmMenu;
 import com.li88qq.bean.web.response.BaseResponse;
 import com.li88qq.bean.web.response.ResponseUtil;
 import com.li88qq.db.core.BaseMapper;
 import com.li88qq.utils.DateUtil;
+import com.li88qq.utils.StringUtil;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -120,5 +122,19 @@ public class AmMenuServiceImpl implements AmMenuService {
     @Override
     public List<AmMenuTreeVo> getTree() {
         return amMenuMapper.findTree();
+    }
+
+    /**
+     * 删除
+     */
+    @Override
+    public BaseResponse delete(IdsForm form) {
+        String ids = form.getIds();
+        List<Long> idList = StringUtil.fromIds(ids);
+        if (idList.isEmpty()) {
+            return ResponseUtil.error("参数错误");
+        }
+        amMenuMapper.deleteByIds(idList);
+        return ResponseUtil.ok();
     }
 }

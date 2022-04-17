@@ -6,6 +6,7 @@ import com.li88qq.admin.dto.ammenu.AmMenuTreeVo;
 import com.li88qq.bean.entity.am.system.AmMenu;
 import com.li88qq.db.annotion.Condition;
 import com.li88qq.db.annotion.Format;
+import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 
@@ -38,4 +39,11 @@ public interface AmMenuMapper {
      */
     @Select("select id,parentId,name,sort from AmMenu")
     List<AmMenuTreeVo> findTree();
+
+    /**
+     * 根据id列表删除
+     */
+    @Delete("delete from AmMenu :where")
+    @Condition("id in :ids")
+    int deleteByIds(@Param("ids") List<Long> ids);
 }

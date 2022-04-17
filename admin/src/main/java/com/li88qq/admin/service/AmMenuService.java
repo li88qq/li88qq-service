@@ -1,6 +1,7 @@
 package com.li88qq.admin.service;
 
 import com.li88qq.admin.dto.ammenu.*;
+import com.li88qq.bean.dto.IdsForm;
 import com.li88qq.bean.web.response.BaseResponse;
 
 import java.util.List;
@@ -37,4 +38,9 @@ public interface AmMenuService {
      * 查询菜单树
      */
     List<AmMenuTreeVo> getTree();
+
+    /**
+     * 删除
+     */
+    BaseResponse delete(IdsForm form);
 }

@@ -2,6 +2,7 @@ package com.li88qq.admin.controller;
 
 import com.li88qq.admin.dto.ammenu.*;
 import com.li88qq.admin.service.AmMenuService;
+import com.li88qq.bean.dto.IdsForm;
 import com.li88qq.bean.web.response.BaseResponse;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -61,4 +62,13 @@ public class AmMenuController {
     public List<AmMenuTreeVo> getTree() {
         return amMenuService.getTree();
     }
+
+    /**
+     * 删除
+     */
+    @PostMapping("/delete")
+    public BaseResponse delete(@RequestBody IdsForm form) {
+        return amMenuService.delete(form);
+    }
+
 }
