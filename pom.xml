@@ -25,6 +25,8 @@
         <spring.cloud.version>2021.0.0</spring.cloud.version>
         <spring.cloud.alibaba.version>2.2.6.RELEASE</spring.cloud.alibaba.version>
         <fastjson.version>1.2.79</fastjson.version>
+        <poi.version>5.2.2</poi.version>
+        <csv.version>1.9.0</csv.version>
     </properties>
 
     <dependencyManagement>
