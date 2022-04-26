@@ -73,4 +73,30 @@ create table AmMenu(
   primary key(id)
 ) comment '菜单';
 
+-- DictionaryType:字典类型
+create table DictionaryType(
+  id int not null auto_increment comment '自增长主键',
+  `name` varchar(20) comment '名称',
+  remark varchar(50) comment '描述',
+  tips varchar(50) comment '帮助信息',
+  createDate bigint not null default 0 comment '创建时间',
+  primary key(id)
+) comment '字典类型';
+
+-- Dictionary:字典
+create table Dictionary(
+  id bigint not null auto_increment comment '自增长主键',
+  typeId int not null default 0 comment '字典类型',
+  `name` varchar(20) comment '名称',
+  dicValue int not null default 0 comment '字典值',
+  en varchar(20) comment '字典英文',
+  remark varchar(50) comment '描述',
+  tips varchar(50) comment '帮助信息',
+  sort int not null default 0 comment '排序',
+  `state` int not null default 0 comment '状态',
+  createDate bigint not null default 0 comment '创建时间',
+  primary key(id)
+) comment '字典';
+
+
 

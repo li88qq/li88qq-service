@@ -17,7 +17,7 @@ public class Dictionary {
     private Long id;
     private Integer typeId = 0;//字典类型
     private String name;//字典名称
-    private Integer value = 0;//字典值
+    private Integer dicValue = 0;//字典值
     private String en;//字典英文
     private Integer sort = 0;//排序
     private String remark;//描述
@@ -49,12 +49,12 @@ public class Dictionary {
         this.name = name;
     }
 
-    public Integer getValue() {
-        return value;
+    public Integer getDicValue() {
+        return dicValue;
     }
 
-    public void setValue(Integer value) {
-        this.value = value;
+    public void setDicValue(Integer dicValue) {
+        this.dicValue = dicValue;
     }
 
     public String getEn() {

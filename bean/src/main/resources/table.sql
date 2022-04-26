@@ -73,4 +73,84 @@ create table Menu(
   primary key(id)
 ) comment '菜单';
 
+-- Article:文章
+create table Article(
+  id bigint not null auto_increment comment '自增长主键',
+  uid bigint not null default 0 comment '用户id',
+  title varchar(100) comment '标题',
+  img varchar(100) comment '背景图',
+  open int not null default 0 comment '是否公开',
+  original int not null default 0 comment '是否原创',
+  transport varchar(255) comment '转载地址',
+  sort int not null default 0 comment '排序',
+  createDate bigint not null default 0 comment '创建时间',
+  updateDate bigint not null default 0 comment '更新时间',
+  articleNo varchar(32) comment '文章编号,格式:年月日+id截取后4位',
+  rno varchar(8) comment '随机码,8位',
+  wordCount int not null default 0 comment '文章字数',
+  viewCount int not null default 0 comment '阅读次数',
+  primary key(id)
+) comment '文章';
+
+-- ArticleDoc:文章内容
+create table ArticleDoc(
+  id bigint not null comment '文章id',
+  doc text comment '文章内容',
+  originalDoc text comment '原内容',
+  updateDate bigint not null default 0 comment '更新时间',
+  primary key(id)
+) comment '文章内容';
+
+-- ArticleLabel:文章标签
+create table ArticleLabel(
+  id bigint not null comment '文章id',
+  `name` varchar(20) comment '标签名称',
+  createDate bigint not null default 0 comment '创建时间',
+  createUid bigint not null default 0 comment '创建人',
+  primary key(id)
+) comment '文章标签';
+
+-- Article_Label:文章和标签关联表
+create table Article_Label(
+  labelId bigint not null comment '标签id',
+  articleId bigint not null comment '文章id',
+  primary key(labelId,articleId)
+) comment '文章和标签关联表';
+
+-- Navigation:导航
+create table Navigation(
+  id bigint not null auto_increment comment '自增长主键',
+  uid bigint not null default 0 comment '用户id',
+  `name` varchar(20) comment '名称',
+  url varchar(255) comment '链接',
+  icon varchar(100) comment '图标',
+  remark varchar(255) comment '备注',
+  sort int not null default 0 comment '排序',
+  createDate bigint not null default 0 comment '创建时间',
+  updateDate bigint not null default 0 comment '更新时间',
+  clickCount int not null default 0 comment '点击次数',
+  primary key(id)
+) comment '导航';
+
+-- NavigationType:导航类型
+create table NavigationType(
+  id bigint not null auto_increment comment '自增长主键',
+  uid bigint not null default 0 comment '用户id',
+  `name` varchar(20) comment '名称',
+  icon varchar(100) comment '图标',
+  remark varchar(255) comment '备注',
+  sort int not null default 0 comment '排序',
+  createDate bigint not null default 0 comment '创建时间',
+  updateDate bigint not null default 0 comment '更新时间',
+  primary key(id)
+) comment '导航类型';
+
+-- Article_Label:导航分类关系
+create table Navigation_Type(
+  typeId bigint not null comment '分类id',
+  navId bigint not null comment '导航id',
+  primary key(typeId,navId)
+) comment '导航分类关系';
+
+
 
