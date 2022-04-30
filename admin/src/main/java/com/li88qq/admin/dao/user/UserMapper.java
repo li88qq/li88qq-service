@@ -1,7 +1,7 @@
 package com.li88qq.admin.dao.user;
 
-import com.li88qq.admin.dto.user.UserPageForm;
-import com.li88qq.admin.dto.user.UserPageVo;
+import com.li88qq.admin.module.main.dto.user.UserPageForm;
+import com.li88qq.admin.module.main.dto.user.UserPageVo;
 import com.li88qq.db.annotion.Condition;
 import com.li88qq.db.annotion.Format;
 import com.li88qq.db.dto.Page;

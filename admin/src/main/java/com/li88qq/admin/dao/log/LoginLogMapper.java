@@ -1,7 +1,7 @@
 package com.li88qq.admin.dao.log;
 
-import com.li88qq.admin.dto.log.LoginLogForm;
-import com.li88qq.admin.dto.log.LoginLogVo;
+import com.li88qq.admin.module.main.dto.log.LoginLogForm;
+import com.li88qq.admin.module.main.dto.log.LoginLogVo;
 import com.li88qq.db.annotion.Condition;
 import com.li88qq.db.annotion.Format;
 import com.li88qq.db.annotion.PageId;

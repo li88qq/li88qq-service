@@ -1,8 +1,8 @@
 package com.li88qq.admin.dao.am;
 
-import com.li88qq.admin.dto.ammenu.AmMenuListForm;
-import com.li88qq.admin.dto.ammenu.AmMenuListVo;
-import com.li88qq.admin.dto.ammenu.AmMenuTreeVo;
+import com.li88qq.admin.module.admin.dto.ammenu.AmMenuListForm;
+import com.li88qq.admin.module.admin.dto.ammenu.AmMenuListVo;
+import com.li88qq.admin.module.admin.dto.ammenu.AmMenuTreeVo;
 import com.li88qq.bean.entity.am.system.AmMenu;
 import com.li88qq.db.annotion.Condition;
 import com.li88qq.db.annotion.Format;
