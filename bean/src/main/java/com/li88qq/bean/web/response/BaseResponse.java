@@ -12,6 +12,10 @@ public class BaseResponse {
     private String msg;//响应信息
     private Object data;//响应数据
 
+    public boolean success() {
+        return this.code == 0;
+    }
+
     public int getCode() {
         return code;
     }
