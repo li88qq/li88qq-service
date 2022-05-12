@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.ZoneOffset;
+import java.time.format.DateTimeFormatter;
 
 /**
  * 日期工具类
@@ -60,5 +61,16 @@ public class DateUtil {
             return 0L;
         }
         return localDateTime.toEpochSecond(ZoneOffset.of("+8"));
+    }
+
+    /**
+     * 当前时间格式化
+     *
+     * @param pattern 格式
+     * @return 当前时间格式化
+     */
+    public static String format(String pattern) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(pattern);
+        return LocalDateTime.now().format(formatter);
     }
 }
