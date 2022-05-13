@@ -27,7 +27,7 @@ public class ImageController {
      * 保存图片
      */
     @PostMapping("/save")
-    public BaseResponse save(@RequestBody SaveImageForm form) {
+    public BaseResponse save(SaveImageForm form) {
         return imageService.save(form);
     }
 }

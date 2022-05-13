@@ -14,6 +14,7 @@ public class SaveImageForm {
 
     @NotNull
     private MultipartFile file;
+    private String imageType;
 
     public MultipartFile getFile() {
         return file;
@@ -21,5 +22,13 @@ public class SaveImageForm {
 
     public void setFile(MultipartFile file) {
         this.file = file;
+    }
+
+    public String getImageType() {
+        return imageType;
+    }
+
+    public void setImageType(String imageType) {
+        this.imageType = imageType;
     }
 }
