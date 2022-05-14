@@ -4,10 +4,11 @@ import com.li88qq.bean.dto.BaseResult;
 import com.li88qq.bean.enums.ImageType;
 import com.li88qq.utils.DateUtil;
 import com.li88qq.utils.UUIDUtil;
-import org.springframework.http.MediaType;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.OutputStream;
 import java.util.List;
 
@@ -39,11 +40,25 @@ public class ImageUtil {
         String ext = checkExt.getData();
         String path = buildPath(uid, imageType, ext);
 
-        try (OutputStream outputStream = new FileOutputStream(rootPath + path)) {
+        OutputStream outputStream = null;
+        try {
+            File saveFile = new File(rootPath + path);
+            File parentFile = saveFile.getParentFile();
+            if (!parentFile.exists()) {
+                parentFile.mkdirs();
+            }
+            outputStream = new FileOutputStream(saveFile);
             outputStream.write(file.getBytes());
             outputStream.flush();
         } catch (Exception e) {
             return BaseResult.error("文件保存失败!");
+        } finally {
+            if (outputStream != null) {
+                try {
+                    outputStream.close();
+                } catch (IOException e) {
+                }
+            }
         }
 
         return BaseResult.ok(path);
@@ -53,26 +68,23 @@ public class ImageUtil {
     private static BaseResult<String> getFileExt(MultipartFile file) {
         String contentType = file.getContentType();
         String name = file.getOriginalFilename();
-        List<MediaType> mediaTypes = List.of(MediaType.IMAGE_PNG, MediaType.IMAGE_JPEG, MediaType.IMAGE_GIF);
+        List<String> mediaTypes = List.of("image/jpeg", "image/png", "image/gif");
+        List<String> imageTypes = List.of("jpg", "png", "gif");
         String ext = null;
         if (contentType != null) {
-            for (MediaType mediaType : mediaTypes) {
-                if (mediaType.getType().equals(contentType)) {
-                    ext = mediaType.getSubtype();
-                    break;
+            int index = mediaTypes.indexOf(contentType);
+            if (index != -1) {
+                ext = contentType.substring("image/".length());
+                if (ext.equals("jpeg")) {
+                    ext = "jpg";
                 }
             }
         } else if (name != null) {
             int index = name.lastIndexOf(".");
             if (index > 0) {
                 String _ext = name.substring(index + 1);
-                if (!_ext.equals("")) {
-                    for (MediaType mediaType : mediaTypes) {
-                        if (mediaType.getSubtype().equals(_ext)) {
-                            ext = _ext;
-                            break;
-                        }
-                    }
+                if (imageTypes.contains(_ext)) {
+                    ext = _ext;
                 }
             }
         }
@@ -96,13 +108,12 @@ public class ImageUtil {
         //个人图片,/图片类型/uid/年月日/随机码8位.类型
         String date = DateUtil.format("yyMMdd");
         String fileName = UUIDUtil.uuid8() + "." + ext;
-        StringBuilder sb = new StringBuilder();
         if (imageType == ImageType.image) {
-            path = String.join(pathSep, pathSep, imageType.getName(), uid.toString(), date, fileName);
+            path = String.join(pathSep, imageType.name(), uid.toString(), date, fileName);
         } else {//文章,
-            path = String.join(pathSep, pathSep, imageType.getName(), date, fileName);
+            path = String.join(pathSep, imageType.name(), date, fileName);
         }
-        return path;
+        return pathSep + path;
     }
 
 }
