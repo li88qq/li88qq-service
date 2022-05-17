@@ -21,6 +21,24 @@ public enum ImageType {
         this.name = name;
     }
 
+    /**
+     * 转换
+     *
+     * @param type 类型
+     * @return 图片类型
+     */
+    public static ImageType parse(Integer type) {
+        if (type == null || type <= 0) {
+            return null;
+        }
+        for (ImageType imageType : ImageType.values()) {
+            if (imageType.getType() == type) {
+                return imageType;
+            }
+        }
+        return null;
+    }
+
     public int getType() {
         return type;
     }

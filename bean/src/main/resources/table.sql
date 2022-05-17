@@ -79,10 +79,9 @@ create table Article(
   uid bigint not null default 0 comment '用户id',
   title varchar(100) comment '标题',
   img varchar(100) comment '背景图',
-  open int not null default 0 comment '是否公开',
+  `open` int not null default 0 comment '是否公开',
   original int not null default 0 comment '是否原创',
   transport varchar(255) comment '转载地址',
-  sort int not null default 0 comment '排序',
   createDate bigint not null default 0 comment '创建时间',
   updateDate bigint not null default 0 comment '更新时间',
   articleNo varchar(32) comment '文章编号,格式:年月日+id截取后4位',
@@ -151,6 +150,18 @@ create table Navigation_Type(
   navId bigint not null comment '导航id',
   primary key(typeId,navId)
 ) comment '导航分类关系';
+
+-- Image:图片
+create table Image(
+  id bigint not null auto_increment comment '自增长主键',
+  uid bigint not null default 0 comment '用户id',
+  `path` varchar(32) comment '保存路径',
+  imageType int not null default 0 comment '类型',
+  `name` varchar(32) comment '名称',
+  remark varchar(100) comment '备注',
+  createDate bigint not null default 0 comment '创建时间',
+  primary key(id)
+) comment '图片表';
 
 
 

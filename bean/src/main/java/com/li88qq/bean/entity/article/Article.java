@@ -21,7 +21,6 @@ public class Article {
     private Integer open = 0;//是否公开
     private Integer original = 0;//是否原创
     private String transport;//转载地址
-    private Integer state = 0;//状态
     private Long createDate = DateUtil.getTimestamp();//创建时间
     private Long updateDate = 0L;//编辑时间
 
@@ -84,14 +83,6 @@ public class Article {
 
     public void setTransport(String transport) {
         this.transport = transport;
-    }
-
-    public Integer getState() {
-        return state;
-    }
-
-    public void setState(Integer state) {
-        this.state = state;
     }
 
     public Long getCreateDate() {
