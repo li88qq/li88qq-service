@@ -1,6 +1,5 @@
 package com.li88qq.main.controller;
 
-import com.li88qq.bean.web.response.BaseResponse;
 import com.li88qq.main.dto.image.SaveImageForm;
 import com.li88qq.main.service.ImageService;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -24,10 +23,10 @@ public class ImageController {
     private ImageService imageService;
 
     /**
-     * 保存图片
+     * 保存图片,返回路径
      */
     @PostMapping("/save")
-    public BaseResponse save(SaveImageForm form) {
+    public String save(@RequestBody SaveImageForm form) {
         return imageService.save(form);
     }
 }

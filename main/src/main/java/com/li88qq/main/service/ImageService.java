@@ -1,6 +1,5 @@
 package com.li88qq.main.service;
 
-import com.li88qq.bean.web.response.BaseResponse;
 import com.li88qq.main.dto.image.SaveImageForm;
 
 /**
@@ -12,7 +11,7 @@ import com.li88qq.main.dto.image.SaveImageForm;
 public interface ImageService {
 
     /**
-     * 保存
+     * 保存图片,返回路径
      */
-    BaseResponse save(SaveImageForm form);
+    String save(SaveImageForm form);
 }

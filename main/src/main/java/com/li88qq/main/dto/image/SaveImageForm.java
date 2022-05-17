@@ -2,8 +2,6 @@ package com.li88qq.main.dto.image;
 
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.validation.constraints.NotNull;
-
 /**
  * 保存图片
  *
@@ -12,9 +10,8 @@ import javax.validation.constraints.NotNull;
  */
 public class SaveImageForm {
 
-    @NotNull
     private MultipartFile file;
-    private String imageType;
+    private Integer imageType;
 
     public MultipartFile getFile() {
         return file;
@@ -24,11 +21,11 @@ public class SaveImageForm {
         this.file = file;
     }
 
-    public String getImageType() {
+    public Integer getImageType() {
         return imageType;
     }
 
-    public void setImageType(String imageType) {
+    public void setImageType(Integer imageType) {
         this.imageType = imageType;
     }
 }
