@@ -16,6 +16,7 @@
         <module>gateway</module>
         <module>db</module>
         <module>bean</module>
+        <module>elasticjob</module>
     </modules>
 
     <properties>
