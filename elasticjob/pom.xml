@@ -23,6 +23,11 @@
             <artifactId>elasticjob-lite-core</artifactId>
             <version>${elasticjob.version}</version>
         </dependency>
+        <dependency>
+            <groupId>org.apache.shardingsphere.elasticjob</groupId>
+            <artifactId>elasticjob-lite-spring-boot-starter</artifactId>
+            <version>${elasticjob.version}</version>
+        </dependency>
     </dependencies>
 
 </project>
