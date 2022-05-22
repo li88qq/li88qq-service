@@ -56,7 +56,7 @@ public class LoginServiceImpl implements LoginService {
         if (codeValue == null) {
             throw ResponseUtil.exception("验证码已过期,请重新获取");
         }
-        if (!code.equals(codeValue)) {
+        if (!code.equalsIgnoreCase(codeValue)) {
             throw ResponseUtil.exception("验证码错误");
         }
 
