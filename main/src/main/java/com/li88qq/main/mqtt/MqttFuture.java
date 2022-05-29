@@ -50,6 +50,17 @@ public class MqttFuture extends CompletableFuture<String> {
         }
     }
 
+    /**
+     * 移除id
+     *
+     * @param id id
+     */
+    public static void remove(String id) {
+        if (id != null) {
+            FUTURE_MAP.remove(id);
+        }
+    }
+
     public String getId() {
         return id;
     }

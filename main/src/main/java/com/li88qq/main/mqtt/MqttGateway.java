@@ -1,5 +1,6 @@
 package com.li88qq.main.mqtt;
 
+import org.eclipse.paho.mqttv5.common.MqttMessage;
 import org.springframework.integration.annotation.MessagingGateway;
 import org.springframework.integration.mqtt.support.MqttHeaders;
 import org.springframework.messaging.handler.annotation.Header;
@@ -36,5 +37,13 @@ public interface MqttGateway {
      * @param data  信息
      */
     void sendToMqtt(@Header(name = MqttHeaders.TOPIC) String topic, @Header(name = MqttHeaders.QOS) int qos, String data);
+
+    /**
+     * 发送信息
+     *
+     * @param topic   主题
+     * @param message 信息
+     */
+    void sendToMqtt(@Header(name = MqttHeaders.TOPIC) String topic, MqttMessage message);
 
 }
