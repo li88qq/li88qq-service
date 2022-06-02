@@ -22,3 +22,8 @@ spring:
     port: 6379
 img:
   path: d:/img
+mqtt:
+  username: admin
+  password: public
+  server: 192.168.56.95:8083  
+  
