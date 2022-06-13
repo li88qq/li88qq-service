@@ -30,7 +30,7 @@ public class MqttConfig {
     @Value("${mqtt.username}")
     private String username;
     @Value("${mqtt.password}")
-    private String password = "public";
+    private String password;
     @Value("${mqtt.server}")
     private String server;
 
@@ -39,12 +39,13 @@ public class MqttConfig {
      */
     @Bean
     public MqttConnectionOptions mqttConnectionOptions() {
-        String[] servers = new String[]{"tcp://" + server};
+        String[] servers = new String[]{server};
         MqttConnectionOptions options = new MqttConnectionOptions();
         options.setUserName(username);
         options.setPassword(password.getBytes(StandardCharsets.UTF_8));
         options.setAutomaticReconnect(true);
         options.setServerURIs(servers);
+        options.setAutomaticReconnect(true);
         return options;
     }
 
@@ -65,7 +66,7 @@ public class MqttConfig {
     @Bean
     @ServiceActivator(inputChannel = "mqttOutboundChannel")
     public Mqttv5PahoMessageHandler sender(MqttConnectionOptions mqttConnectionOptions) {
-        String clientId = "main_server_" + UUIDUtil.uuid8();
+        String clientId = "main_P_" + UUIDUtil.uuid8();
         Mqttv5PahoMessageHandler handler = new Mqttv5PahoMessageHandler(mqttConnectionOptions, clientId);
         handler.setAsync(true);
         handler.setDefaultTopic("topic1");
@@ -91,9 +92,10 @@ public class MqttConfig {
      */
     @Bean
     public Mqttv5PahoMessageDrivenChannelAdapter receiver(MqttConnectionOptions mqttConnectionOptions, MessageChannel mqttInputChannel) {
-        String clientId = "main_client_" + UUIDUtil.uuid8();
+        String clientId = "main_C_" + UUIDUtil.uuid8();
         Mqttv5PahoMessageDrivenChannelAdapter adapter = new Mqttv5PahoMessageDrivenChannelAdapter(mqttConnectionOptions, clientId, "topic1");
         adapter.setOutputChannel(mqttInputChannel);
+        LOG.info("mqtt接收端注册成功!");
         return adapter;
     }
 
