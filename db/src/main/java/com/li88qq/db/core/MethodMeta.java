@@ -86,7 +86,7 @@ public class MethodMeta {
             //判断pageable参数名称
             Parameter[] parameters = method.getParameters();
             for (Parameter parameter : parameters) {
-                if (parameter.getType().isAssignableFrom(Pageable.class)) {
+                if (parameter.getType() == Pageable.class) {
                     pageable = parameter.getName();
                     Param param = parameter.getAnnotation(Param.class);
                     if (param != null && param.value() != null) {
@@ -120,7 +120,7 @@ public class MethodMeta {
                 formatObject = formatKeys.toArray(new String[0]);
             }
 
-            methodMeta.setClassName(method.getName());
+            methodMeta.setClassName(method.getDeclaringClass().getName());
             methodMeta.setMethodName(method.getName());
             methodMeta.setConditions(conditionList);
             methodMeta.setPageId(pageId);
