@@ -1,6 +1,10 @@
 package com.li88qq.db.core;
 
-import org.apache.ibatis.annotations.*;
+import org.apache.ibatis.annotations.Insert;
+import org.apache.ibatis.annotations.Options;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 /**
  * mapper工厂
@@ -13,42 +17,50 @@ public interface MapperFactory {
     /**
      * 保存实体
      *
-     * @param t   实体
-     * @param sql insert语句
+     * @param sqlDto sql封装对象
+     * @param t      实体对象
      * @return 影响行数
      */
-    @Insert("${sql}")
-    <T> int save(@Param("t") T t, @Param("sql") String sql);
+    @NativeQuery
+    @Insert("insert into ${dto.tableName} (${dto.fields}) values (${dto.values})")
+    <T> int insert(@Param("dto") SqlDto sqlDto, @Param("t") T t);
 
     /**
      * 保存实体并返回自增主键
      *
-     * @param t   实体对象
-     * @param sql insert语句
-     * @param id  自增主键
+     * @param sqlDto sql封装对象
+     * @param t      实体对象
      * @return 影响行数, 返回的实体对象中会自动赋值主键
      */
-    @Insert("${sql}")
+    @NativeQuery
+    @Insert("insert into ${dto.tableName} (${dto.fields}) values (${dto.values})")
     @Options(useGeneratedKeys = true, keyProperty = "id", keyColumn = "id")
-    <T> int saveToId(@Param("t") T t, @Param("sql") String sql, @Param("id") String id);
+    <T> int insertId(@Param("dto") SqlDto sqlDto, @Param("t") T t);
 
     /**
-     * 保存实体
+     * 批量保存
      *
-     * @param t   实体
-     * @param sql update语句
-     * @return 影响行数
+     * @param sqlDto sql封装对象
+     * @param list   实体列表
+     * @return 影响行数, 返回的实体对象中会自动赋值主键
      */
-    @Update("${sql}")
-    <T> int update(@Param("t") T t, @Param("sql") String sql);
+    @NativeQuery
+    @Insert("<script>" + "insert into ${dto.tableName} (${dto.fields}) values " + "<foreach item=\"t\" collection=\"list\" separator=\",\">" +
+            "(${dto.values})" +
+            "</foreach></script>")
+    <T> int insertList(@Param("dto") SqlDto sqlDto, @Param("list") List<T> list);
 
     /**
-     * 根据主键删除实体
+     * 批量保存,忽略重复主键
      *
-     * @param t   实体
-     * @param sql delete语句
-     * @return 影响行数
+     * @param sqlDto sql封装对象
+     * @param list   实体列表
+     * @return 影响行数, 返回的实体对象中会自动赋值主键
      */
-    @Delete("${sql}")
-    <T> int delete(@Param("t") T t, @Param("sql") String sql);
+    @NativeQuery
+    @Insert("<script>" + "insert ignore into ${dto.tableName} (${dto.fields}) values " + "<foreach item=\"t\" collection=\"list\" separator=\",\">" +
+            "(${dto.values})" +
+            "</foreach></script>")
+    <T> int insertListIgnore(@Param("dto") SqlDto sqlDto, @Param("list") List<T> list);
+
 }
