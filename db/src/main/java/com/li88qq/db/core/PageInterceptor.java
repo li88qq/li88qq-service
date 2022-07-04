@@ -38,7 +38,13 @@ class PageInterceptor {
         ResultSetHandler handler = (ResultSetHandler) invocation.getTarget();
         MetaObject metaObject = SystemMetaObject.forObject(handler);
         MappedStatement mappedStatement = (MappedStatement) metaObject.getValue("mappedStatement");
-        MethodMeta methodMeta = new MethodMeta.Builder(mappedStatement.getId()).build();
+        MethodMeta methodMeta = null;
+        // 这里有可能mybatis自己调用接口,比如insert语句返回id
+        try {
+            methodMeta = new MethodMeta.Builder(mappedStatement.getId()).build();
+        } catch (Exception e) {
+            return invocation.proceed();
+        }
         Object proceed = invocation.proceed();
         //不是分页查询,不处理
         if (!(methodMeta.isQueryPage())) {

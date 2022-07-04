@@ -40,7 +40,13 @@ class ConditionInterceptor {
         StatementHandler handler = (StatementHandler) invocation.getTarget();
         MetaObject metaObject = SystemMetaObject.forObject(handler);
         MappedStatement mappedStatement = (MappedStatement) metaObject.getValue("delegate.mappedStatement");
-        MethodMeta methodMeta = new MethodMeta.Builder(mappedStatement.getId()).build();
+        MethodMeta methodMeta = null;
+        // 这里有可能mybatis自己调用接口,比如insert语句返回id
+        try {
+            methodMeta = new MethodMeta.Builder(mappedStatement.getId()).build();
+        } catch (Exception e) {
+            return invocation.proceed();
+        }
 
         //处理动态条件语句
         handleCondition(metaObject, handler.getBoundSql(), methodMeta);
