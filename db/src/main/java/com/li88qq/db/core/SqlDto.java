@@ -11,6 +11,7 @@ public class SqlDto {
     private String tableName;//表名
     private String id;//id值
     private String fields;//字段列表,多个使用,隔开
+    private String fields2;//去除掉id字段列表,多个使用,隔开
     private String values;//值表,#{t.id},#{t.name}
 
     public String getId() {
@@ -43,5 +44,13 @@ public class SqlDto {
 
     public void setValues(String values) {
         this.values = values;
+    }
+
+    public String getFields2() {
+        return fields2;
+    }
+
+    public void setFields2(String fields2) {
+        this.fields2 = fields2;
     }
 }

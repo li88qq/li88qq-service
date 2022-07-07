@@ -64,7 +64,7 @@ public class BaseMapper implements Mapper {
     @Override
     public <T> int update(T t) {
         SqlDto sqlDto = buildSqlDto(t.getClass());
-        String sql = buildUpdateSql(sqlDto, false);
+        String sql = buildUpdateSql(sqlDto, false, t);
         int effect = mapperFactory.update(sqlDto, sql, t);
         return effect;
     }
@@ -75,7 +75,7 @@ public class BaseMapper implements Mapper {
     @Override
     public <T> int updateNoNull(T t) {
         SqlDto sqlDto = buildSqlDto(t.getClass());
-        String sql = buildUpdateSql(sqlDto, true);
+        String sql = buildUpdateSql(sqlDto, true, t);
         int effect = mapperFactory.update(sqlDto, sql, t);
         return effect;
     }
@@ -131,7 +131,7 @@ public class BaseMapper implements Mapper {
             }
             return t;
         } catch (Exception e) {
-            throw new RuntimeException();
+            throw new RuntimeException(e);
         }
     }
 
@@ -145,6 +145,7 @@ public class BaseMapper implements Mapper {
         String tableName = null;
         String id = null;
         String fields = null;//字段列表,多个使用,隔开
+        String fields2 = null;//字段列表,多个使用,隔开
         String values = null;//值表,#{t.id},#{t.name}
 
         //表名
@@ -159,6 +160,7 @@ public class BaseMapper implements Mapper {
         //字段名
         List<String> ids = new ArrayList<>();
         List<String> fieldNames = new ArrayList<>();
+        List<String> fieldNames2 = new ArrayList<>();
         List<String> valueList = new ArrayList<>();
         Field[] declaredFields = tClass.getDeclaredFields();
         String fieldName = null;
@@ -166,21 +168,27 @@ public class BaseMapper implements Mapper {
         for (Field field : declaredFields) {
             fieldName = field.getName();
             value = String.join("", "#{t.", fieldName, "}");
-            if (field.isAnnotationPresent(Id.class)) {
-                ids.add(fieldName);
-            }
+
             fieldNames.add(fieldName);
             valueList.add(value);
+
+            if (field.isAnnotationPresent(Id.class)) {
+                ids.add(fieldName);
+            } else {
+                fieldNames2.add(fieldName);
+            }
         }
 
         id = String.join(",", ids);
         fields = String.join(",", fieldNames);
+        fields2 = String.join(",", fieldNames2);
         values = String.join(",", valueList);
 
         SqlDto sqlDto = new SqlDto();
         sqlDto.setTableName(tableName);
         sqlDto.setId(id);
         sqlDto.setFields(fields);
+        sqlDto.setFields2(fields2);
         sqlDto.setValues(values);
 
         return sqlDto;
@@ -189,12 +197,62 @@ public class BaseMapper implements Mapper {
     /**
      * 构建updateSql
      *
-     * @param sqlDto  sqlDto
-     * @param notNull 是否忽略null值
+     * @param sqlDto sqlDto
      * @return updateSql
      */
-    private String buildUpdateSql(SqlDto sqlDto, boolean notNull) {
-        return null;
+    private <T> String buildUpdateSql(SqlDto sqlDto, boolean noNull, T t) {
+        String id = sqlDto.getId();
+        if (id == null || id.equals("")) {
+            throw new RuntimeException("@Id不能为空!");
+        }
+
+        String fields2 = sqlDto.getFields2();
+        if (fields2 == null || fields2.equals("")) {
+            throw new RuntimeException("表字段不能为空!");
+        }
+
+        if (noNull) {
+            fields2 = filterNoNull(fields2, t);
+        }
+
+        StringBuilder sb = new StringBuilder();
+        sb.append("set ");
+        String setSql = buildKv(fields2, ",");
+        sb.append(setSql);
+
+        sb.append(" where ");
+        String whereSql = buildKv(id, " and ");
+        sb.append(whereSql);
+        return sb.toString();
+    }
+
+    /**
+     * 过滤非空值的字段
+     *
+     * @param fields 字段列表
+     * @param t      实体对象
+     * @return 非空值的字段
+     */
+    private <T> String filterNoNull(String fields, T t) {
+        try {
+            Class<?> aClass = t.getClass();
+            Field field = null;
+            List<String> result = new ArrayList<>();
+            for (String f : fields.split(",")) {
+                field = aClass.getDeclaredField(f);
+                field.setAccessible(true);
+                if (field.get(t) == null) {
+                    continue;
+                }
+                result.add(f);
+            }
+            if (result.isEmpty()) {
+                throw new RuntimeException("更新字段全为null");
+            }
+            return String.join(",", result);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     /**
@@ -204,6 +262,33 @@ public class BaseMapper implements Mapper {
      * @return deleteSql
      */
     private String buildDeleteSql(SqlDto sqlDto) {
-        return null;
+        String id = sqlDto.getId();
+        if (id == null || id.equals("")) {
+            throw new RuntimeException("@Id不能为空!");
+        }
+        StringBuilder sb = new StringBuilder();
+        sb.append("where ");
+        String whereSql = buildKv(id, " and ");
+        sb.append(whereSql);
+        return sb.toString();
     }
+
+    /**
+     * 构建键值对
+     *
+     * @param fields 字段字符串,多个使用,隔开
+     * @param sep    连接符
+     * @return 字符串, a = #{t.a} 连接符 b = #{t.b}
+     */
+    private String buildKv(String fields, String sep) {
+        List<String> list = new ArrayList<>();
+        String kv = null;
+        String format = "%s = #{t.%s}";
+        for (String key : fields.split(",")) {
+            kv = String.format(format, key, key);
+            list.add(kv);
+        }
+        return String.join(sep, list);
+    }
+
 }
