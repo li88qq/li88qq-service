@@ -1,5 +1,8 @@
 package com.li88qq.bean.dto;
 
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+
 /**
  * ids请求参数
  *
@@ -8,6 +11,8 @@ package com.li88qq.bean.dto;
  */
 public class IdsForm {
 
+    @NotNull
+    @Pattern(regexp = "\\d+]")
     private String ids;
 
     public String getIds() {
