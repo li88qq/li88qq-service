@@ -35,6 +35,7 @@ public class BaseMapper implements Mapper {
      * 保存,返回id
      */
     @Override
+    @SuppressWarnings("unchecked")
     public <T, K extends Number> K saveId(T t, Class<K> kClass) {
         try {
             SqlDto sqlDto = buildSqlDto(t.getClass());
@@ -48,6 +49,7 @@ public class BaseMapper implements Mapper {
                 throw new RuntimeException("该方法仅支持一个@Id注解!");
             }
             Field idField = t.getClass().getDeclaredField(ids[0]);
+            idField.setAccessible(true);
             Object id = idField.get(t);
             if (id.getClass() == kClass) {
                 return (K) id;
