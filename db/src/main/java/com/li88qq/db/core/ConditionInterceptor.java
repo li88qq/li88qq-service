@@ -57,9 +57,16 @@ class ConditionInterceptor {
             handlePageLimit(pageable, metaObject);
         }
 
+        //是否insertId
+        boolean insertId = methodMeta.getInsertId();
+        if (insertId) {
+            handleInsertId(mappedStatement, metaObject);
+        }
+
         return invocation.proceed();
     }
 
+    //处理分页limit语句
     private static void handlePageLimit(String pageable, MetaObject metaObject) {
         BoundSql boundSql = (BoundSql) metaObject.getValue("boundSql");
         String sql = boundSql.getSql();
@@ -333,6 +340,23 @@ class ConditionInterceptor {
             return dateTime.toEpochSecond(ZoneOffset.of("+8"));
         }
         throw new RuntimeException("@Timestamp注解只能用于LocalDateTime字段");
+    }
+
+    //处理insertId
+    private static void handleInsertId(MappedStatement mappedStatement, MetaObject metaObject) {
+        BoundSql boundSql = (BoundSql) metaObject.getValue("boundSql");
+        MetaObject paramMap = SystemMetaObject.forObject(boundSql.getParameterObject());
+        Object t = paramMap.getValue("t");
+        ClassMeta classMeta = SqlFactory.getClassMeta(t.getClass());
+        String[] ids = classMeta.getIds();
+        if (ids == null || ids.length != 1) {
+            throw new RuntimeException("该方法仅支持一个@Id注解");
+        }
+        String[] idColumns = new String[]{"t." + ids[0]};
+
+        MetaObject statementMetaObject = SystemMetaObject.forObject(mappedStatement);
+        statementMetaObject.setValue("keyProperties", idColumns);
+        statementMetaObject.setValue("keyColumns", idColumns);
     }
 
 

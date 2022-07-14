@@ -6,6 +6,7 @@ import com.li88qq.db.annotion.Format;
 import com.li88qq.db.annotion.PageId;
 import com.li88qq.db.dto.Page;
 import com.li88qq.db.dto.Pageable;
+import org.apache.ibatis.annotations.Options;
 import org.apache.ibatis.annotations.Param;
 
 import java.lang.reflect.Method;
@@ -28,6 +29,7 @@ public class MethodMeta {
     private PageId pageId;//分页注解
     private boolean queryPage;//是否分页查询
     private String[] formatObject;//需要格式化的对象,在查询时,对象使用@Format注解
+    private boolean insertId;//是否有insertId处理
 
     public static class Builder {
         private MethodMeta methodMeta;
@@ -120,6 +122,14 @@ public class MethodMeta {
                 formatObject = formatKeys.toArray(new String[0]);
             }
 
+            //是否insert操作且返回id
+            boolean insertId = false;
+            NativeQuery nativeQuery = method.getAnnotation(NativeQuery.class);
+            Options options = method.getAnnotation(Options.class);
+            if (nativeQuery != null && options != null && options.useGeneratedKeys()) {
+                insertId = true;
+            }
+
             methodMeta.setClassName(method.getDeclaringClass().getName());
             methodMeta.setMethodName(method.getName());
             methodMeta.setConditions(conditionList);
@@ -127,6 +137,7 @@ public class MethodMeta {
             methodMeta.setPageable(pageable);
             methodMeta.setQueryPage(queryPage);
             methodMeta.setFormatObject(formatObject);
+            methodMeta.setInsertId(insertId);
         }
 
         /**
@@ -193,5 +204,13 @@ public class MethodMeta {
 
     public void setFormatObject(String[] formatObject) {
         this.formatObject = formatObject;
+    }
+
+    public boolean getInsertId() {
+        return insertId;
+    }
+
+    public void setInsertId(boolean insertId) {
+        this.insertId = insertId;
     }
 }
