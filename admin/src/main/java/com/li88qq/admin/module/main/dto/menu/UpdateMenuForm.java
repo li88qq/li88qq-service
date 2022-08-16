@@ -1,5 +1,7 @@
 package com.li88qq.admin.module.main.dto.menu;
 
+import javax.validation.constraints.NotNull;
+
 /**
  * 编辑菜单
  *
@@ -8,7 +10,9 @@ package com.li88qq.admin.module.main.dto.menu;
  */
 public class UpdateMenuForm {
 
+    @NotNull(message = "id不能为空")
     private Integer id;
+    @NotNull(message = "请输入名称")
     private String name;
     private Integer parentId;
     private String icon;

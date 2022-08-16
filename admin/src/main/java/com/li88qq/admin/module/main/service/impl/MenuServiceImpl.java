@@ -5,8 +5,11 @@ import com.li88qq.admin.module.main.dto.menu.MenuVo;
 import com.li88qq.admin.module.main.dto.menu.SaveMenuForm;
 import com.li88qq.admin.module.main.dto.menu.UpdateMenuForm;
 import com.li88qq.admin.module.main.service.MenuService;
+import com.li88qq.bean.entity.system.Menu;
 import com.li88qq.bean.web.response.BaseResponse;
+import com.li88qq.bean.web.response.ResponseUtil;
 import com.li88qq.db.core.BaseMapper;
+import com.li88qq.utils.DateUtil;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -29,7 +32,19 @@ public class MenuServiceImpl implements MenuService {
      */
     @Override
     public BaseResponse save(SaveMenuForm form) {
-        return null;
+        Integer parentId = form.getParentId();
+        if (parentId == null || parentId < 0) {
+            parentId = 0;
+        }
+        Menu menu = new Menu();
+        menu.setName(form.getName());
+        menu.setParentId(parentId);
+        menu.setRouter(form.getRouter());
+        menu.setUrl(form.getUrl());
+        menu.setIcon(form.getIcon());
+
+        baseMapper.save(menu);
+        return ResponseUtil.ok();
     }
 
     /**
@@ -37,7 +52,22 @@ public class MenuServiceImpl implements MenuService {
      */
     @Override
     public BaseResponse update(UpdateMenuForm form) {
-        return null;
+        Integer id = form.getId();
+        Integer parentId = form.getParentId();
+        if (parentId == null || parentId < 0) {
+            parentId = 0;
+        }
+        Menu menu = new Menu();
+        menu.setId(id);
+        menu.setName(form.getName());
+        menu.setParentId(parentId);
+        menu.setRouter(form.getRouter());
+        menu.setUrl(form.getUrl());
+        menu.setIcon(form.getIcon());
+        menu.setUpdateDate(DateUtil.getTimestamp());
+
+        baseMapper.update(menu);
+        return ResponseUtil.ok();
     }
 
     /**
