@@ -1,4 +1,4 @@
-package com.li88qq.admin.dao.log;
+package com.li88qq.admin.dao.main;
 
 import com.li88qq.admin.module.main.dto.log.LoginLogForm;
 import com.li88qq.admin.module.main.dto.log.LoginLogVo;

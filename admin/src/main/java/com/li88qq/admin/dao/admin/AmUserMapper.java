@@ -1,4 +1,4 @@
-package com.li88qq.admin.dao.amuser;
+package com.li88qq.admin.dao.admin;
 
 import com.li88qq.admin.module.admin.dto.amuser.AmUserInfo;
 import com.li88qq.admin.module.admin.dto.amuser.AmUserPageForm;

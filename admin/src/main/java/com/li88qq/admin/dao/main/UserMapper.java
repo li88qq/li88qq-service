@@ -1,4 +1,4 @@
-package com.li88qq.admin.dao.user;
+package com.li88qq.admin.dao.main;
 
 import com.li88qq.admin.module.main.dto.user.UserPageForm;
 import com.li88qq.admin.module.main.dto.user.UserPageVo;

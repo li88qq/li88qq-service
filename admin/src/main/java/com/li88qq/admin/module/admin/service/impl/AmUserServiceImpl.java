@@ -1,6 +1,6 @@
 package com.li88qq.admin.module.admin.service.impl;
 
-import com.li88qq.admin.dao.amuser.AmUserMapper;
+import com.li88qq.admin.dao.admin.AmUserMapper;
 import com.li88qq.admin.module.admin.dto.amuser.AddAmUserForm;
 import com.li88qq.admin.module.admin.dto.amuser.AmUserInfo;
 import com.li88qq.admin.module.admin.dto.amuser.AmUserPageForm;

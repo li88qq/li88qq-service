@@ -1,6 +1,6 @@
 package com.li88qq.admin.module.main.service.impl;
 
-import com.li88qq.admin.dao.user.UserMapper;
+import com.li88qq.admin.dao.main.UserMapper;
 import com.li88qq.admin.module.main.dto.user.UserPageForm;
 import com.li88qq.admin.module.main.dto.user.UserPageVo;
 import com.li88qq.admin.module.main.service.UserService;

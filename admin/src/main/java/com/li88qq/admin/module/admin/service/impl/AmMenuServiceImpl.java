@@ -1,6 +1,6 @@
 package com.li88qq.admin.module.admin.service.impl;
 
-import com.li88qq.admin.dao.am.AmMenuMapper;
+import com.li88qq.admin.dao.admin.AmMenuMapper;
 import com.li88qq.admin.module.admin.dto.ammenu.*;
 import com.li88qq.admin.module.admin.service.AmMenuService;
 import com.li88qq.bean.dto.IdsForm;

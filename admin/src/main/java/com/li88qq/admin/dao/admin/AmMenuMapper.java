@@ -1,4 +1,4 @@
-package com.li88qq.admin.dao.am;
+package com.li88qq.admin.dao.admin;
 
 import com.li88qq.admin.module.admin.dto.ammenu.AmMenuListForm;
 import com.li88qq.admin.module.admin.dto.ammenu.AmMenuListVo;

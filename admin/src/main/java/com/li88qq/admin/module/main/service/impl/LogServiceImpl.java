@@ -1,6 +1,6 @@
 package com.li88qq.admin.module.main.service.impl;
 
-import com.li88qq.admin.dao.log.LoginLogMapper;
+import com.li88qq.admin.dao.main.LoginLogMapper;
 import com.li88qq.admin.module.main.dto.log.LoginLogForm;
 import com.li88qq.admin.module.main.dto.log.LoginLogVo;
 import com.li88qq.admin.module.main.service.LogService;
