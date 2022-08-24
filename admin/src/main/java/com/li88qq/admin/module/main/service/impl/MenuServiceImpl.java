@@ -1,5 +1,6 @@
 package com.li88qq.admin.module.main.service.impl;
 
+import com.li88qq.admin.dao.main.MenuMapper;
 import com.li88qq.admin.module.main.dto.menu.MenuListVo;
 import com.li88qq.admin.module.main.dto.menu.MenuVo;
 import com.li88qq.admin.module.main.dto.menu.SaveMenuForm;
@@ -26,6 +27,8 @@ public class MenuServiceImpl implements MenuService {
 
     @Resource
     private BaseMapper baseMapper;
+    @Resource
+    private MenuMapper menuMapper;
 
     /**
      * 新增菜单
@@ -75,7 +78,7 @@ public class MenuServiceImpl implements MenuService {
      */
     @Override
     public List<MenuListVo> findList() {
-        return null;
+        return menuMapper.findList();
     }
 
     /**
@@ -83,6 +86,16 @@ public class MenuServiceImpl implements MenuService {
      */
     @Override
     public MenuVo findMenu(Integer id) {
-        return null;
+        Menu menu = menuMapper.findById(id);
+        MenuVo vo = new MenuVo();
+        vo.setId(menu.getId());
+        vo.setParentId(menu.getParentId());
+        vo.setName(menu.getName());
+        vo.setIcon(menu.getIcon());
+        vo.setRouter(menu.getRouter());
+        vo.setUrl(menu.getUrl());
+        vo.setSort(menu.getSort());
+        vo.setState(menu.getState());
+        return vo;
     }
 }
