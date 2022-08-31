@@ -1,9 +1,6 @@
 package com.li88qq.admin.module.main.service;
 
-import com.li88qq.admin.module.main.dto.role.RolePageForm;
-import com.li88qq.admin.module.main.dto.role.RolePageVo;
-import com.li88qq.admin.module.main.dto.role.SaveRoleForm;
-import com.li88qq.admin.module.main.dto.role.UpdateRoleForm;
+import com.li88qq.admin.module.main.dto.role.*;
 import com.li88qq.bean.web.response.BaseResponse;
 import com.li88qq.db.dto.TPage;
 
@@ -28,7 +25,7 @@ public interface RoleService {
     /**
      * 查询
      */
-    BaseResponse find(Integer id);
+    RoleVo find(Integer id);
 
     /**
      * 分页查询

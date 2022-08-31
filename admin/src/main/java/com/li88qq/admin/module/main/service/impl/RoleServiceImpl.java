@@ -1,12 +1,11 @@
 package com.li88qq.admin.module.main.service.impl;
 
 import com.li88qq.admin.dao.main.RoleMapper;
-import com.li88qq.admin.module.main.dto.role.RolePageForm;
-import com.li88qq.admin.module.main.dto.role.RolePageVo;
-import com.li88qq.admin.module.main.dto.role.SaveRoleForm;
-import com.li88qq.admin.module.main.dto.role.UpdateRoleForm;
+import com.li88qq.admin.module.main.dto.role.*;
 import com.li88qq.admin.module.main.service.RoleService;
+import com.li88qq.bean.entity.system.Role;
 import com.li88qq.bean.web.response.BaseResponse;
+import com.li88qq.bean.web.response.ResponseUtil;
 import com.li88qq.db.core.BaseMapper;
 import com.li88qq.db.dto.TPage;
 
@@ -30,7 +29,11 @@ public class RoleServiceImpl implements RoleService {
      */
     @Override
     public BaseResponse save(SaveRoleForm form) {
-        return null;
+        Role role = new Role();
+        role.setName(form.getName());
+        role.setRemark(form.getRemark());
+        baseMapper.save(role);
+        return ResponseUtil.ok();
     }
 
     /**
@@ -38,15 +41,25 @@ public class RoleServiceImpl implements RoleService {
      */
     @Override
     public BaseResponse update(UpdateRoleForm form) {
-        return null;
+        Role role = BaseMapper.reset(Role.class);
+        role.setId(form.getId());
+        role.setName(form.getName());
+        role.setRemark(form.getRemark());
+
+        baseMapper.updateNoNull(role);
+        return ResponseUtil.ok();
     }
 
     /**
      * 查询
      */
     @Override
-    public BaseResponse find(Integer id) {
-        return null;
+    public RoleVo find(Integer id) {
+        Role role = roleMapper.findById(id);
+        RoleVo vo = new RoleVo();
+        vo.setName(role.getName());
+        vo.setRemark(role.getRemark());
+        return vo;
     }
 
     /**
@@ -62,6 +75,7 @@ public class RoleServiceImpl implements RoleService {
      */
     @Override
     public BaseResponse delete(Integer id) {
-        return null;
+        roleMapper.deleteById(id);
+        return ResponseUtil.ok();
     }
 }

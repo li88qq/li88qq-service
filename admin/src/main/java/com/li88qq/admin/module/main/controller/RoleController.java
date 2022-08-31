@@ -1,9 +1,6 @@
 package com.li88qq.admin.module.main.controller;
 
-import com.li88qq.admin.module.main.dto.role.RolePageForm;
-import com.li88qq.admin.module.main.dto.role.RolePageVo;
-import com.li88qq.admin.module.main.dto.role.SaveRoleForm;
-import com.li88qq.admin.module.main.dto.role.UpdateRoleForm;
+import com.li88qq.admin.module.main.dto.role.*;
 import com.li88qq.admin.module.main.service.RoleService;
 import com.li88qq.bean.web.response.BaseResponse;
 import com.li88qq.db.dto.TPage;
@@ -44,7 +41,7 @@ public class RoleController {
      * 查询
      */
     @GetMapping("/find")
-    public BaseResponse find(@RequestParam Integer id) {
+    public RoleVo find(@RequestParam Integer id) {
         return roleService.find(id);
     }
 
