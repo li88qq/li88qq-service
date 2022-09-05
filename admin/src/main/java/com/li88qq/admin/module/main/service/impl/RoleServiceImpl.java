@@ -7,7 +7,10 @@ import com.li88qq.bean.entity.system.Role;
 import com.li88qq.bean.web.response.BaseResponse;
 import com.li88qq.bean.web.response.ResponseUtil;
 import com.li88qq.db.core.BaseMapper;
+import com.li88qq.db.dto.Page;
+import com.li88qq.db.dto.Pageable;
 import com.li88qq.db.dto.TPage;
+import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 
@@ -17,6 +20,7 @@ import javax.annotation.Resource;
  * @author li88qq
  * @version 1.0 2022/8/28 23:49
  */
+@Service
 public class RoleServiceImpl implements RoleService {
 
     @Resource
@@ -67,7 +71,9 @@ public class RoleServiceImpl implements RoleService {
      */
     @Override
     public TPage<RolePageVo> findPage(RolePageForm form) {
-        return null;
+        Pageable pageable = new Pageable(form.getPage(), form.getPageSize());
+        Page<RolePageVo> page = roleMapper.findPage(form, pageable);
+        return page.build();
     }
 
     /**
