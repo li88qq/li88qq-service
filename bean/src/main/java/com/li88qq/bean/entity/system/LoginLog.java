@@ -10,7 +10,7 @@ import com.li88qq.utils.DateUtil;
  * @author li88qq
  * @version 1.0 2022/3/21 23:30
  */
-@Table("LoginLog")
+@Table
 public class LoginLog {
 
     @Id
