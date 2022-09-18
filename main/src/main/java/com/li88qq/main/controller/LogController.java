@@ -1,6 +1,8 @@
 package com.li88qq.main.controller;
 
 import com.li88qq.db.dto.TPage;
+import com.li88qq.main.dto.log.ActionLogForm;
+import com.li88qq.main.dto.log.ActionLogVo;
 import com.li88qq.main.dto.log.LoginLogForm;
 import com.li88qq.main.dto.log.LoginLogVo;
 import com.li88qq.main.service.LogService;
@@ -29,5 +31,13 @@ public class LogController {
     @GetMapping("/loginLog")
     public TPage<LoginLogVo> loginLog(LoginLogForm form) {
         return logService.loginLog(form);
+    }
+
+    /**
+     * 分页查询操作记录
+     */
+    @GetMapping("/actionLog")
+    public TPage<ActionLogVo> actionLog(ActionLogForm form) {
+        return logService.actionLog(form);
     }
 }

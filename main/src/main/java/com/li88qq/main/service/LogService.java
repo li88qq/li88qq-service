@@ -1,6 +1,8 @@
 package com.li88qq.main.service;
 
 import com.li88qq.db.dto.TPage;
+import com.li88qq.main.dto.log.ActionLogForm;
+import com.li88qq.main.dto.log.ActionLogVo;
 import com.li88qq.main.dto.log.LoginLogForm;
 import com.li88qq.main.dto.log.LoginLogVo;
 
@@ -16,4 +18,9 @@ public interface LogService {
      * 登录记录
      */
     TPage<LoginLogVo> loginLog(LoginLogForm form);
+
+    /**
+     * 操作记录
+     */
+    TPage<ActionLogVo> actionLog(ActionLogForm form);
 }
