@@ -1,5 +1,7 @@
 package com.li88qq.bean.annotion;
 
+import com.li88qq.bean.enums.ActionType;
+
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -15,12 +17,12 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface AcLog {
 
-    int actionType();//操作类型
+    ActionType actionType(); //操作类型
 
     String prefix();//模块前缀
 
     String title();//标题
 
-    String data();//数据
+    String data() default "";//数据
 
 }
