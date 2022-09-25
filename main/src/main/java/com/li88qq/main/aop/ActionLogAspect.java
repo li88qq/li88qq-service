@@ -61,7 +61,7 @@ public class ActionLogAspect {
 
         actionLog.setUid(uid);
         actionLog.setIp(SessionUtil.getIp());
-        actionLog.setActionType(acLog.actionType());
+        actionLog.setActionType(acLog.actionType().getType());
         actionLog.setTitle(acLog.title());
         actionLog.setRemark(detail);
         baseMapper.save(actionLog);
