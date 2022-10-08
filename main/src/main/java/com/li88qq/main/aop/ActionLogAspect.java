@@ -134,4 +134,9 @@ public class ActionLogAspect {
 
         return JSON.toJSONString(logMap);
     }
+
+    //用表达式获取数据
+    private String handleDetail_SpEL(JoinPoint joinPoint, String detail, Object[] args) {
+        return null;
+    }
 }
