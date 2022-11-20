@@ -1,9 +1,11 @@
 package com.li88qq.main;
 
+import io.seata.spring.annotation.datasource.EnableAutoDataSourceProxy;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
+import org.springframework.cloud.openfeign.EnableFeignClients;
 
 /**
  * 启动类
@@ -14,6 +16,8 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 @SpringBootApplication(scanBasePackages = {"com.li88qq.main", "com.li88qq.db.core", "com.li88qq.bean.web"})
 @EnableDiscoveryClient
 @MapperScan(basePackages = {"com.li88qq.main.dao", "com.li88qq.db"})
+@EnableAutoDataSourceProxy
+@EnableFeignClients
 public class MainApplication {
 
     public static void main(String[] args) {

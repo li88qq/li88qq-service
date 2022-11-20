@@ -26,4 +26,24 @@ mqtt:
   username: admin
   password: public
   server: tcp://192.168.56.95:1883
+
+seata:
+  config:
+    type: nacos
+    nacos:
+      server-addr: 192.168.56.100:8848
+      group: "SEATA_GROUP"
+      namespace: ""
+      username: "nacos"
+      password: "nacos"
+  registry:
+    type: nacos
+    nacos:
+      application: seata-server
+      server-addr: 192.168.56.100:8848
+      group: "SEATA_GROUP"
+      namespace: ""
+      username: "nacos"
+      password: "nacos"
+      cluster: "default"
   
