@@ -11,7 +11,7 @@ import java.lang.annotation.Target;
  * @author li88qq
  * @version 1.0 2022/6/24 23:15
  */
-@Target(ElementType.METHOD)
+@Target({ElementType.METHOD, ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Db {
 
