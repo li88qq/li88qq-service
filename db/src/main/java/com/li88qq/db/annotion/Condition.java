@@ -1,5 +1,7 @@
 package com.li88qq.db.annotion;
 
+import com.li88qq.db.enums.Format;
+
 import java.lang.annotation.*;
 
 /**
@@ -18,4 +20,8 @@ public @interface Condition {
 
     //连接符,见JoinMark,默认and
     String joinMark() default "";
+
+    //数据处理
+    Format format() default Format.NONE;
+
 }

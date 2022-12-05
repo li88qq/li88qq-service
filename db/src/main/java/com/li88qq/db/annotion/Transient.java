@@ -6,14 +6,12 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * 数据源,声明存在分库
+ * 声明非持久化字段
  *
  * @author li88qq
- * @version 1.0 2022/6/24 23:14
+ * @version 1.0 2022/12/5 22:53
  */
-@Target({ElementType.METHOD, ElementType.TYPE})
+@Target(ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface Ds {
-
-    String value() default "";
+public @interface Transient {
 }
