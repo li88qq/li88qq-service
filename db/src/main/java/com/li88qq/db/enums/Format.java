@@ -8,6 +8,8 @@ package com.li88qq.db.enums;
  */
 public enum Format {
 
+    NONE,//不处理
+
     //字符串
     LIKE,// %value%
 
@@ -17,6 +19,6 @@ public enum Format {
     TIMESTAMP,//转时间戳
 
     //数组
-    IN,//
+    IN,//数组,判断非空且数量大于0
 
 }

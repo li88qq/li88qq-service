@@ -1,11 +1,13 @@
 package com.li88qq.db.annotion;
 
 import com.li88qq.db.enums.Format;
+import com.li88qq.db.enums.If;
+import com.li88qq.db.enums.Join;
 
 import java.lang.annotation.*;
 
 /**
- * 条件语句
+ * 动态条件语句
  *
  * @author li88qq
  * @version 1.0 2022/3/11 20:50
@@ -18,10 +20,13 @@ public @interface Condition {
     //条件语句
     String value();
 
-    //连接符,见JoinMark,默认and
-    String joinMark() default "";
+    //条件成立判断
+    If i() default If.NOT_NULL;
 
-    //数据处理
-    Format format() default Format.NONE;
+    //数据格式化处理
+    Format f() default Format.NONE;
+
+    //连接符,见Join,默认and
+    Join j() default Join.AND;
 
 }
