@@ -47,7 +47,7 @@ public interface MapperTemplate {
             "(${dto.values})" +
             "</foreach>" +
             "</script>")
-    <T> int insertList(@Param("dto") SqlDto dto, List<T> list);
+    <T> int insertList(@Param("dto") SqlDto dto, @Param("list") List<T> list);
 
     /**
      * 修改
