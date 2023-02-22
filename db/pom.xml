@@ -13,6 +13,8 @@
         <maven.compiler.target>8</maven.compiler.target>
         <mybatis.version>2.3.0</mybatis.version>
         <mysql.version>8.0.31</mysql.version>
+        <spring.boot.version>2.7.5</spring.boot.version>
+        <fastjson.version>1.2.83</fastjson.version>
     </properties>
 
     <dependencies>
@@ -25,6 +27,18 @@
             <groupId>org.mybatis.spring.boot</groupId>
             <artifactId>mybatis-spring-boot-starter</artifactId>
             <version>${mybatis.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <version>${spring.boot.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
+            <version>${fastjson.version}</version>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 
