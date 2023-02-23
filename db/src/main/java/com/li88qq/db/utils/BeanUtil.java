@@ -46,7 +46,7 @@ public class BeanUtil {
                 String columnValue = column.value();
                 if (columnValue != null && !columnValue.equals("")) {
                     if (!columnValue.equals(fieldName)) {
-                        columnMap.put(fieldName, columnValue);
+                        columnMap.put(columnValue, fieldName);
                     }
                     fieldName = columnValue;
                 }
