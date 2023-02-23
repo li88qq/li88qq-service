@@ -10,7 +10,9 @@ import org.springframework.util.Assert;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * bean工具类
@@ -33,6 +35,7 @@ public class BeanUtil {
         List<String> idList = new ArrayList<>();
         List<String> fieldList = new ArrayList<>();
         List<String> allList = new ArrayList<>();
+        Map<String, String> columnMap = new HashMap<>();
         for (Field field : fields) {
             if (field.isAnnotationPresent(Transient.class)) {
                 continue;
@@ -42,6 +45,9 @@ public class BeanUtil {
             if (column != null) {
                 String columnValue = column.value();
                 if (columnValue != null && !columnValue.equals("")) {
+                    if (!columnValue.equals(fieldName)) {
+                        columnMap.put(fieldName, columnValue);
+                    }
                     fieldName = columnValue;
                 }
             }
@@ -53,10 +59,13 @@ public class BeanUtil {
             allList.add(fieldName);
         }
 
+        Assert.isTrue(allList.size() > 0, "实体对象字段为空");
+
         BeanDto beanDto = new BeanDto();
         beanDto.setIds(idList.toArray(new String[0]));
         beanDto.setFields(fieldList.toArray(new String[0]));
         beanDto.setAllFields(allList.toArray(new String[0]));
+        beanDto.setColumnMap(columnMap);
         return beanDto;
     }
 

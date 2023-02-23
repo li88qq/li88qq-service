@@ -1,5 +1,7 @@
 package com.li88qq.db.dto.bean;
 
+import java.util.Map;
+
 /**
  * 实体转换对象
  *
@@ -11,6 +13,7 @@ public class BeanDto {
     private String[] ids;//声明了id的字段
     private String[] fields;//除id字段外的字段
     private String[] allFields;//全部字段,包括id及非id
+    private Map<String, String> columnMap;//column对应map
 
     public String[] getIds() {
         return ids;
@@ -34,5 +37,13 @@ public class BeanDto {
 
     public void setAllFields(String[] allFields) {
         this.allFields = allFields;
+    }
+
+    public Map<String, String> getColumnMap() {
+        return columnMap;
+    }
+
+    public void setColumnMap(Map<String, String> columnMap) {
+        this.columnMap = columnMap;
     }
 }
