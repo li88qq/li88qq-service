@@ -6,17 +6,15 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * 表名
+ * 声明表
  *
  * @author li88qq
- * @version 1.0 2022/3/6 23:38
+ * @version 1.0 2023/2/20 22:31
  */
-@Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
+@Target(ElementType.TYPE)
 public @interface Table {
 
-    /**
-     * 表名,默认取类名
-     */
+    //表名,默认类名
     String value() default "";
 }

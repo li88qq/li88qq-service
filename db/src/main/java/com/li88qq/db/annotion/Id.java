@@ -6,12 +6,12 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * id
+ * 声明主键
  *
  * @author li88qq
- * @version 1.0 2022/3/6 23:39
+ * @version 1.0 2023/2/20 22:30
  */
-@Target(ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)
+@Target(ElementType.FIELD)
 public @interface Id {
 }

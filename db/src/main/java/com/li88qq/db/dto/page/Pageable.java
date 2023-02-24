@@ -1,10 +1,10 @@
-package com.li88qq.db.dto;
+package com.li88qq.db.dto.page;
 
 /**
- * 分页对象,用于分页查询接口
+ * 分页对象,用于dao请求参数
  *
  * @author li88qq
- * @version 1.0 2022/3/11 19:22
+ * @version 1.0 2023/2/20 23:32
  */
 public class Pageable {
 

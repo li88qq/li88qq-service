@@ -6,22 +6,19 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * 分页注解,声明分页
+ * 声明分页
  *
  * @author li88qq
- * @version 1.0 2022/3/11 22:50
+ * @version 1.0 2023/2/20 22:40
  */
-@Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
+@Target(ElementType.METHOD)
 public @interface PageId {
 
-    //自定义分页语句
+    //自定义分页统计语句
     String value() default "";
 
-    //count对象,默认id
+    //自定义统计字段,默认为@Id指定值
     String countField() default "";
-
-    // 是否统计总数
-    boolean count() default true;
 
 }

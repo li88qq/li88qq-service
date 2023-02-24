@@ -6,14 +6,15 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * 条件注解
+ * 动态条件数组
  *
  * @author li88qq
- * @version 1.0 2022/3/11 20:54
+ * @version 1.0 2023/2/20 22:37
  */
-@Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
+@Target(ElementType.METHOD)
 public @interface Conditions {
 
+    //动态条件数组
     Condition[] value();
 }

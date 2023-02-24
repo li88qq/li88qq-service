@@ -1,15 +1,15 @@
-package com.li88qq.db.dto;
+package com.li88qq.db.dto.page;
 
 /**
- * 分页查询form
+ * 分页请求参数,用于前台请求参数
  *
  * @author li88qq
- * @version 1.0 2022/3/30 21:53
+ * @version 1.0 2023/2/20 23:45
  */
 public class PageForm {
 
-    private Integer page;
-    private Integer pageSize;
+    private Integer page;//当前页,从1开始
+    private Integer pageSize;//每页显示数量
 
     public Integer getPage() {
         return page;

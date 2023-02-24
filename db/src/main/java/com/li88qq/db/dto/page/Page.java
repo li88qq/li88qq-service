@@ -1,13 +1,13 @@
-package com.li88qq.db.dto;
+package com.li88qq.db.dto.page;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 分页处理对象,用于查询返回
+ * 分页接口转换对象,用于dao响应类型
  *
  * @author li88qq
- * @version 1.0 2022/3/11 19:22
+ * @version 1.0 2023/2/20 23:30
  */
 public class Page<T> extends ArrayList<T> {
 

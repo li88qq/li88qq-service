@@ -6,14 +6,15 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * 数据源,声明存在分库
+ * 声明数据库
  *
  * @author li88qq
- * @version 1.0 2022/6/24 23:14
+ * @version 1.0 2023/2/20 23:04
  */
-@Target({ElementType.METHOD, ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
-public @interface Ds {
+@Target({ElementType.TYPE, ElementType.METHOD, ElementType.PARAMETER})
+public @interface Database {
 
-    String value() default "";
+    //数据库名称
+    String value();
 }

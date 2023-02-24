@@ -1,41 +1,41 @@
-package com.li88qq.db.dto;
+package com.li88qq.db.dto.page;
 
 import java.util.List;
 
 /**
- * 分页对象实现类,用于返回页面
+ * 分页响应内容
  *
  * @author li88qq
- * @version 1.0 2022/3/11 19:31
+ * @version 1.0 2023/2/20 23:39
  */
 public class TPageImpl<T> implements TPage<T> {
 
-    private int page;
-    private int pageSize;
-    private long total;
-    private List<T> content;
+    private int page;//当前页
+    private int pageSize;//每页显示数量
+    private long total;//总页数
+    private List<T> content;//内容
 
     public TPageImpl() {
     }
 
     @Override
     public int getPage() {
-        return page;
+        return this.page;
     }
 
     @Override
     public int getPageSize() {
-        return pageSize;
+        return this.pageSize;
     }
 
     @Override
     public long getTotal() {
-        return total;
+        return this.total;
     }
 
     @Override
     public List<T> getContent() {
-        return content;
+        return this.content;
     }
 
     public void setPage(int page) {

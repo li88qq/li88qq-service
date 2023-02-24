@@ -6,12 +6,12 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * 声明非持久化字段
+ * 声明为非持久化字段
  *
  * @author li88qq
- * @version 1.0 2022/12/5 22:53
+ * @version 1.0 2023/2/20 22:39
  */
-@Target(ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)
+@Target(ElementType.FIELD)
 public @interface Transient {
 }
