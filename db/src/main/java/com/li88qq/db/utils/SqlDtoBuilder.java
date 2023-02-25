@@ -2,6 +2,7 @@ package com.li88qq.db.utils;
 
 import com.li88qq.db.dto.bean.BeanDto;
 import com.li88qq.db.dto.sql.SqlDto;
+import org.springframework.util.Assert;
 
 import java.util.Map;
 
@@ -17,7 +18,10 @@ public class SqlDtoBuilder {
     public static final String PARAM_DTO = "dto";
     //分隔符号
     private static final String SEP = ",";
+    //mybatis #{a.b}
     private static final String VALUE_FORMAT = "#{%s.%s}";
+    //键值对 k = v
+    private static final String KV_FORMAT = "%s = %s";
 
     /**
      * 构建insert对象
@@ -26,7 +30,7 @@ public class SqlDtoBuilder {
      * @param ignoreRepeat 是否忽略重复
      * @return sqlDto
      */
-    public static <T> SqlDto buildInsert(Class<T> aClass, boolean ignoreRepeat) {
+    public static SqlDto buildInsert(Class<?> aClass, boolean ignoreRepeat) {
         BeanDto beanDto = BeanUtil.buildDto(aClass);
         String[] fields = beanDto.getAllFields();
 
@@ -83,6 +87,84 @@ public class SqlDtoBuilder {
             result[i] = String.format(VALUE_FORMAT, PARAM_DTO, values[i]);
         }
         return result;
+    }
+
+    /**
+     * 构建update SqlDto
+     *
+     * @param aClass 实体类
+     * @return SqlDto
+     */
+    public static SqlDto buildUpdate(Class<?> aClass) {
+        BeanDto beanDto = BeanUtil.buildDto(aClass);
+        String[] ids = beanDto.getIds();
+        String[] fields = beanDto.getFields();
+
+        Assert.isTrue(ids != null && ids.length > 0, "@Id注解为空");
+        Assert.isTrue(fields != null && fields.length > 0, "修改字段为空");
+
+        //数据库列对应字段
+        Map<String, String> columnMap = beanDto.getColumnMap();
+        String[] idColumns = convertColumns(ids, columnMap);
+        String[] fieldColumns = convertColumns(fields, columnMap);
+
+        //#{dto.字段}
+        String[] fieldValue = convertValue(fieldColumns);
+        String[] idValue = convertValue(idColumns);
+
+        //列=字段
+        String set = convertKv(fields, fieldValue);
+        String where = convertKv(ids, idValue);
+
+        String table = BeanUtil.buildTable(aClass);
+        SqlDto sqlDto = new SqlDto();
+        sqlDto.setTable(table);
+        sqlDto.setSet(set);
+        sqlDto.setWhere(where);
+        return sqlDto;
+    }
+
+    /**
+     * 字段包装为 k=v
+     *
+     * @param keys   key列表
+     * @param values 值列表
+     */
+    public static String convertKv(String[] keys, String[] values) {
+        Assert.isTrue(keys.length == values.length, "键值数据错误");
+
+        String[] kv = new String[keys.length];
+
+        for (int i = 0; i < keys.length; i++) {
+            kv[i] = String.format(KV_FORMAT, keys[i], values[i]);
+        }
+        return String.join(SEP, kv);
+    }
+
+    /**
+     * 构建delete SqlDto
+     *
+     * @param aClass 实体类
+     * @return SqlDto
+     */
+    public static SqlDto buildDelete(Class<?> aClass) {
+        BeanDto beanDto = BeanUtil.buildDto(aClass);
+        String[] ids = beanDto.getIds();
+
+        Assert.isTrue(ids != null && ids.length > 0, "@Id注解为空");
+
+        Map<String, String> columnMap = beanDto.getColumnMap();
+        String[] idColumns = convertColumns(ids, columnMap);
+
+        String[] idValue = convertValue(ids);
+
+        String where = convertKv(idColumns, idValue);
+
+        String table = BeanUtil.buildTable(aClass);
+        SqlDto sqlDto = new SqlDto();
+        sqlDto.setTable(table);
+        sqlDto.setWhere(where);
+        return sqlDto;
     }
 
 }
