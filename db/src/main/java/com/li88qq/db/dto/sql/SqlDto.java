@@ -14,6 +14,8 @@ public class SqlDto {
     private String ignore;//是否忽略重复,insert列表
     private String where;//where字段,update,delete
     private String set;//set字段,update
+    private String idField;//id字段值,对应实体
+    private String idColumn;//id字段列,对应数据库列
 
     public String getTable() {
         return table;
@@ -61,5 +63,21 @@ public class SqlDto {
 
     public void setSet(String set) {
         this.set = set;
+    }
+
+    public String getIdField() {
+        return idField;
+    }
+
+    public void setIdField(String idField) {
+        this.idField = idField;
+    }
+
+    public String getIdColumn() {
+        return idColumn;
+    }
+
+    public void setIdColumn(String idColumn) {
+        this.idColumn = idColumn;
     }
 }

@@ -31,7 +31,7 @@ public interface MapperTemplate {
      * @return 影响行数
      */
     @Insert("insert into ${dto.table} (${dto.keys}) values (${dto.values})")
-    @Options(useGeneratedKeys = true, keyProperty = "id", keyColumn = "id")
+    @Options(useGeneratedKeys = true, keyProperty = "t.id", keyColumn = "id")
     <T> int insertId(@Param("dto") SqlDto dto, @Param("t") T t);
 
     /**
