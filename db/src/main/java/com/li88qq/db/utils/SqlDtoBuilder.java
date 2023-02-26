@@ -14,8 +14,8 @@ import java.util.Map;
  */
 public class SqlDtoBuilder {
 
-    //MapperTemplate中SqlDto对应参数
-    public static final String PARAM_DTO = "dto";
+    //MapperTemplate中实体对应参数
+    public static final String PARAM_DTO = "t";
     //分隔符号
     private static final String SEP = ",";
     //mybatis #{a.b}
@@ -42,11 +42,22 @@ public class SqlDtoBuilder {
         String table = BeanUtil.buildTable(aClass);
         String ignore = ignoreRepeat ? "ignore" : "";
 
+        String idField = null;
+        String idColumn = null;
+        String[] ids = beanDto.getIds();
+        String[] idColumns = convertColumns(ids, beanDto.getColumnMap());
+        if (ids != null && ids.length == 1) {
+            idField = idColumns[0];
+            idColumn = ids[0];
+        }
+
         SqlDto sqlDto = new SqlDto();
         sqlDto.setTable(table);
         sqlDto.setIgnore(ignore);
         sqlDto.setKeys(keys);
         sqlDto.setValues(values);
+        sqlDto.setIdField(idField);
+        sqlDto.setIdColumn(idColumn);
         return sqlDto;
     }
 
