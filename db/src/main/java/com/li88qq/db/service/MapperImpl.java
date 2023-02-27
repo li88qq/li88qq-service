@@ -2,6 +2,7 @@ package com.li88qq.db.service;
 
 import com.li88qq.db.dao.MapperTemplate;
 import com.li88qq.db.dto.sql.SqlDto;
+import com.li88qq.db.utils.BeanUtil;
 import com.li88qq.db.utils.SqlDtoBuilder;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
@@ -9,6 +10,7 @@ import org.springframework.util.Assert;
 import javax.annotation.Resource;
 import java.lang.reflect.Field;
 import java.util.List;
+import java.util.Map;
 
 /**
  * mapper实现
@@ -83,7 +85,9 @@ public class MapperImpl implements Mapper {
      */
     @Override
     public <T> int updateNotNull(T t) {
-        return 0;
+        Class<?> aClass = t.getClass();
+        SqlDto sqlDto = SqlDtoBuilder.buildUpdateNotNull(aClass, t);
+        return mapperTemplate.update(sqlDto, t);
     }
 
     /**
@@ -112,4 +116,19 @@ public class MapperImpl implements Mapper {
         SqlDto sqlDto = SqlDtoBuilder.buildInsert(aClass, ignoreRepeat);
         return mapperTemplate.insertList(sqlDto, list);
     }
+
+    /**
+     * 根据id查询
+     * @param aClass 实体类
+     * @param id id值
+     * @return 根据id查询
+     */
+    @Override
+    public <T, K> T find(Class<T> aClass, K id) {
+        Assert.isTrue(id != null, "唯一主键为空");
+        SqlDto sqlDto = SqlDtoBuilder.buildFind(aClass);
+        Map<String, Object> map = mapperTemplate.find(sqlDto, id);
+        return BeanUtil.formMap(map, aClass);
+    }
+
 }
