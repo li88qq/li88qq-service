@@ -29,6 +29,17 @@ public class BeanUtil {
      * @return dto对象
      */
     public static BeanDto buildDto(Class<?> aClass) {
+        return buildDto(aClass, null);
+    }
+
+    /**
+     * 构建dto对象
+     *
+     * @param aClass 实体类
+     * @param t      实体类,过滤非空字段
+     * @return dto对象
+     */
+    public static <T> BeanDto buildDto(Class<?> aClass, T t) {
         Field[] fields = aClass.getDeclaredFields();
         Assert.isTrue(fields.length > 0, "实体对象字段为空");
 
@@ -36,27 +47,45 @@ public class BeanUtil {
         List<String> fieldList = new ArrayList<>();
         List<String> allList = new ArrayList<>();
         Map<String, String> columnMap = new HashMap<>();
-        for (Field field : fields) {
-            if (field.isAnnotationPresent(Transient.class)) {
-                continue;
-            }
-            String fieldName = field.getName();
-            Column column = field.getAnnotation(Column.class);
-            if (column != null) {
-                String columnValue = column.value();
-                if (columnValue != null && !columnValue.equals("")) {
-                    if (!columnValue.equals(fieldName)) {
-                        columnMap.put(columnValue, fieldName);
-                    }
-                    fieldName = columnValue;
+        try {
+            for (Field field : fields) {
+                if (field.isAnnotationPresent(Transient.class)) {
+                    continue;
                 }
+                String fieldName = field.getName();
+                Column column = field.getAnnotation(Column.class);
+                if (column != null) {
+                    String columnValue = column.value();
+                    if (columnValue != null && !columnValue.equals("")) {
+                        if (!columnValue.equals(fieldName)) {
+                            columnMap.put(columnValue, fieldName);
+                        }
+                        fieldName = columnValue;
+                    }
+                }
+
+                //判断是否需要过滤
+                boolean id = field.isAnnotationPresent(Id.class);
+                if (t != null) {
+                    field.setAccessible(true);
+                    Object fieldValue = field.get(t);
+                    if (fieldValue == null) {
+                        if (id) {
+                            throw new RuntimeException("@Id字段不能为空");
+                        }
+                        continue;
+                    }
+                }
+
+                if (id) {
+                    idList.add(fieldName);
+                } else {
+                    fieldList.add(fieldName);
+                }
+                allList.add(fieldName);
             }
-            if (field.isAnnotationPresent(Id.class)) {
-                idList.add(fieldName);
-            } else {
-                fieldList.add(fieldName);
-            }
-            allList.add(fieldName);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
 
         Assert.isTrue(allList.size() > 0, "实体对象字段为空");
@@ -110,6 +139,37 @@ public class BeanUtil {
                 field.set(instance, null);
             }
             return instance;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    /**
+     * map转实体
+     *
+     * @param map    字段map
+     * @param aClass 实体类
+     * @return 实体
+     */
+    public static <T> T formMap(Map<String, Object> map, Class<T> aClass) {
+        if (map == null || map.isEmpty()) {
+            return null;
+        }
+        BeanDto beanDto = buildDto(aClass);
+        String[] allFields = beanDto.getAllFields();
+        Map<String, String> columnMap = beanDto.getColumnMap();//列对应字段
+        String[] columns = SqlDtoBuilder.convertColumns(allFields, columnMap);
+        T t = null;
+        try {
+            t = aClass.getDeclaredConstructor().newInstance();
+            for (int i = 0; i < allFields.length; i++) {
+                String field = columns[i];
+                String column = allFields[i];
+                Field declaredField = aClass.getDeclaredField(field);
+                declaredField.setAccessible(true);
+                declaredField.set(t, map.get(column));
+            }
+            return t;
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

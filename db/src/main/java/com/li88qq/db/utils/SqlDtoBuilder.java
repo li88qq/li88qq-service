@@ -178,4 +178,62 @@ public class SqlDtoBuilder {
         return sqlDto;
     }
 
+    /**
+     * 构建find SqlDto
+     *
+     * @param aClass 实体类
+     * @return SqlDto
+     */
+    public static SqlDto buildFind(Class<?> aClass) {
+        BeanDto beanDto = BeanUtil.buildDto(aClass);
+        String[] ids = beanDto.getIds();
+
+        Assert.isTrue(ids != null && ids.length == 1, "该方法仅支持一个且仅一个@Id注解字段");
+        String[] idValue = new String[]{"#{id}"};
+
+        //where id_column = #{id}
+        String where = convertKv(ids, idValue);
+        String table = BeanUtil.buildTable(aClass);
+        SqlDto sqlDto = new SqlDto();
+        sqlDto.setTable(table);
+        sqlDto.setWhere(where);
+        return sqlDto;
+    }
+
+    /**
+     * 构建updateNoNull SqlDto
+     *
+     * @param aClass 实体类
+     * @param t      实体
+     * @return SqlDto
+     */
+    public static <T> SqlDto buildUpdateNotNull(Class<?> aClass, T t) {
+        Assert.notNull(t,"实体对象不能为空");
+        BeanDto beanDto = BeanUtil.buildDto(aClass,t);
+        String[] ids = beanDto.getIds();
+        String[] fields = beanDto.getFields();
+
+        Assert.isTrue(ids != null && ids.length > 0, "@Id注解为空");
+        Assert.isTrue(fields != null && fields.length > 0, "修改字段为空");
+
+        //数据库列对应字段
+        Map<String, String> columnMap = beanDto.getColumnMap();
+        String[] idColumns = convertColumns(ids, columnMap);
+        String[] fieldColumns = convertColumns(fields, columnMap);
+
+        //#{dto.字段}
+        String[] fieldValue = convertValue(fieldColumns);
+        String[] idValue = convertValue(idColumns);
+
+        //列=字段
+        String set = convertKv(fields, fieldValue);
+        String where = convertKv(ids, idValue);
+
+        String table = BeanUtil.buildTable(aClass);
+        SqlDto sqlDto = new SqlDto();
+        sqlDto.setTable(table);
+        sqlDto.setSet(set);
+        sqlDto.setWhere(where);
+        return sqlDto;
+    }
 }

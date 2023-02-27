@@ -1,9 +1,11 @@
 package com.li88qq.db.dao;
 
+import com.li88qq.db.annotion.InsertId;
 import com.li88qq.db.dto.sql.SqlDto;
 import org.apache.ibatis.annotations.*;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * 模板
@@ -32,6 +34,7 @@ public interface MapperTemplate {
      */
     @Insert("insert into ${dto.table} (${dto.keys}) values (${dto.values})")
     @Options(useGeneratedKeys = true, keyProperty = "t.id", keyColumn = "id")
+    @InsertId
     <T> int insertId(@Param("dto") SqlDto dto, @Param("t") T t);
 
     /**
@@ -68,4 +71,14 @@ public interface MapperTemplate {
      */
     @Delete("delete from ${dto.table} where ${dto.where}")
     <T> int delete(@Param("dto") SqlDto dto, @Param("t") T t);
+
+    /**
+     * 根据唯一主键查询
+     *
+     * @param dto    sql
+     * @param id     id值
+     * @return 实体
+     */
+    @Select("select * from ${dto.table} where ${dto.where}")
+    <K> Map<String, Object> find(@Param("dto") SqlDto dto, @Param("id") K id);
 }
