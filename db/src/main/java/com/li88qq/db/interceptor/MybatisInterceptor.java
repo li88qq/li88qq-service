@@ -1,5 +1,6 @@
 package com.li88qq.db.interceptor;
 
+import com.li88qq.db.interceptor.plugins.StatementInterceptor;
 import org.apache.ibatis.executor.statement.StatementHandler;
 import org.apache.ibatis.plugin.*;
 import org.springframework.stereotype.Component;
