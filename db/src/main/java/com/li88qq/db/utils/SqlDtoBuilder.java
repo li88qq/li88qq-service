@@ -1,5 +1,6 @@
 package com.li88qq.db.utils;
 
+import com.li88qq.db.dto.SqlConst;
 import com.li88qq.db.dto.bean.BeanDto;
 import com.li88qq.db.dto.sql.SqlDto;
 import org.springframework.util.Assert;
@@ -14,15 +15,6 @@ import java.util.Map;
  */
 public class SqlDtoBuilder {
 
-    //MapperTemplate中实体对应参数
-    public static final String PARAM_DTO = "t";
-    //分隔符号
-    private static final String SEP = ",";
-    //mybatis #{a.b}
-    private static final String VALUE_FORMAT = "#{%s.%s}";
-    //键值对 k = v
-    private static final String KV_FORMAT = "%s = %s";
-
     /**
      * 构建insert对象
      *
@@ -36,11 +28,11 @@ public class SqlDtoBuilder {
 
         String[] columns = convertColumns(fields, beanDto.getColumnMap());
         String[] valueColumns = convertValue(columns);
-        String keys = String.join(SEP, fields);
-        String values = String.join(SEP, valueColumns);
+        String keys = String.join(SqlConst.SEP, fields);
+        String values = String.join(SqlConst.SEP, valueColumns);
 
         String table = BeanUtil.buildTable(aClass);
-        String ignore = ignoreRepeat ? "ignore" : "";
+        String ignore = ignoreRepeat ? SqlConst.IGNORE : "";
 
         String idField = null;
         String idColumn = null;
@@ -95,7 +87,7 @@ public class SqlDtoBuilder {
     public static String[] convertValue(String[] values) {
         String[] result = new String[values.length];
         for (int i = 0; i < values.length; i++) {
-            result[i] = String.format(VALUE_FORMAT, PARAM_DTO, values[i]);
+            result[i] = String.format(SqlConst.VALUE_FORMAT, SqlConst.PARAM_T, values[i]);
         }
         return result;
     }
@@ -147,9 +139,9 @@ public class SqlDtoBuilder {
         String[] kv = new String[keys.length];
 
         for (int i = 0; i < keys.length; i++) {
-            kv[i] = String.format(KV_FORMAT, keys[i], values[i]);
+            kv[i] = String.format(SqlConst.KV_FORMAT, keys[i], values[i]);
         }
-        return String.join(SEP, kv);
+        return String.join(SqlConst.SEP, kv);
     }
 
     /**
