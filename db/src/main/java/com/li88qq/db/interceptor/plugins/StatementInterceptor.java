@@ -28,6 +28,8 @@ public class StatementInterceptor {
     private DataSourceChain dataSourceChain;
     @Resource
     private MethodChain methodChain;
+    @Resource
+    private PageableChain pageableChain;
 
     /**
      * 执行
@@ -36,12 +38,14 @@ public class StatementInterceptor {
         StatementHandler handler = (StatementHandler) invocation.getTarget();
         //拦截链
         ChainManager chainManager = new ChainManager(handler);
+
         chainManager.add(methodChain);//方法拦截
-        chainManager.add(insertIdChain);//InsertId保存
-        chainManager.add(pageIdChain);//分页参数处理
-        chainManager.add(conditionChain);//动态条件
-        chainManager.add(databaseChain);//数据库
         chainManager.add(dataSourceChain);//数据源
+        chainManager.add(databaseChain);//数据库
+        chainManager.add(insertIdChain);//InsertId保存
+        chainManager.add(conditionChain);//动态条件
+        chainManager.add(pageableChain);//pageable分页参数处理
+        chainManager.add(pageIdChain);//PageId,需先处理Pageable
 
         chainManager.execute();//执行拦截
 

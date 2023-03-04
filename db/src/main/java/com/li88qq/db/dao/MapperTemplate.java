@@ -75,10 +75,20 @@ public interface MapperTemplate {
     /**
      * 根据唯一主键查询
      *
-     * @param dto    sql
-     * @param id     id值
+     * @param dto sql
+     * @param id  id值
      * @return 实体
      */
     @Select("select * from ${dto.table} where ${dto.where}")
     <K> Map<String, Object> find(@Param("dto") SqlDto dto, @Param("id") K id);
+
+    /**
+     * 分页统计数量
+     *
+     * @param sql      sql
+     * @param paramMap 参数
+     * @return 总数
+     */
+    @Select("${sql}")
+    long queryCount(@Param("sql") String sql, @Param("map") Map<String, Object> paramMap);
 }
