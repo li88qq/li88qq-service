@@ -24,5 +24,10 @@ public class SqlConst {
     //insertId中key格式
     public static final String INSERT_ID_FORMAT = "%s.%s";
 
-
+    //Condition自定义参数格式: :param
+    public static final String PLACE_ = ":[a-z_]+(\\.[a-zA-Z0-9_]+)?";
+    //sql where占位符
+    public static final String PLACE_WHERE = ":where";
+    //db占位符
+    public static final String TAG_db = "@{db}.";
 }
