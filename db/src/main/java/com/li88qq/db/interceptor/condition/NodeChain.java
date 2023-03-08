@@ -1,10 +1,10 @@
 package com.li88qq.db.interceptor.condition;
 
 /**
- * 职责链
+ * 动态条件职责链
  *
  * @author li88qq
- * @version 1.0 2023/3/5 20:19
+ * @version 1.0 2023/3/8 23:41
  */
 public interface NodeChain {
 
@@ -15,17 +15,5 @@ public interface NodeChain {
      * @return 是否处理
      */
     boolean check(Class<?> aClass);
-
-    /**
-     * 格式化
-     */
-    default void format() {
-    }
-
-    /**
-     * 构建SqlNode
-     */
-    default void build() {
-    }
 
 }
