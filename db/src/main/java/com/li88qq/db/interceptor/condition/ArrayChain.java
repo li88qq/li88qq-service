@@ -1,5 +1,7 @@
 package com.li88qq.db.interceptor.condition;
 
+import com.li88qq.db.annotion.Condition;
+import com.li88qq.db.dto.sql.NodeDto;
 import org.springframework.stereotype.Component;
 
 import java.util.Collection;
@@ -16,5 +18,10 @@ public class ArrayChain implements NodeChain {
     @Override
     public boolean check(Class<?> aClass) {
         return aClass == Collection.class || aClass.isArray();
+    }
+
+    @Override
+    public void handle(ConditionChainManager manager, Condition condition, NodeDto nodeDto) {
+
     }
 }
