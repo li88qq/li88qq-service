@@ -11,6 +11,8 @@ public class NodeDto {
     private String key;//键
     private Object value;//值
 
+    private Object formatValue;//格式化后的值
+
     public String getKey() {
         return key;
     }
@@ -25,5 +27,13 @@ public class NodeDto {
 
     public void setValue(Object value) {
         this.value = value;
+    }
+
+    public Object getFormatValue() {
+        return formatValue;
+    }
+
+    public void setFormatValue(Object formatValue) {
+        this.formatValue = formatValue;
     }
 }
