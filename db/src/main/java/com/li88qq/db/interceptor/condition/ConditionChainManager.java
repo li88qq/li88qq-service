@@ -53,6 +53,7 @@ public class ConditionChainManager {
 
             //是否静态
             if (nodeDto == null) {
+                buildStaticTextSqlNode(condition);
                 continue;
             }
 
@@ -194,11 +195,17 @@ public class ConditionChainManager {
         SqlNode sqlNode = new ForEachSqlNode(configuration, content, param, null, "index", "item",
                 "(", ")", ",");
         conditionNodes.add(sqlNode);
-
     }
 
-    public void buildStaticTextSqlNode() {
-
+    /**
+     * 构建StaticTextSqlNode
+     *
+     * @param condition 条件
+     */
+    public void buildStaticTextSqlNode(Condition condition) {
+        String value = condition.value();
+        SqlNode staticTextSqlNode = new StaticTextSqlNode(value);
+        conditionNodes.add(staticTextSqlNode);
     }
 
     /**
