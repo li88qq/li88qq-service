@@ -5,6 +5,8 @@ import com.li88qq.db.dto.sql.NodeDto;
 import com.li88qq.db.enums.Format;
 import org.springframework.stereotype.Component;
 
+import java.math.BigDecimal;
+
 /**
  * 字符串
  *
@@ -22,16 +24,36 @@ public class StringChain implements NodeChain {
     @Override
     public void handle(ConditionChainManager manager, Condition condition, NodeDto nodeDto) {
         format(manager, condition, nodeDto);
-        manager.buildTextSqlNode(condition, nodeDto);
+        Object formatValue = nodeDto.getFormatValue();
+        if (formatValue != null && formatValue.getClass().isArray()) {
+            manager.buildForEachSqlNode(condition, nodeDto);
+        } else {
+            manager.buildTextSqlNode(condition, nodeDto);
+        }
     }
 
     @Override
     public void format(ConditionChainManager manager, Condition condition, NodeDto nodeDto) {
         Object value = nodeDto.getValue();
         Format f = condition.f();
-        String formatValue = null;
+        Object formatValue = null;
+
+        //Like和转数组
         if (f == Format.LIKE) {
             formatValue = String.format("%s%s%s", "%", value, "%");
+        } else if (f == Format.LIKE_L) {
+            formatValue = String.format("%s%s", "%", value);
+        } else if (f == Format.LIKE_R) {
+            formatValue = String.format("%s%s", value, "%");
+        } else if (f == Format.LIST_N) {
+            String[] valueArray = value.toString().split(",");
+            BigDecimal[] formatList = new BigDecimal[valueArray.length];
+            for (int i = 0; i < valueArray.length; i++) {
+                formatList[i] = new BigDecimal(valueArray[i]);
+            }
+            formatValue = formatList;
+        } else if (f == Format.LIST_S) {
+            formatValue = value.toString().split(",");
         }
 
         nodeDto.setFormatValue(formatValue);
