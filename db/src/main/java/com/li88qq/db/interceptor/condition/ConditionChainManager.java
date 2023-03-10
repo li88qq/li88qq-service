@@ -103,6 +103,9 @@ public class ConditionChainManager {
         return nodeDto;
     }
 
+    /**
+     * 最后拼接BoundSql
+     */
     public void updateBoundSql() {
         MetaObject metaObject = SystemMetaObject.forObject(handler);
         BoundSql boundSql = (BoundSql) metaObject.getValue("boundSql");
@@ -155,7 +158,7 @@ public class ConditionChainManager {
     }
 
     /**
-     * 构建tTextSqlNode
+     * 构建TextSqlNode
      *
      * @param condition 条件
      * @param nodeDto   NodeDto
@@ -168,7 +171,29 @@ public class ConditionChainManager {
         conditionNodes.add(sqlNode);
     }
 
-    public void buildForEachSqlNode() {
+    /**
+     * 构建ForEachSqlNode
+     *
+     * @param condition 条件
+     * @param nodeDto   NodeDto
+     */
+    public void buildForEachSqlNode(Condition condition, NodeDto nodeDto) {
+        String sql = condition.value();
+        String param = nodeDto.getKey();
+        MetaObject metaObject = SystemMetaObject.forObject(handler);
+        Configuration configuration = (Configuration) metaObject.getValue("delegate.configuration");
+        // 列表
+        String sqlBefore = sql.split(":" + param)[0];
+        String node_before = String.join("", " and ", sqlBefore);
+        SqlNode staticTextSqlNode = new StaticTextSqlNode(node_before);
+        conditionNodes.add(staticTextSqlNode);
+
+        List<SqlNode> nodes = new ArrayList<>();
+        nodes.add(new StaticTextSqlNode("#{item}"));
+        SqlNode content = new MixedSqlNode(nodes);
+        SqlNode sqlNode = new ForEachSqlNode(configuration, content, param, null, "index", "item",
+                "(", ")", ",");
+        conditionNodes.add(sqlNode);
 
     }
 
