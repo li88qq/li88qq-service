@@ -128,7 +128,7 @@ public class MapperImpl implements Mapper {
         Assert.isTrue(id != null, "唯一主键为空");
         SqlDto sqlDto = SqlDtoBuilder.buildFind(aClass);
         Map<String, Object> map = mapperTemplate.find(sqlDto, id);
-        return BeanUtil.formMap(map, aClass);
+        return BeanUtil.fromMap(map, aClass);
     }
 
 }

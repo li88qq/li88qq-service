@@ -151,7 +151,7 @@ public class BeanUtil {
      * @param aClass 实体类
      * @return 实体
      */
-    public static <T> T formMap(Map<String, Object> map, Class<T> aClass) {
+    public static <T> T fromMap(Map<String, Object> map, Class<T> aClass) {
         if (map == null || map.isEmpty()) {
             return null;
         }
