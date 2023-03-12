@@ -16,6 +16,8 @@ public class SqlDto {
     private String set;//set字段,update
     private String idField;//id字段值,对应实体
     private String idColumn;//id字段列,对应数据库列
+    private String[] setFields;//updateList field
+    private String[] setColumns;//updateList column
 
     public String getTable() {
         return table;
@@ -79,5 +81,21 @@ public class SqlDto {
 
     public void setIdColumn(String idColumn) {
         this.idColumn = idColumn;
+    }
+
+    public String[] getSetFields() {
+        return setFields;
+    }
+
+    public void setSetFields(String[] setFields) {
+        this.setFields = setFields;
+    }
+
+    public String[] getSetColumns() {
+        return setColumns;
+    }
+
+    public void setSetColumns(String[] setColumns) {
+        this.setColumns = setColumns;
     }
 }

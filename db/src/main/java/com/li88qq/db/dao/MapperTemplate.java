@@ -91,4 +91,27 @@ public interface MapperTemplate {
      */
     @Select("${sql}")
     long queryCount(@Param("sql") String sql, @Param("map") Map<String, Object> paramMap);
+
+    /**
+     * 批量更新
+     *
+     * @param dto  SqlDto
+     * @param list 列表
+     * @return 影响行数
+     */
+    @Update("<script>" +
+            "update ${dto.table} set" +
+            "<foreach item=\"field\" collection=\"dto.setFields\" separator=\",\" index=\"index\">" +
+            "${field} = case ${dto.idField} " +
+            "<foreach item=\"t\" collection=\"list\" separator=\"\" open=\"\" close=\"end\">" +
+            "when #{t.${dto.idField}} then #{t.${dto.setColumns[index]}}" +
+            "</foreach>" +
+            "</foreach>" +
+            "where ${dto.idField} in " +
+            "<foreach item=\"t\" collection=\"list\" separator=\",\" open=\"(\" close=\")\">" +
+            "#{t.${dto.idField}}" +
+            "</foreach>" +
+            "</script>")
+    <T> int updateList(@Param("dto") SqlDto dto, @Param("list") List<T> list);
+
 }

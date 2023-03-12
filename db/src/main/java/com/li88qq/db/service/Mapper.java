@@ -62,10 +62,19 @@ public interface Mapper {
 
     /**
      * 根据id查询
+     *
      * @param aClass 实体类
-     * @param id id值
+     * @param id     id值
      * @return 根据id查询
      */
     <T, K> T find(Class<T> aClass, K id);
+
+    /**
+     * 批量修改
+     *
+     * @param list 列表
+     * @return 影响行数
+     */
+    <T> int updateList(List<T> list);
 
 }

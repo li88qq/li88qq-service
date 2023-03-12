@@ -119,6 +119,7 @@ public class MapperImpl implements Mapper {
 
     /**
      * 根据id查询
+     *
      * @param aClass 实体类
      * @param id id值
      * @return 根据id查询
@@ -129,6 +130,19 @@ public class MapperImpl implements Mapper {
         SqlDto sqlDto = SqlDtoBuilder.buildFind(aClass);
         Map<String, Object> map = mapperTemplate.find(sqlDto, id);
         return BeanUtil.fromMap(map, aClass);
+    }
+
+    /**
+     * 批量修改
+     *
+     * @param list 列表
+     * @return 影响行数
+     */
+    @Override
+    public <T> int updateList(List<T> list) {
+        Assert.isTrue(list != null && !list.isEmpty(),"列表为空");
+        SqlDto sqlDto = SqlDtoBuilder.buildUpdateList(list);
+        return mapperTemplate.updateList(sqlDto, list);
     }
 
 }

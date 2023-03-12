@@ -5,6 +5,7 @@ import com.li88qq.db.dto.bean.BeanDto;
 import com.li88qq.db.dto.sql.SqlDto;
 import org.springframework.util.Assert;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -228,4 +229,37 @@ public class SqlDtoBuilder {
         sqlDto.setWhere(where);
         return sqlDto;
     }
+
+    /**
+     * 构建updateList SqlDto
+     *
+     * @param list 列表
+     * @return SqlDto
+     */
+    public static SqlDto buildUpdateList(List<?> list) {
+        Class<?> aClass = list.get(0).getClass();
+        BeanDto beanDto = BeanUtil.buildDto(aClass);
+        String[] ids = beanDto.getIds();
+
+        Assert.isTrue(ids != null && ids.length == 1, "该方法仅支持一个且仅一个@Id注解字段");
+        Map<String, String> columnMap = beanDto.getColumnMap();
+        String[] idColumns = convertColumns(ids, columnMap);
+
+        String idField = idColumns[0];
+        String idColumn = ids[0];
+
+        String[] setFields = beanDto.getFields();
+        String[] setColumns = convertColumns(setFields, columnMap);
+
+        String table = BeanUtil.buildTable(aClass);
+
+        SqlDto sqlDto = new SqlDto();
+        sqlDto.setTable(table);
+        sqlDto.setIdField(idField);
+        sqlDto.setIdColumn(idColumn);
+        sqlDto.setSetFields(setFields);
+        sqlDto.setSetColumns(setColumns);
+        return sqlDto;
+    }
+
 }
