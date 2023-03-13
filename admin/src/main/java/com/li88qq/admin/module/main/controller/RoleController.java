@@ -3,7 +3,7 @@ package com.li88qq.admin.module.main.controller;
 import com.li88qq.admin.module.main.dto.role.*;
 import com.li88qq.admin.module.main.service.RoleService;
 import com.li88qq.bean.web.response.BaseResponse;
-import com.li88qq.db.dto.TPage;
+import com.li88qq.db.dto.page.TPage;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;

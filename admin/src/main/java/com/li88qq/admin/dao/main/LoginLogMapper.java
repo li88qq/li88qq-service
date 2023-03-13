@@ -3,10 +3,9 @@ package com.li88qq.admin.dao.main;
 import com.li88qq.admin.module.main.dto.log.LoginLogForm;
 import com.li88qq.admin.module.main.dto.log.LoginLogVo;
 import com.li88qq.db.annotion.Condition;
-import com.li88qq.db.annotion.Format;
 import com.li88qq.db.annotion.PageId;
-import com.li88qq.db.dto.Page;
-import com.li88qq.db.dto.Pageable;
+import com.li88qq.db.dto.page.Page;
+import com.li88qq.db.dto.page.Pageable;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 
@@ -29,5 +28,5 @@ public interface LoginLogMapper {
     @Condition("u.username like :form.username")
     @Condition("u.loginIp like :form.loginIp")
     @PageId(countField = "log.id")
-    Page<LoginLogVo> findPage(@Param("form") @Format LoginLogForm form, Pageable pageable);
+    Page<LoginLogVo> findPage(@Param("form") LoginLogForm form, Pageable pageable);
 }

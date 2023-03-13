@@ -3,7 +3,7 @@ package com.li88qq.admin.module.main.controller;
 import com.li88qq.admin.module.main.dto.log.LoginLogForm;
 import com.li88qq.admin.module.main.dto.log.LoginLogVo;
 import com.li88qq.admin.module.main.service.LogService;
-import com.li88qq.db.dto.TPage;
+import com.li88qq.db.dto.page.TPage;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;

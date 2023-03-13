@@ -5,7 +5,7 @@ import com.li88qq.admin.module.admin.dto.ammenu.AmMenuListVo;
 import com.li88qq.admin.module.admin.dto.ammenu.AmMenuTreeVo;
 import com.li88qq.bean.entity.am.system.AmMenu;
 import com.li88qq.db.annotion.Condition;
-import com.li88qq.db.annotion.Format;
+import com.li88qq.db.enums.Format;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
@@ -30,9 +30,9 @@ public interface AmMenuMapper {
      * 查询列表
      */
     @Select("select * from AmMenu :where")
-    @Condition("name like :form.name")
+    @Condition(value = "name like :form.name",f = Format.LIKE)
     @Condition("state = :form.state")
-    List<AmMenuListVo> findList(@Param("form") @Format AmMenuListForm form);
+    List<AmMenuListVo> findList(@Param("form") AmMenuListForm form);
 
     /**
      * 查询树结构
@@ -44,6 +44,6 @@ public interface AmMenuMapper {
      * 根据id列表删除
      */
     @Delete("delete from AmMenu :where")
-    @Condition("id in :ids")
+    @Condition(value = "id in :ids", f = Format.LIST_N)
     int deleteByIds(@Param("ids") List<Long> ids);
 }

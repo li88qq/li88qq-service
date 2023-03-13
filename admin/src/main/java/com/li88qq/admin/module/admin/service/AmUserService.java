@@ -5,7 +5,7 @@ import com.li88qq.admin.module.admin.dto.amuser.AmUserInfo;
 import com.li88qq.admin.module.admin.dto.amuser.AmUserPageForm;
 import com.li88qq.admin.module.admin.dto.amuser.AmUserPageVo;
 import com.li88qq.bean.web.response.BaseResponse;
-import com.li88qq.db.dto.TPage;
+import com.li88qq.db.dto.page.TPage;
 
 /**
  * 用户(后台)

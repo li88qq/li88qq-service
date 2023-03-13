@@ -2,7 +2,7 @@ package com.li88qq.admin.module.main.service;
 
 import com.li88qq.admin.module.main.dto.user.UserPageForm;
 import com.li88qq.admin.module.main.dto.user.UserPageVo;
-import com.li88qq.db.dto.TPage;
+import com.li88qq.db.dto.page.TPage;
 
 /**
  * 用户管理

@@ -5,9 +5,8 @@ import com.li88qq.admin.module.admin.dto.amuser.AmUserPageForm;
 import com.li88qq.admin.module.admin.dto.amuser.AmUserPageVo;
 import com.li88qq.bean.entity.am.system.AmUser;
 import com.li88qq.db.annotion.Condition;
-import com.li88qq.db.annotion.Format;
-import com.li88qq.db.dto.Page;
-import com.li88qq.db.dto.Pageable;
+import com.li88qq.db.dto.page.Page;
+import com.li88qq.db.dto.page.Pageable;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 
@@ -38,7 +37,7 @@ public interface AmUserMapper {
     @Condition("name like :form.name")
     @Condition("mobile like :form.mobile")
     @Condition("loginIp like :form.loginIp")
-    Page<AmUserPageVo> findPage(@Param("form") @Format AmUserPageForm form, Pageable pageable);
+    Page<AmUserPageVo> findPage(@Param("form") AmUserPageForm form, Pageable pageable);
 
     /**
      * 根据用户名查询用户

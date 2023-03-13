@@ -1,9 +1,6 @@
 package com.li88qq.admin.module.main.dto.user;
 
-import com.li88qq.db.annotion.Like;
-import com.li88qq.db.annotion.TimeMax;
-import com.li88qq.db.annotion.TimeMin;
-import com.li88qq.db.dto.PageForm;
+import com.li88qq.db.dto.page.PageForm;
 
 import java.time.LocalDate;
 
@@ -15,22 +12,14 @@ import java.time.LocalDate;
  */
 public class UserPageForm extends PageForm {
 
-    @Like
     private String username;//用户名
-    @Like
     private String name;//昵称
-    @Like
     private String mobile;//手机号码
     private Integer state;//状态
-    @TimeMin
     private LocalDate loginDateBegin;//登录时间开始
-    @TimeMax
     private LocalDate loginDateEnd;//登录时间结束
-    @Like
     private String loginIp;//登录ip
-    @TimeMin
     private LocalDate createDateBegin;//注册时间开始
-    @TimeMax
     private LocalDate createDateEnd;//注册时间结束
 
     public String getUsername() {

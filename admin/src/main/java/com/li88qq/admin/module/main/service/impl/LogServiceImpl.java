@@ -4,9 +4,9 @@ import com.li88qq.admin.dao.main.LoginLogMapper;
 import com.li88qq.admin.module.main.dto.log.LoginLogForm;
 import com.li88qq.admin.module.main.dto.log.LoginLogVo;
 import com.li88qq.admin.module.main.service.LogService;
-import com.li88qq.db.dto.Page;
-import com.li88qq.db.dto.Pageable;
-import com.li88qq.db.dto.TPage;
+import com.li88qq.db.dto.page.Page;
+import com.li88qq.db.dto.page.Pageable;
+import com.li88qq.db.dto.page.TPage;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;

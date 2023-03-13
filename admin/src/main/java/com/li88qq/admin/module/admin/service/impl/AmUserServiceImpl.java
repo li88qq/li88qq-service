@@ -1,5 +1,6 @@
 package com.li88qq.admin.module.admin.service.impl;
 
+import com.li88qq.admin.dao.BaseMapper;
 import com.li88qq.admin.dao.admin.AmUserMapper;
 import com.li88qq.admin.module.admin.dto.amuser.AddAmUserForm;
 import com.li88qq.admin.module.admin.dto.amuser.AmUserInfo;
@@ -11,10 +12,9 @@ import com.li88qq.bean.web.response.BaseResponse;
 import com.li88qq.bean.web.response.ResponseUtil;
 import com.li88qq.bean.web.session.SessionUtil;
 import com.li88qq.bean.web.session.UserToken;
-import com.li88qq.db.core.BaseMapper;
-import com.li88qq.db.dto.Page;
-import com.li88qq.db.dto.Pageable;
-import com.li88qq.db.dto.TPage;
+import com.li88qq.db.dto.page.Page;
+import com.li88qq.db.dto.page.Pageable;
+import com.li88qq.db.dto.page.TPage;
 import com.li88qq.utils.RegexUtil;
 import org.springframework.stereotype.Service;
 
@@ -75,7 +75,7 @@ public class AmUserServiceImpl implements AmUserService {
         amUser.setUsername(form.getUsername());
         amUser.setMobile(form.getMobile());
 
-        baseMapper.save(amUser);
+        baseMapper.insertNoId(amUser);
         return ResponseUtil.ok();
     }
 

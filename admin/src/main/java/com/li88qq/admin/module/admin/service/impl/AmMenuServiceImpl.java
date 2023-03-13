@@ -1,5 +1,6 @@
 package com.li88qq.admin.module.admin.service.impl;
 
+import com.li88qq.admin.dao.BaseMapper;
 import com.li88qq.admin.dao.admin.AmMenuMapper;
 import com.li88qq.admin.module.admin.dto.ammenu.*;
 import com.li88qq.admin.module.admin.service.AmMenuService;
@@ -7,7 +8,6 @@ import com.li88qq.bean.dto.IdsForm;
 import com.li88qq.bean.entity.am.system.AmMenu;
 import com.li88qq.bean.web.response.BaseResponse;
 import com.li88qq.bean.web.response.ResponseUtil;
-import com.li88qq.db.core.BaseMapper;
 import com.li88qq.utils.DateUtil;
 import com.li88qq.utils.StringUtil;
 import org.springframework.stereotype.Service;
@@ -51,7 +51,7 @@ public class AmMenuServiceImpl implements AmMenuService {
         amMenu.setSort(sort);
         amMenu.setIcon(form.getIcon());
 
-        baseMapper.save(amMenu);
+        baseMapper.insertNoId(amMenu);
         return ResponseUtil.ok();
     }
 

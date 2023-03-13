@@ -1,7 +1,5 @@
 package com.li88qq.admin.module.admin.dto.ammenu;
 
-import com.li88qq.db.annotion.Like;
-
 /**
  * 查询菜单列表
  *
@@ -10,7 +8,6 @@ import com.li88qq.db.annotion.Like;
  */
 public class AmMenuListForm {
 
-    @Like
     private String name;
     private Integer state;
 

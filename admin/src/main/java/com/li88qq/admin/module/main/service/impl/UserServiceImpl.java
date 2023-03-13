@@ -4,9 +4,10 @@ import com.li88qq.admin.dao.main.UserMapper;
 import com.li88qq.admin.module.main.dto.user.UserPageForm;
 import com.li88qq.admin.module.main.dto.user.UserPageVo;
 import com.li88qq.admin.module.main.service.UserService;
-import com.li88qq.db.dto.Page;
-import com.li88qq.db.dto.Pageable;
-import com.li88qq.db.dto.TPage;
+
+import com.li88qq.db.dto.page.Page;
+import com.li88qq.db.dto.page.Pageable;
+import com.li88qq.db.dto.page.TPage;
 import com.li88qq.utils.RegexUtil;
 import org.springframework.stereotype.Service;
 

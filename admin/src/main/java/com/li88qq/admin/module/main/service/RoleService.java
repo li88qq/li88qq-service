@@ -2,7 +2,7 @@ package com.li88qq.admin.module.main.service;
 
 import com.li88qq.admin.module.main.dto.role.*;
 import com.li88qq.bean.web.response.BaseResponse;
-import com.li88qq.db.dto.TPage;
+import com.li88qq.db.dto.page.TPage;
 
 /**
  * 角色管理

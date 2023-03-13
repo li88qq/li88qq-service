@@ -1,5 +1,6 @@
 package com.li88qq.admin.module.main.service.impl;
 
+import com.li88qq.admin.dao.BaseMapper;
 import com.li88qq.admin.dao.main.MenuMapper;
 import com.li88qq.admin.module.main.dto.menu.MenuListVo;
 import com.li88qq.admin.module.main.dto.menu.MenuVo;
@@ -9,7 +10,6 @@ import com.li88qq.admin.module.main.service.MenuService;
 import com.li88qq.bean.entity.system.Menu;
 import com.li88qq.bean.web.response.BaseResponse;
 import com.li88qq.bean.web.response.ResponseUtil;
-import com.li88qq.db.core.BaseMapper;
 import com.li88qq.utils.DateUtil;
 import org.springframework.stereotype.Service;
 
@@ -46,7 +46,7 @@ public class MenuServiceImpl implements MenuService {
         menu.setUrl(form.getUrl());
         menu.setIcon(form.getIcon());
 
-        baseMapper.save(menu);
+        baseMapper.insertNoId(menu);
         return ResponseUtil.ok();
     }
 

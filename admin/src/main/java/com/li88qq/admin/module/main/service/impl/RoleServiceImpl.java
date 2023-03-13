@@ -1,15 +1,16 @@
 package com.li88qq.admin.module.main.service.impl;
 
+import com.li88qq.admin.dao.BaseMapper;
 import com.li88qq.admin.dao.main.RoleMapper;
 import com.li88qq.admin.module.main.dto.role.*;
 import com.li88qq.admin.module.main.service.RoleService;
 import com.li88qq.bean.entity.system.Role;
 import com.li88qq.bean.web.response.BaseResponse;
 import com.li88qq.bean.web.response.ResponseUtil;
-import com.li88qq.db.core.BaseMapper;
-import com.li88qq.db.dto.Page;
-import com.li88qq.db.dto.Pageable;
-import com.li88qq.db.dto.TPage;
+import com.li88qq.db.dto.page.Page;
+import com.li88qq.db.dto.page.Pageable;
+import com.li88qq.db.dto.page.TPage;
+import com.li88qq.db.utils.BeanUtil;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -36,7 +37,7 @@ public class RoleServiceImpl implements RoleService {
         Role role = new Role();
         role.setName(form.getName());
         role.setRemark(form.getRemark());
-        baseMapper.save(role);
+        baseMapper.insertNoId(role);
         return ResponseUtil.ok();
     }
 
@@ -45,12 +46,12 @@ public class RoleServiceImpl implements RoleService {
      */
     @Override
     public BaseResponse update(UpdateRoleForm form) {
-        Role role = BaseMapper.reset(Role.class);
+        Role role = BeanUtil.reset(Role.class);
         role.setId(form.getId());
         role.setName(form.getName());
         role.setRemark(form.getRemark());
 
-        baseMapper.updateNoNull(role);
+        baseMapper.updateNotNull(role);
         return ResponseUtil.ok();
     }
 

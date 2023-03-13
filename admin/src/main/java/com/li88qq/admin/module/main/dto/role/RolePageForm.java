@@ -1,7 +1,6 @@
 package com.li88qq.admin.module.main.dto.role;
 
-import com.li88qq.db.annotion.Like;
-import com.li88qq.db.dto.PageForm;
+import com.li88qq.db.dto.page.PageForm;
 
 /**
  * 分页
@@ -11,9 +10,7 @@ import com.li88qq.db.dto.PageForm;
  */
 public class RolePageForm extends PageForm {
 
-    @Like
     private String name;
-    @Like
     private String remark;
 
     public String getName() {
