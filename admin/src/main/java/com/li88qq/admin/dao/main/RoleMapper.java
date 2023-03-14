@@ -4,8 +4,10 @@ import com.li88qq.admin.module.main.dto.role.RolePageForm;
 import com.li88qq.admin.module.main.dto.role.RolePageVo;
 import com.li88qq.bean.entity.system.Role;
 import com.li88qq.db.annotion.Condition;
+import com.li88qq.db.annotion.PageId;
 import com.li88qq.db.dto.page.Page;
 import com.li88qq.db.dto.page.Pageable;
+import com.li88qq.db.enums.Format;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
@@ -34,7 +36,8 @@ public interface RoleMapper {
      * 分页查询
      */
     @Select("select * from Role :where order by id desc")
-    @Condition("name like :form.name")
-    @Condition("remark like :form.remark")
+    @Condition(value = "name like :form.name", f = Format.LIKE)
+    @Condition(value = "remark like :form.remark", f = Format.LIKE)
+    @PageId
     Page<RolePageVo> findPage(@Param("form") RolePageForm form, Pageable pageable);
 }

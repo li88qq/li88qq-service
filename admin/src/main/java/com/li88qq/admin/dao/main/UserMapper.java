@@ -6,6 +6,7 @@ import com.li88qq.db.annotion.Condition;
 import com.li88qq.db.annotion.PageId;
 import com.li88qq.db.dto.page.Page;
 import com.li88qq.db.dto.page.Pageable;
+import com.li88qq.db.enums.Format;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 
@@ -22,14 +23,14 @@ public interface UserMapper {
      */
     @Select("select * from User :where order by id desc")
     @Condition("state = :form.state")
-    @Condition("loginDate >= :form.loginDateBegin")
-    @Condition("loginDate <= :form.loginDateEnd")
-    @Condition("createDate >= :form.createDateBegin")
-    @Condition("createDate <= :form.createDateEnd")
-    @Condition("username like :form.username")
-    @Condition("name like :form.name")
-    @Condition("mobile like :form.mobile")
-    @Condition("loginIp like :form.loginIp")
+    @Condition(value = "loginDate >= :form.loginDateBegin", f = Format.TS_MIN)
+    @Condition(value = "loginDate <= :form.loginDateEnd", f = Format.TS_MAX)
+    @Condition(value = "createDate >= :form.createDateBegin", f = Format.TS_MIN)
+    @Condition(value = "createDate <= :form.createDateEnd", f = Format.TS_MAX)
+    @Condition(value = "username like :form.username", f = Format.LIKE)
+    @Condition(value = "name like :form.name", f = Format.LIKE)
+    @Condition(value = "mobile like :form.mobile", f = Format.LIKE)
+    @Condition(value = "loginIp like :form.loginIp",f = Format.LIKE)
     @PageId("id")
     Page<UserPageVo> findPage(@Param("form") UserPageForm form, Pageable pageable);
 }

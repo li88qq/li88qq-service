@@ -6,6 +6,7 @@ import com.li88qq.db.annotion.Condition;
 import com.li88qq.db.annotion.PageId;
 import com.li88qq.db.dto.page.Page;
 import com.li88qq.db.dto.page.Pageable;
+import com.li88qq.db.enums.Format;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 
@@ -23,10 +24,10 @@ public interface LoginLogMapper {
     @Select("select log.*,u.username from LoginLog log left join User u on log.uid = u.id :where order by log.id desc")
     @Condition("log.state = :form.state")
     @Condition("log.errorCode = :form.errorCode")
-    @Condition("log.createDate >= :form.createDateBegin")
-    @Condition("log.createDate <= :form.createDateEnd")
-    @Condition("u.username like :form.username")
-    @Condition("u.loginIp like :form.loginIp")
+    @Condition(value = "log.createDate >= :form.createDateBegin",f = Format.TS_MIN)
+    @Condition(value = "log.createDate <= :form.createDateEnd", f = Format.TS_MIN)
+    @Condition(value = "u.username like :form.username", f = Format.LIKE)
+    @Condition(value = "u.loginIp like :form.loginIp", f = Format.LIKE)
     @PageId(countField = "log.id")
     Page<LoginLogVo> findPage(@Param("form") LoginLogForm form, Pageable pageable);
 }
