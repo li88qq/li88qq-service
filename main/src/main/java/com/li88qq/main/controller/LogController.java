@@ -1,6 +1,6 @@
 package com.li88qq.main.controller;
 
-import com.li88qq.db.dto.TPage;
+import com.li88qq.db.dto.page.TPage;
 import com.li88qq.main.dto.log.ActionLogForm;
 import com.li88qq.main.dto.log.ActionLogVo;
 import com.li88qq.main.dto.log.LoginLogForm;

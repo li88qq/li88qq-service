@@ -1,9 +1,10 @@
 package com.li88qq.main.dao;
 
 import com.li88qq.db.annotion.Condition;
-import com.li88qq.db.annotion.Format;
-import com.li88qq.db.dto.Page;
-import com.li88qq.db.dto.Pageable;
+import com.li88qq.db.annotion.PageId;
+import com.li88qq.db.dto.page.Page;
+import com.li88qq.db.dto.page.Pageable;
+import com.li88qq.db.enums.Format;
 import com.li88qq.main.dto.log.ActionLogForm;
 import com.li88qq.main.dto.log.ActionLogVo;
 import org.apache.ibatis.annotations.Param;
@@ -23,10 +24,11 @@ public interface ActionLogMapper {
     @Select("select * from ActionLog :where order by id desc")
     @Condition("uid = :uid")
     @Condition("actionType = :form.actionType")
-    @Condition("createDate >= :form.beginDate")
-    @Condition("createDate <= :form.endDate")
-    @Condition("title like :form.title")
-    @Condition("remark like :form.remark")
-    @Condition("ip like :form.ip")
-    Page<ActionLogVo> findPage(@Param("form") @Format ActionLogForm form, @Param("uid") Long uid, Pageable pageable);
+    @Condition(value = "createDate >= :form.beginDate", f = Format.TS_MIN)
+    @Condition(value = "createDate <= :form.endDate", f = Format.TS_MAX)
+    @Condition(value = "title like :form.title", f = Format.LIKE)
+    @Condition(value = "remark like :form.remark", f = Format.LIKE)
+    @Condition(value = "ip like :form.ip", f = Format.LIKE)
+    @PageId
+    Page<ActionLogVo> findPage(@Param("form") ActionLogForm form, @Param("uid") Long uid, Pageable pageable);
 }

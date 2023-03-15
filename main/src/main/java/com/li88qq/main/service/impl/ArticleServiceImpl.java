@@ -6,7 +6,8 @@ import com.li88qq.bean.web.response.BaseResponse;
 import com.li88qq.bean.web.response.ResponseUtil;
 import com.li88qq.bean.web.session.SessionUtil;
 import com.li88qq.bean.web.session.UserToken;
-import com.li88qq.db.core.BaseMapper;
+import com.li88qq.db.utils.BeanUtil;
+import com.li88qq.main.dao.BaseMapper;
 import com.li88qq.main.dto.article.SaveArticleForm;
 import com.li88qq.main.service.ArticleService;
 import com.li88qq.utils.DateUtil;
@@ -43,14 +44,14 @@ public class ArticleServiceImpl implements ArticleService {
         article.setTransport(form.getTransport());
         article.setRno(UUIDUtil.uuid8());//8位
 
-        Long id = baseMapper.saveId(article, Long.class);
+        Long id = baseMapper.insertId(article, Long.class);
         //文章编号,格式:年月日+id截取后4位
         String articleNo = String.format("%s%04d", DateUtil.format("yyyyMMdd"), id);
 
-        Article updateArticle = BaseMapper.reset(Article.class);
+        Article updateArticle = BeanUtil.reset(Article.class);
         updateArticle.setId(id);
         updateArticle.setArticleNo(articleNo);
-        baseMapper.updateNoNull(updateArticle);
+        baseMapper.updateNotNull(updateArticle);
 
         String doc = form.getDoc();
         String originalDoc = form.getOriginalDoc();
@@ -60,7 +61,7 @@ public class ArticleServiceImpl implements ArticleService {
         articleDoc.setOriginalDoc(originalDoc);
         articleDoc.setId(id);
 
-        baseMapper.save(articleDoc);
+        baseMapper.insertNoId(articleDoc);
 
         return ResponseUtil.ok();
     }

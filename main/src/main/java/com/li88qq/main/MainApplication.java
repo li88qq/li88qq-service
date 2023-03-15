@@ -13,7 +13,7 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
  * @author li88qq
  * @version 1.0 2021/12/17 22:53
  */
-@SpringBootApplication(scanBasePackages = {"com.li88qq.main", "com.li88qq.db.core", "com.li88qq.bean.web"})
+@SpringBootApplication(scanBasePackages = {"com.li88qq.main", "com.li88qq.db", "com.li88qq.bean.web"})
 @EnableDiscoveryClient
 @MapperScan(basePackages = {"com.li88qq.main.dao", "com.li88qq.db"})
 @EnableAutoDataSourceProxy

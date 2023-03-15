@@ -1,9 +1,6 @@
 package com.li88qq.main.dto.log;
 
-import com.li88qq.db.annotion.Like;
-import com.li88qq.db.annotion.TimeMax;
-import com.li88qq.db.annotion.TimeMin;
-import com.li88qq.db.dto.PageForm;
+import com.li88qq.db.dto.page.PageForm;
 
 import java.time.LocalDate;
 
@@ -17,11 +14,8 @@ public class LoginLogForm extends PageForm {
 
     private Integer state;
     private Integer errorCode;
-    @TimeMin
     private LocalDate beginDate;
-    @TimeMax
     private LocalDate endDate;
-    @Like
     private String loginIp;
 
     public Integer getState() {

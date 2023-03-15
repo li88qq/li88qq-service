@@ -1,9 +1,9 @@
 package com.li88qq.main.service.impl;
 
 import com.li88qq.bean.web.session.SessionUtil;
-import com.li88qq.db.dto.Page;
-import com.li88qq.db.dto.Pageable;
-import com.li88qq.db.dto.TPage;
+import com.li88qq.db.dto.page.Page;
+import com.li88qq.db.dto.page.Pageable;
+import com.li88qq.db.dto.page.TPage;
 import com.li88qq.main.dao.ActionLogMapper;
 import com.li88qq.main.dao.LoginLogMapper;
 import com.li88qq.main.dto.log.ActionLogForm;

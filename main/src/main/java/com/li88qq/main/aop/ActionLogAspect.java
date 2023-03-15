@@ -6,7 +6,7 @@ import com.li88qq.bean.annotion.AcLog;
 import com.li88qq.bean.entity.system.ActionLog;
 import com.li88qq.bean.web.session.SessionUtil;
 import com.li88qq.bean.web.session.UserToken;
-import com.li88qq.db.core.BaseMapper;
+import com.li88qq.main.dao.BaseMapper;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.Signature;
 import org.aspectj.lang.annotation.After;
@@ -64,7 +64,7 @@ public class ActionLogAspect {
         actionLog.setActionType(acLog.actionType().getType());
         actionLog.setTitle(acLog.title());
         actionLog.setRemark(detail);
-        baseMapper.save(actionLog);
+        baseMapper.insertNoId(actionLog);
     }
 
     //处理日记内容

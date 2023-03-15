@@ -7,7 +7,7 @@ import com.li88qq.bean.utils.ImageUtil;
 import com.li88qq.bean.web.response.ResponseUtil;
 import com.li88qq.bean.web.session.SessionUtil;
 import com.li88qq.bean.web.session.UserToken;
-import com.li88qq.db.core.BaseMapper;
+import com.li88qq.main.dao.BaseMapper;
 import com.li88qq.main.dto.image.SaveImageForm;
 import com.li88qq.main.service.ImageService;
 import org.springframework.beans.factory.annotation.Value;
@@ -52,7 +52,7 @@ public class ImageServiceImpl implements ImageService {
         image.setImageType(imageType.getType());
         image.setPath(path);
         image.setUid(uid);
-        baseMapper.save(image);
+        baseMapper.insertNoId(image);
 
         return path;
     }
