@@ -21,4 +21,7 @@ public @interface PageId {
     //自定义统计字段,默认为@Id指定值
     String countField() default "";
 
+    //是否groupBy分页查询
+    boolean groupBy() default false;
+
 }

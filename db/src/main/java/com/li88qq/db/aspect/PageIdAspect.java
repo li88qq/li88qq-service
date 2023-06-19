@@ -52,7 +52,16 @@ public class PageIdAspect {
         String sql = pageIdDto.getSql();
         Pageable pageable = pageIdDto.getPageable();
         Map<String, Object> paramMap = pageIdDto.getParamMap();
-        long count = mapperTemplate.queryCount(sql, paramMap);
+
+        long count = 0L;
+        // 是否包括groupBy,如果是,则取返回数据的记录数
+        boolean groupBy = pageIdDto.isGroupBy();
+        if (groupBy) {
+            count = mapperTemplate.queryCountGroupBy(sql, paramMap).size();
+        } else {
+            count = mapperTemplate.queryCount(sql, paramMap);
+        }
+
         ArrayList<?> list = (ArrayList<?>) proceed;
         Page<?> page = Page.convert(list);
         page.setTotal(count);

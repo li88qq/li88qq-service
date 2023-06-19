@@ -42,6 +42,8 @@ public class PageIdChain implements InterceptorChain {
         BoundSql boundSql = handler.getBoundSql();
         Pageable pageable = getPageable(boundSql);
         PageIdDto pageIdDto = build(boundSql, pageId, pageable);
+        pageIdDto.setGroupBy(pageIdDto.isGroupBy());
+
         PageIdThreadLocal.set(pageIdDto);
 
         return true;

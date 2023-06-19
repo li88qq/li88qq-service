@@ -114,4 +114,13 @@ public interface MapperTemplate {
             "</script>")
     <T> int updateList(@Param("dto") SqlDto dto, @Param("list") List<T> list);
 
+    /**
+     * 分页统计数量-groupBy
+     *
+     * @param sql      sql
+     * @param paramMap 参数
+     * @return 总数
+     */
+    @Select("${sql}")
+    List<Map<String,Object>> queryCountGroupBy(@Param("sql") String sql, @Param("map") Map<String, Object> paramMap);
 }
