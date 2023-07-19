@@ -1,4 +1,4 @@
-package com.li88qq.bean.entity.utils;
+package com.li88qq.common.utils;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
