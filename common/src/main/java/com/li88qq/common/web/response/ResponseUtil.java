@@ -57,4 +57,18 @@ public class ResponseUtil {
         return new BaseResponse<>(code, msg, t);
     }
 
+    /**
+     * 抛出异常
+     */
+    public static void exception(String msg) throws ResponseException{
+        throw new ResponseException(msg);
+    }
+
+    /**
+     * 抛出异常
+     */
+    public static void exception(ResponseCode responseCode) throws ResponseException{
+        throw new ResponseException(responseCode);
+    }
+
 }
