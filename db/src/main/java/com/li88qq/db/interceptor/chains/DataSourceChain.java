@@ -16,7 +16,6 @@ public class DataSourceChain implements InterceptorChain{
 
     @Override
     public boolean execute(StatementHandler handler, Method method) {
-        System.out.println(this.getClass());
         return true;
     }
 }
