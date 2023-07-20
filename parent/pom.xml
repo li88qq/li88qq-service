@@ -19,6 +19,7 @@
         <fastjson.version>1.2.83</fastjson.version>
         <poi.version>5.2.2</poi.version>
         <csv.version>1.9.0</csv.version>
+        <snakeyaml.version>2.0</snakeyaml.version>
     </properties>
 
     <dependencyManagement>
