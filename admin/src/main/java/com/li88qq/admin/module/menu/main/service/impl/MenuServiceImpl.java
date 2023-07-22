@@ -7,13 +7,13 @@ import com.li88qq.admin.module.menu.main.dto.menu.GetMenuPageVo;
 import com.li88qq.admin.module.menu.main.dto.menu.SaveMenuForm;
 import com.li88qq.admin.module.menu.main.service.MenuService;
 import com.li88qq.bean.entity.admin.menu.Menu;
+import com.li88qq.common.web.response.BaseResponse;
 import com.li88qq.common.web.response.ResponseCode;
 import com.li88qq.common.web.response.ResponseUtil;
 import com.li88qq.db.dto.page.Page;
 import com.li88qq.db.dto.page.Pageable;
 import com.li88qq.db.dto.page.TPage;
 import jakarta.annotation.Resource;
-import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -36,9 +36,15 @@ public class MenuServiceImpl implements MenuService {
      */
     @Override
     @Transactional
-    public void save(SaveMenuForm form) {
+    public BaseResponse save(SaveMenuForm form) {
         Menu menu = new Menu();
-        BeanUtils.copyProperties(form, menu);
+        String name = form.getName();
+        String href = form.getHref();
+        String icon = form.getIcon();
+
+        menu.setName(name);
+        menu.setName(href);
+        menu.setName(icon);
 
         Integer parentId = form.getParentId();
         Integer openType = form.getOpenType();
@@ -61,6 +67,7 @@ public class MenuServiceImpl implements MenuService {
             menu.setOpenType(openType);
         }
         baseMapper.insertNoId(menu);
+        return ResponseUtil.ok();
     }
 
     /**

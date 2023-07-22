@@ -4,12 +4,10 @@ import com.li88qq.admin.module.menu.main.dto.menu.GetMenuPageForm;
 import com.li88qq.admin.module.menu.main.dto.menu.GetMenuPageVo;
 import com.li88qq.admin.module.menu.main.dto.menu.SaveMenuForm;
 import com.li88qq.admin.module.menu.main.service.MenuService;
+import com.li88qq.common.web.response.BaseResponse;
 import com.li88qq.db.dto.page.TPage;
 import jakarta.annotation.Resource;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * 菜单
@@ -27,9 +25,9 @@ public class MenuController {
     /**
      * 新增
      */
-    @PatchMapping("/save")
-    public void save(SaveMenuForm form){
-        menuService.save(form);
+    @PostMapping("/save")
+    public BaseResponse save(SaveMenuForm form){
+       return menuService.save(form);
     }
 
     /**
