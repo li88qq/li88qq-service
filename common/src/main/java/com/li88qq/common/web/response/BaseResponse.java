@@ -6,16 +6,16 @@ package com.li88qq.common.web.response;
  * @author li88qq
  * @version 1.0 2023/7/19 22:52
  */
-public class BaseResponse<T> {
+public class BaseResponse {
 
     private int code;//状态码,0-成功
     private String msg;//响应信息
-    private T data;//响应数据
+    private Object data;//响应数据
 
     public BaseResponse() {
     }
 
-    public BaseResponse(int code, String msg, T data) {
+    public BaseResponse(int code, String msg, Object data) {
         this.code = code;
         this.msg = msg;
         this.data = data;
@@ -46,11 +46,11 @@ public class BaseResponse<T> {
         this.msg = msg;
     }
 
-    public T getData() {
+    public Object getData() {
         return data;
     }
 
-    public void setData(T data) {
+    public void setData(Object data) {
         this.data = data;
     }
 }
