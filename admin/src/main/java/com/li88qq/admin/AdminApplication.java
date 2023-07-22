@@ -10,7 +10,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @author li88qq
  * @version 1.0 2023/7/19 22:15
  */
-@SpringBootApplication(scanBasePackages = {"com.li88qq.db","com.li88qq.admin"})
+@SpringBootApplication(scanBasePackages = {"com.li88qq.db","com.li88qq.admin","com.li88qq.common"})
 @MapperScan(basePackages = {"com.li88qq.db","com.li88qq.admin.dao"})
 public class AdminApplication {
 
