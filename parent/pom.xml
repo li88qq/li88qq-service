@@ -15,7 +15,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <spring.boot.version>3.1.1</spring.boot.version>
         <spring.cloud.version>2022.0.2</spring.cloud.version>
-        <spring.cloud.alibaba.version>2021.0.4.0</spring.cloud.alibaba.version>
+        <spring.cloud.alibaba.version>2022.0.0.0-RC2</spring.cloud.alibaba.version>
         <fastjson.version>2.0.36</fastjson.version>
         <poi.version>5.2.2</poi.version>
         <csv.version>1.9.0</csv.version>
