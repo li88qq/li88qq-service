@@ -32,8 +32,11 @@
 ### main
 - 前台(用户)使用平台服务
 
-### utils
-- 基本工具类, 不涉及其他依赖
+### parent
+- 父项目,依赖管理
+
+### common
+- 公共依赖包
 
 ### 4. LICENSE
 [MIT](https://en.wikipedia.org/wiki/MIT_License)
