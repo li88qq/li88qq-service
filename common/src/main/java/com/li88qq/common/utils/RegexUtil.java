@@ -34,4 +34,23 @@ public class RegexUtil {
         return mobile.substring(0, 3) + "****" + mobile.substring(7);
     }
 
+    /**
+     * 校验是否数字
+     *
+     * <p>0</p>
+     * <p>整数,首位数字不为0</p>
+     * <p>小数,包含.数字,如果首位数字为0,则后面紧跟.</p>
+     *
+     * @param value 字符串
+     * @return 是否数字
+     */
+    public static boolean isNumber(String value) {
+        if (value == null || value.isEmpty()) {
+            return false;
+        }
+        //格式 0,整数,小数
+        String regex = "^(0)|(-?[1-9][0-9]?)|(-?(0|[1-9][0-9]?)\\.[0-9]+)$";
+        return value.matches(regex);
+    }
+
 }
