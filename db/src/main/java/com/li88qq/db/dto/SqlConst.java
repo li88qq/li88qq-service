@@ -30,4 +30,10 @@ public class SqlConst {
     public static final String PLACE_WHERE = ":where";
     //db占位符
     public static final String TAG_db = "@{db}.";
+
+    //mybatis占位符 #{} ${},包括[a-zA-Z_$.]字符，无空格
+    public static final String MYBATIS_P = "\\#\\{[a-zA-Z_\\$\\.]+\\}";
+    public static final String MYBATIS_$ = "\\$\\{[a-zA-Z_\\$\\.]+\\}";
+    public static final String MYBATIS_REGEX = "[\\$\\#]\\{[a-zA-Z_\\$\\.]+\\}";
+
 }

@@ -121,9 +121,9 @@ public class ConditionChainManager {
 
         //where之前
         String[] strings = sql.split(SqlConst.PLACE_WHERE);
-        String whereBefore = strings[0];
-        SqlNode whereBeforeNode = new StaticTextSqlNode(whereBefore);
-        sqlNodes.add(whereBeforeNode);
+        String where_before = strings[0];
+        SqlNode sqlNode_before = buildOriginNode(where_before);
+        sqlNodes.add(sqlNode_before);
 
         //where语句
         if (!conditionNodes.isEmpty()) {
@@ -135,7 +135,7 @@ public class ConditionChainManager {
         //where之后
         if (strings.length == 2) {
             String where_after = strings[1];
-            SqlNode sqlNode_after = new StaticTextSqlNode(where_after);
+            SqlNode sqlNode_after = buildOriginNode(where_after);
             sqlNodes.add(sqlNode_after);
         }
 
@@ -244,4 +244,26 @@ public class ConditionChainManager {
 
         paramMap.setValue(key, objMap);
     }
+
+    /**
+     * 构建原生节点
+     *
+     * @param sql sql
+     * @return 原生节点
+     */
+    private SqlNode buildOriginNode(String sql) {
+        SqlNode node = null;
+        //是否有#{}
+        Pattern pattern = Pattern.compile(SqlConst.MYBATIS_REGEX);
+        Matcher matcher = pattern.matcher(sql);
+        boolean match = matcher.find();
+        if (match) {
+            SqlNode textSqlNode = new TextSqlNode(sql);
+            node = new MixedSqlNode(List.of(textSqlNode));
+        } else {
+            node = new StaticTextSqlNode(sql);
+        }
+        return node;
+    }
+
 }
