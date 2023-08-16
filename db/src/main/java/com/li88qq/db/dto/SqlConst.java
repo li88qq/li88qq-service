@@ -35,5 +35,6 @@ public class SqlConst {
     public static final String MYBATIS_P = "\\#\\{[a-zA-Z_\\$\\.]+\\}";
     public static final String MYBATIS_$ = "\\$\\{[a-zA-Z_\\$\\.]+\\}";
     public static final String MYBATIS_REGEX = "[\\$\\#]\\{[a-zA-Z_\\$\\.]+\\}";
+    public static final String MYBATIS_ = "\\?";
 
 }

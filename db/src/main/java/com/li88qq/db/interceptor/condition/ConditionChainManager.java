@@ -122,7 +122,7 @@ public class ConditionChainManager {
         //where之前
         String[] strings = sql.split(SqlConst.PLACE_WHERE);
         String where_before = strings[0];
-        SqlNode sqlNode_before = buildOriginNode(where_before);
+        SqlNode sqlNode_before = new StaticTextSqlNode(where_before);
         sqlNodes.add(sqlNode_before);
 
         //where语句
@@ -132,11 +132,14 @@ public class ConditionChainManager {
             sqlNodes.add(whereRoot);
         }
 
+        List<ParameterMapping> afterParameterMapping = null;
         //where之后
         if (strings.length == 2) {
             String where_after = strings[1];
-            SqlNode sqlNode_after = buildOriginNode(where_after);
+            SqlNode sqlNode_after = new StaticTextSqlNode(where_after);
             sqlNodes.add(sqlNode_after);
+
+            afterParameterMapping = buildAfterParameterMapping(where_after, boundSql);
         }
 
         //更新原对象
@@ -144,6 +147,10 @@ public class ConditionChainManager {
         SqlSource sqlSource = new DynamicSqlSource(configuration, root);
         BoundSql boundSqlUpdate = sqlSource.getBoundSql(parameterObject);
         List<ParameterMapping> parameterMappings = boundSqlUpdate.getParameterMappings();
+
+        if (afterParameterMapping != null && !afterParameterMapping.isEmpty()) {
+            parameterMappings.addAll(afterParameterMapping);
+        }
 
         MetaObject boundSqlMeta = SystemMetaObject.forObject(boundSqlUpdate);
         Object parameters = boundSqlMeta.getValue("additionalParameters");
@@ -264,6 +271,30 @@ public class ConditionChainManager {
             node = new StaticTextSqlNode(sql);
         }
         return node;
+    }
+
+    /**
+     * 处理where后面的参数映射
+     * @param sql sql,已自动处理为?占位符
+     * @param boundSql boundSql
+     * @return 参数映射
+     */
+    private List<ParameterMapping> buildAfterParameterMapping(String sql, BoundSql boundSql) {
+        List<ParameterMapping> parameterMappings = boundSql.getParameterMappings();
+        if (parameterMappings == null || parameterMappings.isEmpty()) {
+            return null;
+        }
+        Pattern pattern = Pattern.compile(SqlConst.MYBATIS_);
+        Matcher matcher = pattern.matcher(sql);
+        int count = 0;
+        while (matcher.find()) {
+            count++;
+        }
+        if (count == 0) {
+            return null;
+        }
+        int startIndex = parameterMappings.size() - count;
+        return parameterMappings.subList(startIndex, count);
     }
 
 }
