@@ -69,6 +69,7 @@ public class PageIdChain implements InterceptorChain {
             pageIdDto.setSql(basicSql);
             pageIdDto.setParamMap(new HashMap<>());
             pageIdDto.setPageable(pageable);
+            pageIdDto.setGroupBy(pageIdDto.isGroupBy());
             return pageIdDto;
         }
 
