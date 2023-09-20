@@ -65,10 +65,18 @@ public class PageableChain implements InterceptorChain{
             pageSizeKey = pageableParam + ".pageSize";
         }
         Configuration configuration = (Configuration) metaObject.getValue("delegate.configuration");
-        ParameterMapping pageMapping = new ParameterMapping.Builder(configuration, pageKey, Integer.class).build();
-        ParameterMapping pageSizeMapping = new ParameterMapping.Builder(configuration, pageSizeKey, Integer.class).build();
-        parameterMappings.add(pageMapping);
-        parameterMappings.add(pageSizeMapping);
+
+        //判断是否已存在
+        boolean hasPageMapping = checkParameterMapping(parameterMappings, pageKey);
+        boolean hasPageSizeMapping = checkParameterMapping(parameterMappings, pageSizeKey);
+        if (!hasPageMapping) {
+            ParameterMapping pageMapping = new ParameterMapping.Builder(configuration, pageKey, Integer.class).build();
+            parameterMappings.add(pageMapping);
+        }
+        if (!hasPageSizeMapping) {
+            ParameterMapping pageSizeMapping = new ParameterMapping.Builder(configuration, pageSizeKey, Integer.class).build();
+            parameterMappings.add(pageSizeMapping);
+        }
 
         sql += " limit ?,?";
         metaObject.setValue("boundSql.sql", sql);
@@ -100,4 +108,21 @@ public class PageableChain implements InterceptorChain{
 
         return pageable;
     }
+
+    /**
+     * 判断是否已存在
+     *
+     * @param mappings 参数映射
+     * @param key      参数
+     * @return 是否存在
+     */
+    private boolean checkParameterMapping(List<ParameterMapping> mappings, String key) {
+        for (ParameterMapping mapping : mappings) {
+            if (mapping.getProperty().equals(key)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
 }
