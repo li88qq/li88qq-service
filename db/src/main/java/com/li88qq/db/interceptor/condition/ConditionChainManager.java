@@ -148,6 +148,13 @@ public class ConditionChainManager {
         BoundSql boundSqlUpdate = sqlSource.getBoundSql(parameterObject);
         List<ParameterMapping> parameterMappings = boundSqlUpdate.getParameterMappings();
 
+        // where之前参数,如果存在,直接插入
+        List<ParameterMapping> beforeParameterMapping = buildBeforeParameterMapping(where_before, boundSql);
+        if (beforeParameterMapping != null && !beforeParameterMapping.isEmpty()) {
+            parameterMappings.addAll(0, beforeParameterMapping);
+        }
+
+        // where之后参数
         if (afterParameterMapping != null && !afterParameterMapping.isEmpty()) {
             parameterMappings.addAll(afterParameterMapping);
         }
@@ -297,4 +304,26 @@ public class ConditionChainManager {
         return parameterMappings.subList(startIndex, count);
     }
 
+    /**
+     * 处理where前面的参数映射
+     * @param sql sql,已自动处理为?占位符
+     * @param boundSql boundSql
+     * @return 参数映射
+     */
+    private List<ParameterMapping> buildBeforeParameterMapping(String sql, BoundSql boundSql) {
+        List<ParameterMapping> parameterMappings = boundSql.getParameterMappings();
+        if (parameterMappings == null || parameterMappings.isEmpty()) {
+            return null;
+        }
+        Pattern pattern = Pattern.compile(SqlConst.MYBATIS_);
+        Matcher matcher = pattern.matcher(sql);
+        int count = 0;
+        while (matcher.find()) {
+            count++;
+        }
+        if (count == 0) {
+            return null;
+        }
+        return parameterMappings.subList(0, count);
+    }
 }
