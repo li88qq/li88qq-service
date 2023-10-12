@@ -22,3 +22,17 @@
 3. 默认查询统计字段为: ***id*** ,如果是其他字段,或者是多表查询,需使用 ***@PageId*** 注解指定该统计字段.
 4. 可以使用 ***Page.build()*** 方法转换为前端使用的对象.
 5. 分页需使用@PageId注解,用于aop拦截并处理统计数量,和对数据封装.
+
+### 原理
+- 动态查询
+1. mybatis留下了自定义拦截器Interceptor，可以进行对sql、参数等封装。见MybatisInterceptor。
+2. 分页查询时，用了aop切面，以及ThreadLocal处理。见PageIdThreadLocal、PageIdAspect。
+3. 因为mybatis本身是使用xml描述的，动态语句也会组合成多个条件节点。见SqlNode、ConditionChainManager。
+
+- 切换数据源
+1. spring boot自带的数据源抽象类：AbstractRoutingDataSource，需实现determineCurrentLookupKey方法。
+2. 当需要切换数据前，可以使用ThreadLocal动态处理当前数据源，并在determineCurrentLookupKey方法中返回。
+
+- 事务处理
+1. 如果非分布式数据源或多个数据源，可以使用spring boot自带的@Transactional注解处理。
+2. 如果分布式数据源或多个数据源，需要使用分布式事务。如Seata。
