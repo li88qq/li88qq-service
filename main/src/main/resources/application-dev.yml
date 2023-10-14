@@ -1,0 +1,28 @@
+spring:
+  application:
+    name: main
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://127.0.0.1:3306/main
+    username: root
+    password: 123456
+  cloud:
+    nacos:
+      discovery:
+        server-addr: localhost:8848
+  data:
+    redis:
+      lettuce:
+        pool:
+          enabled: true
+      host: 127.0.0.1
+      port: 6379
+      database: 0
+      connect-timeout: 10000
+
+logging:
+  level:
+    com.li88qq.main.dao: debug
+    com.li88qq.db: debug
+server:
+  port: 9001
