@@ -3,6 +3,8 @@ package com.li88qq.main.service;
 import com.li88qq.common.web.response.BaseResponse;
 import com.li88qq.main.dto.my.*;
 
+import java.util.List;
+
 /**
  * 我的
  *
@@ -35,4 +37,14 @@ public interface MyService {
      * 修改个人资料
      */
     BaseResponse updateProfile(UpdateProfileForm form);
+
+    /**
+     * 获取菜单列表
+     */
+    List<GetMenuListVo> getMenuList();
+
+    /**
+     * 获取动作列表
+     */
+    List<GetActionList> getActionList();
 }

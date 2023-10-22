@@ -6,6 +6,8 @@ import com.li88qq.main.service.MyService;
 import jakarta.annotation.Resource;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 /**
  * 我的
  *
@@ -57,5 +59,21 @@ public class MyController {
     @PostMapping("/updateProfile")
     public BaseResponse updateProfile(UpdateProfileForm form) {
         return myService.updateProfile(form);
+    }
+
+    /**
+     * 获取菜单列表
+     */
+    @GetMapping("/menus")
+    public List<GetMenuListVo> getMenuList() {
+        return myService.getMenuList();
+    }
+
+    /**
+     * 获取动作列表
+     */
+    @GetMapping("/actions")
+    public List<GetActionList> getActionList() {
+        return myService.getActionList();
     }
 }

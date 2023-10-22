@@ -5,6 +5,8 @@ import com.li88qq.main.dto.my.*;
 import com.li88qq.main.service.MyService;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * 我的
  *
@@ -51,6 +53,22 @@ public class MyServiceImpl implements MyService {
      */
     @Override
     public BaseResponse updateProfile(UpdateProfileForm form) {
+        return null;
+    }
+
+    /**
+     * 获取菜单列表
+     */
+    @Override
+    public List<GetMenuListVo> getMenuList() {
+        return null;
+    }
+
+    /**
+     * 获取动作列表
+     */
+    @Override
+    public List<GetActionList> getActionList() {
         return null;
     }
 }
