@@ -7,4 +7,14 @@ package com.li88qq.main.dto.my;
  * @version 1.0 2023/10/22 10:27
  */
 public class GetActionList {
+
+    private String name;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 }
