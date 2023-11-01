@@ -42,4 +42,6 @@
 [MIT](https://en.wikipedia.org/wiki/MIT_License)
 
 ### 5. Thanks for free JetBrains Open Source license
-[**JetBrains**](https://www.jetbrains.com/)
+![JetBrains](https://resources.jetbrains.com/storage/products/company/brand/logos/jb_beam.svg)
+
+[**JetBrains**](https://jb.gg/OpenSourceSupport/)
