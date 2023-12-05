@@ -37,4 +37,8 @@ public class SqlConst {
     public static final String MYBATIS_REGEX = "[\\$\\#]\\{[a-zA-Z_\\$\\.]+\\}";
     public static final String MYBATIS_ = "\\?";
 
+    // 连接符
+    public static final String JOIN_MARK_AND = "and";
+    public static final String JOIN_MARK_OR = "or";
+
 }

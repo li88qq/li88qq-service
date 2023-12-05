@@ -182,7 +182,8 @@ public class ConditionChainManager {
         String sql = condition.value();
         String param = nodeDto.getKey();
         sql = sql.replace(":" + param, String.format("#{%s}", param));
-        TextSqlNode sqlNode = new TextSqlNode(String.join("", " and ", sql));
+        sql = joinSql(sql);
+        TextSqlNode sqlNode = new TextSqlNode(sql);
         conditionNodes.add(sqlNode);
     }
 
@@ -199,7 +200,7 @@ public class ConditionChainManager {
         Configuration configuration = (Configuration) metaObject.getValue("delegate.configuration");
         // 列表
         String sqlBefore = sql.split(":" + param)[0];
-        String node_before = String.join("", " and ", sqlBefore);
+        String node_before = joinSql(sqlBefore);
         SqlNode staticTextSqlNode = new StaticTextSqlNode(node_before);
         conditionNodes.add(staticTextSqlNode);
 
@@ -218,7 +219,8 @@ public class ConditionChainManager {
      */
     public void buildStaticTextSqlNode(Condition condition) {
         String value = condition.value();
-        SqlNode staticTextSqlNode = new StaticTextSqlNode(value);
+        String sql = joinSql(value);
+        SqlNode staticTextSqlNode = new StaticTextSqlNode(sql);
         conditionNodes.add(staticTextSqlNode);
     }
 
@@ -326,4 +328,60 @@ public class ConditionChainManager {
         }
         return parameterMappings.subList(0, count);
     }
+
+    /**
+     * 连接sql
+     *
+     * @param sql sql
+     * @return 加入连接符后的sql
+     */
+    private String joinSql(String sql) {
+        String joinMark = handleJoinMark(sql);
+        // 格式：连接符+sql
+        sql = String.format(" %s %s", joinMark, sql);
+        return sql;
+    }
+
+    /**
+     * 处理连接符
+     *
+     * @param sql sql
+     * @return 连接符号
+     */
+    private static String handleJoinMark(String sql) {
+        // 判断是否已有连接符
+        String mark = null;
+        String defaultMark = SqlConst.JOIN_MARK_AND;
+        //获取第一个连接字符
+        int index = -1;//首个字符序号
+        for (int i = 0; i < sql.length(); i++) {
+            String s = sql.substring(i, i + 1);
+            if (s.equals("a") || s.equals("A")) {
+                index = i;
+                mark = SqlConst.JOIN_MARK_AND;
+                break;
+            } else if (s.equals("o") || s.equals("O")) {
+                index = i;
+                mark = SqlConst.JOIN_MARK_OR;
+                break;
+            }
+        }
+        // 找不到,默认 and
+        if (index == -1) {
+            return defaultMark;
+        }
+        // 直接假设了sql长度至少大于3,连接符后必须是个空格
+        String space = " ";
+        String joinMark = mark + space;
+        // 全部转小写比较
+        String markText = sql.substring(index, index + joinMark.length());
+        markText = markText.toLowerCase();
+        // 是否自带了连接符
+        boolean hasJoinMark = markText.equals(joinMark);
+        if (hasJoinMark) {
+            return "";
+        }
+        return defaultMark;
+    }
+
 }
