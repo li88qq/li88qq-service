@@ -69,6 +69,7 @@ public class ConditionChainManager {
                 //如果该节点有处理,就退出当前字段职责链
                 if (check) {
                     chain.handle(this, condition, nodeDto);
+                    handleEndNode(condition, nodeDto);
                     break;
                 }
             }
@@ -384,4 +385,21 @@ public class ConditionChainManager {
         return defaultMark;
     }
 
+    /**
+     * 处理条件字段后面的括号内容
+     *
+     * @param condition 条件
+     * @param nodeDto   对象
+     */
+    private void handleEndNode(Condition condition, NodeDto nodeDto) {
+        String sql = condition.value();
+        String key = nodeDto.getKey();
+        String param = ":" + key;
+        int index = sql.indexOf(param);
+        String endText = sql.substring(index + param.length());
+        if (!endText.trim().isEmpty()) {
+            StaticTextSqlNode sqlNode = new StaticTextSqlNode(endText);
+            this.conditionNodes.add(sqlNode);
+        }
+    }
 }
