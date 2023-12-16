@@ -14,6 +14,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.BindException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
+import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.NoHandlerFoundException;
@@ -41,7 +42,7 @@ public class ControllerAdvice {
      * HttpMessageNotReadableException:整个校验对象没传
      * </p>
      */
-    @ExceptionHandler(value = {BindException.class, HttpMessageNotReadableException.class})
+    @ExceptionHandler(value = {BindException.class, HttpMessageNotReadableException.class, MissingServletRequestParameterException.class})
     public BaseResponse handeBindException(Exception ex) {
         //如果是校验参数错误,只返回一个
         if (ex instanceof BindException exception) {
