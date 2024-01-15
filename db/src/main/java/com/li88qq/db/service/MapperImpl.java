@@ -118,21 +118,6 @@ public class MapperImpl implements Mapper {
     }
 
     /**
-     * 根据id查询
-     *
-     * @param aClass 实体类
-     * @param id id值
-     * @return 根据id查询
-     */
-    @Override
-    public <T, K> T find(Class<T> aClass, K id) {
-        Assert.isTrue(id != null, "唯一主键为空");
-        SqlDto sqlDto = SqlDtoBuilder.buildFind(aClass);
-        Map<String, Object> map = mapperTemplate.find(sqlDto, id);
-        return BeanUtil.fromMap(map, aClass);
-    }
-
-    /**
      * 批量修改
      *
      * @param list 列表
