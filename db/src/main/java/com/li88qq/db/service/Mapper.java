@@ -61,6 +61,15 @@ public interface Mapper {
     <T> int insertList(List<T> list, boolean ignoreRepeat);
 
     /**
+     * 根据id查询
+     *
+     * @param aClass 实体类
+     * @param id     id值
+     * @return 根据id查询
+     */
+    <T, K> T find(Class<T> aClass, K id);
+
+    /**
      * 批量修改
      *
      * @param list 列表
