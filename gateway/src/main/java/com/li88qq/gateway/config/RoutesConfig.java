@@ -9,10 +9,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 /**
- * 路由配置
- *
+ * 路由定义
  * @author li88qq
- * @version 1.0 2022/1/15 22:50
+ * @version 1.0 2023/12/16 11:04
  */
 @Configuration
 public class RoutesConfig {
@@ -45,7 +44,6 @@ public class RoutesConfig {
         String prefix = "/api";
         return builder.routes()
                 .route("main", r -> initRoute(r, prefix, "main"))
-                .route("admin", r -> initRoute(r, prefix, "admin"))
                 .route("login", r -> initRoute(r, prefix, "login"))
                 .build();
     }

@@ -1,6 +1,14 @@
 spring:
+  application:
+    name: gateway
   profiles:
     active: dev
-  #  该应用程序应作为反应式Web应用程序运行，并应启动嵌入式反应式Web服务器
   main:
     web-application-type: reactive
+server:
+  port: 9000
+
+route:
+  white:
+    - /login
+    - /logout
