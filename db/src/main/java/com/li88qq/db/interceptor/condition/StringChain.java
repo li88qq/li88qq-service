@@ -23,6 +23,11 @@ public class StringChain implements NodeChain {
 
     @Override
     public void handle(ConditionChainManager manager, Condition condition, NodeDto nodeDto) {
+        String value = nodeDto.getValue().toString().trim();
+        // 如果是空字符串,不处理
+        if(value.isEmpty()){
+            return;
+        }
         format(manager, condition, nodeDto);
         Object formatValue = nodeDto.getFormatValue();
         if (formatValue != null && formatValue.getClass().isArray()) {
@@ -34,7 +39,7 @@ public class StringChain implements NodeChain {
 
     @Override
     public void format(ConditionChainManager manager, Condition condition, NodeDto nodeDto) {
-        Object value = nodeDto.getValue();
+        String value = nodeDto.getValue().toString().trim();
         Format f = condition.f();
         Object formatValue = null;
 
@@ -46,14 +51,14 @@ public class StringChain implements NodeChain {
         } else if (f == Format.LIKE_R) {
             formatValue = String.format("%s%s", value, "%");
         } else if (f == Format.LIST_N) {
-            String[] valueArray = value.toString().split(",");
+            String[] valueArray = value.split(",");
             BigDecimal[] formatList = new BigDecimal[valueArray.length];
             for (int i = 0; i < valueArray.length; i++) {
                 formatList[i] = new BigDecimal(valueArray[i]);
             }
             formatValue = formatList;
         } else if (f == Format.LIST_S) {
-            formatValue = value.toString().split(",");
+            formatValue = value.split(",");
         }
 
         nodeDto.setFormatValue(formatValue);
