@@ -1,13 +1,11 @@
-package com.li88qq.admin.dao;
+package com.li88qq.login.dao;
 
 import com.li88qq.db.service.MapperImpl;
 import org.springframework.stereotype.Component;
 
 /**
- * mapper
- *
  * @author li88qq
- * @version 1.0 2023/7/20 21:43
+ * @version 1.0 2024/1/9 21:48
  */
 @Component
 public class BaseMapper extends MapperImpl {
