@@ -1,6 +1,6 @@
-package com.li88qq.bean.entity.main.log;
+package com.li88qq.bean.beans.log;
 
-import com.li88qq.bean.entity.utils.CreateDate;
+import com.li88qq.bean.utils.CreateDate;
 import com.li88qq.db.annotion.Id;
 
 /**
@@ -13,11 +13,11 @@ public class ActionLog {
 
     @Id
     private Long id;//自增id
-    private Long uid = 0L;//用户id
+    private Integer uid = 0;//用户id
     private Integer type = 0;//操作类型
     private String title;//标题
     private String detail;//详情
-    private String data;//关键数据
+    private String coreData;//关键数据
     private Long createDate = CreateDate.now();//操作时间
     private String ip;//ip
 
@@ -29,11 +29,11 @@ public class ActionLog {
         this.id = id;
     }
 
-    public Long getUid() {
+    public Integer getUid() {
         return uid;
     }
 
-    public void setUid(Long uid) {
+    public void setUid(Integer uid) {
         this.uid = uid;
     }
 
@@ -61,12 +61,12 @@ public class ActionLog {
         this.detail = detail;
     }
 
-    public String getData() {
-        return data;
+    public String getCoreData() {
+        return coreData;
     }
 
-    public void setData(String data) {
-        this.data = data;
+    public void setCoreData(String coreData) {
+        this.coreData = coreData;
     }
 
     public Long getCreateDate() {

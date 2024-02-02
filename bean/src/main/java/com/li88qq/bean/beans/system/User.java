@@ -1,32 +1,30 @@
-package com.li88qq.bean.entity.admin.user;
+package com.li88qq.bean.beans.system;
 
-import com.li88qq.bean.entity.utils.CreateDate;
+import com.li88qq.bean.utils.CreateDate;
 import com.li88qq.db.annotion.Id;
 
 /**
- * 后台用户
+ * 用户
  *
  * @author li88qq
- * @version 1.0 2023/7/31 23:08
+ * @version 1.0 2023/12/16 11:32
  */
-public class ManUser {
+public class User {
 
     @Id
     private Integer id;//自增主键
     private String username;//用户名
     private String nickname;//昵称
-    private String avatar;//头像
     private String mobile;//手机号码
     private String email;//邮箱
+    private String avatar;//头像
+    private Integer roleId = 0;//角色id
     private Integer state = 0;//状态
-
     private String password;//密码
-    private String randomCode;//随机码
-
     private Long createDate = CreateDate.now();//创建时间
     private String createIp;//创建ip
-
     private Long updateDate = 0L;//更新时间
+    private String updateIp;//更新ip
 
     public Integer getId() {
         return id;
@@ -84,20 +82,20 @@ public class ManUser {
         this.state = state;
     }
 
+    public Integer getRoleId() {
+        return roleId;
+    }
+
+    public void setRoleId(Integer roleId) {
+        this.roleId = roleId;
+    }
+
     public String getPassword() {
         return password;
     }
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public String getRandomCode() {
-        return randomCode;
-    }
-
-    public void setRandomCode(String randomCode) {
-        this.randomCode = randomCode;
     }
 
     public Long getCreateDate() {
@@ -122,5 +120,13 @@ public class ManUser {
 
     public void setUpdateDate(Long updateDate) {
         this.updateDate = updateDate;
+    }
+
+    public String getUpdateIp() {
+        return updateIp;
+    }
+
+    public void setUpdateIp(String updateIp) {
+        this.updateIp = updateIp;
     }
 }

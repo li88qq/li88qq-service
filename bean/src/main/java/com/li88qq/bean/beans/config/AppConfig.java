@@ -1,6 +1,6 @@
-package com.li88qq.bean.entity.admin.system;
+package com.li88qq.bean.beans.config;
 
-import com.li88qq.bean.entity.utils.CreateDate;
+import com.li88qq.bean.utils.CreateDate;
 import com.li88qq.db.annotion.Id;
 
 /**
@@ -13,8 +13,9 @@ public class AppConfig {
 
     @Id
     private Integer id;//自增id
-    private String domain;//域名
+    private String appCode;//应用编码
     private String appName;//应用名称
+    private String domain;//域名
     private String ico;//小图标
     private String logo;//logo
     private String beiAnIco;//备案图标
@@ -129,5 +130,13 @@ public class AppConfig {
 
     public void setCreateDate(Long createDate) {
         this.createDate = createDate;
+    }
+
+    public String getAppCode() {
+        return appCode;
+    }
+
+    public void setAppCode(String appCode) {
+        this.appCode = appCode;
     }
 }

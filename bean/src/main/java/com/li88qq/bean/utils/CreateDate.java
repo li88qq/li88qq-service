@@ -1,4 +1,4 @@
-package com.li88qq.bean.entity.utils;
+package com.li88qq.bean.utils;
 
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
@@ -7,16 +7,16 @@ import java.time.ZoneOffset;
  * 创建时间
  *
  * @author li88qq
- * @version 1.0 2023/7/19 22:48
+ * @version 1.0 2023/12/16 11:16
  */
 public class CreateDate {
 
     /**
      * 获取当前时间戳
      *
-     * @return 当前时间戳
+     * @return 时间戳
      */
-    public static Long now() {
+    public static long now() {
         return LocalDateTime.now().toEpochSecond(ZoneOffset.of("+8"));
     }
 }

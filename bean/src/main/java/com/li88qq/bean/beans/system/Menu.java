@@ -1,13 +1,13 @@
-package com.li88qq.bean.entity.admin.menu;
+package com.li88qq.bean.beans.system;
 
-import com.li88qq.bean.entity.utils.CreateDate;
+import com.li88qq.bean.utils.CreateDate;
 import com.li88qq.db.annotion.Id;
 
 /**
- * 菜单表
+ * 菜单
  *
  * @author li88qq
- * @version 1.0 2023/7/19 21:48
+ * @version 1.0 2023/12/16 11:32
  */
 public class Menu {
 
@@ -19,6 +19,8 @@ public class Menu {
     private String href;//路径
     private String icon;//图标
     private Integer openType = 0;//打开方式,0-直接打开,1-新窗口打开
+    private Integer keepalive = 0;//是否保持页面,0-否,1-是
+    private Integer isDefault = 0;//是否默认菜单
     private Integer sort = 0;//排序,升序
     private Long createDate = CreateDate.now();//创建时间
     private Long updateDate = 0L;//更新时间
@@ -79,6 +81,14 @@ public class Menu {
         this.openType = openType;
     }
 
+    public Integer getKeepalive() {
+        return keepalive;
+    }
+
+    public void setKeepalive(Integer keepalive) {
+        this.keepalive = keepalive;
+    }
+
     public Integer getSort() {
         return sort;
     }
@@ -101,5 +111,13 @@ public class Menu {
 
     public void setUpdateDate(Long updateDate) {
         this.updateDate = updateDate;
+    }
+
+    public Integer getIsDefault() {
+        return isDefault;
+    }
+
+    public void setIsDefault(Integer isDefault) {
+        this.isDefault = isDefault;
     }
 }

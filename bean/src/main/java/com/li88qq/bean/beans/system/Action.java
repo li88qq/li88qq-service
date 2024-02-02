@@ -1,4 +1,4 @@
-package com.li88qq.bean.entity.main.user;
+package com.li88qq.bean.beans.system;
 
 import com.li88qq.db.annotion.Id;
 

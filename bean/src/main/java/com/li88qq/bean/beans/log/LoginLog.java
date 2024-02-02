@@ -1,6 +1,6 @@
-package com.li88qq.bean.entity.main.log;
+package com.li88qq.bean.beans.log;
 
-import com.li88qq.bean.entity.utils.CreateDate;
+import com.li88qq.bean.utils.CreateDate;
 import com.li88qq.db.annotion.Id;
 
 /**
