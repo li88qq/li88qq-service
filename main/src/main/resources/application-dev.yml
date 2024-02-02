@@ -1,28 +1,21 @@
 spring:
-  application:
-    name: main
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://127.0.0.1:3306/main
-    username: root
-    password: 123456
+    url: jdbc:mysql://dev.com:3306/db2?useUnicode=true&characterEncoding=utf8&useSSL=false
+    username: test
+    password: Hao_123456
+    hikari:
+      max-lifetime: 60000
   cloud:
     nacos:
       discovery:
         server-addr: localhost:8848
   data:
     redis:
+      host: dev.com
       lettuce:
         pool:
           enabled: true
-      host: 127.0.0.1
       port: 6379
-      database: 0
-      connect-timeout: 10000
-
 logging:
-  level:
-    com.li88qq.main.dao: debug
-    com.li88qq.db: debug
-server:
-  port: 9001
+  config: classpath:log4j2-dev.xml

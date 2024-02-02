@@ -4,10 +4,8 @@ import com.li88qq.db.service.MapperImpl;
 import org.springframework.stereotype.Component;
 
 /**
- * mapper
- *
  * @author li88qq
- * @version 1.0 2023/7/20 21:43
+ * @version 1.0 2024/1/9 22:49
  */
 @Component
 public class BaseMapper extends MapperImpl {
