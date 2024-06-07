@@ -25,6 +25,8 @@
         <lettuce.version>6.2.3.RELEASE</lettuce.version>
         <commons.pool2.version>2.12.0</commons.pool2.version>
         <csv.version>1.11.0</csv.version>
+        <db.version>2.0-SNAPSHOT</db.version>
+        <jsoup.version>1.15.3</jsoup.version>
     </properties>
 
     <parent>
@@ -41,7 +43,7 @@
         <dependency>
             <groupId>com.li88qq</groupId>
             <artifactId>db</artifactId>
-            <version>2.0-SNAPSHOT</version>
+            <version>${db.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.data</groupId>
@@ -86,6 +88,11 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.jsoup</groupId>
+            <artifactId>jsoup</artifactId>
+            <version>${jsoup.version}</version>
         </dependency>
 
     </dependencies>
