@@ -23,6 +23,8 @@ import org.springframework.stereotype.Service;
 import java.beans.Transient;
 
 /**
+ * 用户管理
+ *
  * @author li88qq
  * @version 1.0 2023/12/29 23:04
  */
@@ -36,6 +38,9 @@ public class UserServiceImpl implements UserService {
     @Resource
     private BaseMapper baseMapper;
 
+    /**
+     * 新增
+     */
     @Override
     @Transient
     public BaseResponse save(SaveUserForm form) {
@@ -63,6 +68,9 @@ public class UserServiceImpl implements UserService {
         return ResponseUtil.ok();
     }
 
+    /**
+     * 分页查询
+     */
     @Override
     public TPage<GetUserPageVo> getPage(GetUserPageForm form) {
         Pageable pageable = new Pageable(form.getPage(), form.getPageSize());
@@ -70,6 +78,9 @@ public class UserServiceImpl implements UserService {
         return pageVos.build();
     }
 
+    /**
+     * 删除
+     */
     @Override
     public BaseResponse delete(UserIdForm form) {
         User user = new User();
@@ -78,6 +89,9 @@ public class UserServiceImpl implements UserService {
         return ResponseUtil.ok();
     }
 
+    /**
+     * 编辑
+     */
     @Override
     public BaseResponse update(UpdateUserForm form) {
         Integer id = form.getId();
@@ -110,6 +124,9 @@ public class UserServiceImpl implements UserService {
         return ResponseUtil.ok();
     }
 
+    /**
+     * 查询信息
+     */
     @Override
     public GetUserInfoVo getInfo(UserIdForm form) {
         User user = userMapper.findById(form.getId());
@@ -121,6 +138,9 @@ public class UserServiceImpl implements UserService {
         return vo;
     }
 
+    /**
+     * 查询详情
+     */
     @Override
     public GetUserViewVo getView(UserIdForm form) {
         User user = userMapper.findById(form.getId());
